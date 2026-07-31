@@ -514,90 +514,132 @@
             Simple Process.<br>Exceptional <span class="process__title-highlight">Results.</span>
           </h2>
           <p class="process__description">
-            A streamlined workflow designed to help agencies deliver high-quality projects faster while keeping every
-            client experience seamless.
+            A streamlined white-label workflow designed to help agencies deliver high-converting web projects faster without adding headcount.
           </p>
         </div>
 
-        <!-- Vertical Timeline Wrapper -->
-        <div class="process__timeline-wrapper">
+        <!-- Horizontal 3-Step Process Layout with Architectural Connector -->
+        <div class="process__layout">
 
-          <!-- Glowing Vertical Line Track -->
-          <div class="process__timeline-line-track" aria-hidden="true">
-            <div class="process__timeline-line-progress" id="processLineProgress"></div>
+          <!-- Architectural Connector Line (Desktop SVG Branching Timeline) -->
+          <div class="process__connector-svg-wrap" aria-hidden="true">
+            <svg class="process__connector-svg" viewBox="0 0 1100 120" fill="none" preserveAspectRatio="none">
+              <!-- Background thin line -->
+              <path d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120" 
+                    stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <!-- Glowing Orange Accent Line Overlay -->
+              <path class="process__connector-path-glow" d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120" 
+                    stroke="rgba(201, 122, 43, 0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <!-- Center Junction & Branch Nodes -->
+              <circle cx="550" cy="45" r="4.5" fill="#C97A2B" />
+              <circle cx="183.3" cy="45" r="3.5" fill="rgba(201, 122, 43, 0.8)" />
+              <circle cx="916.7" cy="45" r="3.5" fill="rgba(201, 122, 43, 0.8)" />
+            </svg>
           </div>
 
-          <!-- 4 Process Steps -->
-          <div class="process__steps">
+          <!-- 3 Process Cards Grid -->
+          <div class="process__grid">
 
-            <!-- Step 01 -->
-            <article class="process__step-item">
-              <div class="process__node">
-                <div class="process__node-circle">
-                  <div class="process__node-inner"></div>
-                </div>
-                <span class="process__step-number">01</span>
-              </div>
-              <div class="process__card">
-                <h3 class="process__card-title">Discovery & Planning</h3>
+            <!-- Card 01: Discover -->
+            <article class="process__card animate-fade-up-1">
+              <div class="process__card-top">
+                <span class="process__step-label">STEP 01</span>
+                <h3 class="process__card-title">Discover</h3>
                 <p class="process__card-description">
-                  We understand your client's goals, project requirements and delivery timeline before any work begins.
+                  We understand your agency, services, workflow and delivery process before building anything.
                 </p>
+              </div>
+
+              <!-- Illustrative Visual Preview Box -->
+              <div class="process__preview-box">
+                <div class="process__mockup-window">
+                  <div class="process__mockup-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="process__mockup-title">Discovery & Scope</div>
+                </div>
+                <div class="process__preview-content">
+                  <div class="process__preview-tag">
+                    <span class="process__preview-tag-dot"></span>
+                    Workflow Audit
+                  </div>
+                  <div class="process__preview-skeleton-row">
+                    <div class="process__preview-skeleton-bar short"></div>
+                    <div class="process__preview-skeleton-bar long"></div>
+                  </div>
+                  <div class="process__preview-skeleton-row">
+                    <div class="process__preview-skeleton-bar medium"></div>
+                    <div class="process__preview-skeleton-pill">Aligned</div>
+                  </div>
+                </div>
               </div>
             </article>
 
-            <!-- Step 02 -->
-            <article class="process__step-item">
-              <div class="process__node">
-                <div class="process__node-circle">
-                  <div class="process__node-inner"></div>
-                </div>
-                <span class="process__step-number">02</span>
-              </div>
-              <div class="process__card">
-                <h3 class="process__card-title">Design & Approval</h3>
+            <!-- Card 02: Build -->
+            <article class="process__card animate-fade-up-2">
+              <div class="process__card-top">
+                <span class="process__step-label">STEP 02</span>
+                <h3 class="process__card-title">Build</h3>
                 <p class="process__card-description">
-                  Our team creates high-quality UI/UX designs that align with your client's brand before moving into
-                  development.
+                  We design and develop high-converting white-label websites tailored to your clients.
                 </p>
+              </div>
+
+              <!-- Illustrative Visual Preview Box -->
+              <div class="process__preview-box">
+                <div class="process__mockup-window">
+                  <div class="process__mockup-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="process__mockup-title">White-Label Editor</div>
+                </div>
+                <div class="process__preview-content">
+                  <div class="process__preview-code-block">
+                    <span class="code-keyword">const</span> agency = <span class="code-string">"Your Brand"</span>;
+                    <br>
+                    <span class="code-function">buildWebsite</span>({ responsive: <span class="code-boolean">true</span> });
+                  </div>
+                  <div class="process__preview-badge-row">
+                    <span class="process__preview-chip">Figma UI/UX</span>
+                    <span class="process__preview-chip">Clean Code</span>
+                  </div>
+                </div>
               </div>
             </article>
 
-            <!-- Step 03 -->
-            <article class="process__step-item">
-              <div class="process__node">
-                <div class="process__node-circle">
-                  <div class="process__node-inner"></div>
-                </div>
-                <span class="process__step-number">03</span>
-              </div>
-              <div class="process__card">
-                <h3 class="process__card-title">Development & Testing</h3>
+            <!-- Card 03: Deliver -->
+            <article class="process__card animate-fade-up-3">
+              <div class="process__card-top">
+                <span class="process__step-label">STEP 03</span>
+                <h3 class="process__card-title">Deliver</h3>
                 <p class="process__card-description">
-                  We build responsive, high-performance websites and applications while performing continuous quality
-                  assurance.
+                  Receive production-ready websites that you can confidently deliver under your own brand.
                 </p>
               </div>
-            </article>
 
-            <!-- Step 04 -->
-            <article class="process__step-item">
-              <div class="process__node">
-                <div class="process__node-circle">
-                  <div class="process__node-inner"></div>
+              <!-- Illustrative Visual Preview Box -->
+              <div class="process__preview-box">
+                <div class="process__mockup-window">
+                  <div class="process__mockup-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="process__mockup-title">Client Handoff</div>
                 </div>
-                <span class="process__step-number">04</span>
-              </div>
-              <div class="process__card">
-                <h3 class="process__card-title">Delivery & Support</h3>
-                <p class="process__card-description">
-                  Receive production-ready files, launch assistance and ongoing technical support whenever your agency
-                  needs it.
-                </p>
+                <div class="process__preview-content process__preview-content--deliver">
+                  <div class="process__preview-success-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C97A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <span class="process__preview-status-text">Ready to Launch</span>
+                  <div class="process__preview-btn">Deliver to Client</div>
+                </div>
               </div>
             </article>
 
           </div>
+
         </div>
 
       </div>

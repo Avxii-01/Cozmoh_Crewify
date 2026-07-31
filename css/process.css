@@ -1,4 +1,4 @@
-/* process.css - Process / Workflow Section */
+/* process.css - Horizontal 3-Step Architectural Process Layout */
 
 .process {
   position: relative;
@@ -12,7 +12,7 @@
 .process__header {
   text-align: center;
   max-width: 800px;
-  margin: 0 auto var(--space-3xl) auto;
+  margin: 0 auto var(--space-4xl) auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,195 +75,296 @@
   margin: 0 auto;
 }
 
-/* Vertical Timeline Container */
-.process__timeline-wrapper {
-  max-width: 780px;
-  margin: 0 auto;
+/* Horizontal Process Outer Layout Container */
+.process__layout {
   position: relative;
-  padding-left: 70px;
-}
-
-/* Glowing Vertical Line */
-.process__timeline-line-track {
-  position: absolute;
-  left: 24px;
-  top: 24px;
-  bottom: 24px;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-}
-
-.process__timeline-line-progress {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
-  height: 0%; /* Dynamic fill via Scroll Observer */
-  background: linear-gradient(180deg, var(--color-primary) 0%, rgba(201, 122, 43, 0.4) 100%);
-  box-shadow: 0 0 10px var(--color-primary-glow);
-  border-radius: 2px;
-  transition: height 400ms ease-out;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Process Items List */
-.process__steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xl);
-}
-
-/* Individual Process Step Item */
-.process__step-item {
+/* Architectural Connector Line (Desktop SVG Branching Line) */
+.process__connector-svg-wrap {
+  width: 100%;
+  height: 90px;
+  margin-bottom: 24px;
   position: relative;
-  display: flex;
-  align-items: flex-start;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
 }
 
-.process__step-item.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.process__connector-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-/* Timeline Node Anchor */
-.process__node {
-  position: absolute;
-  left: -70px;
-  top: 2px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.process__connector-path-glow {
+  filter: drop-shadow(0 0 6px rgba(201, 122, 43, 0.4));
 }
 
-.process__node-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #050505;
-  border: 2px solid var(--color-orange-border);
-  box-shadow: 0 0 10px var(--color-primary-glow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+/* 3 Process Cards Grid */
+.process__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xl);
+  width: 100%;
+  position: relative;
   z-index: 2;
 }
 
-.process__node-inner {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  opacity: 0.6;
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.process__step-number {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--color-primary);
-  opacity: 0.85;
-}
-
-/* Step Content Card */
+/* Process Card Component */
 .process__card {
   background: var(--color-bg-card);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 30px 34px;
-  width: 100%;
+  border-radius: 24px;
+  padding: 36px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  transition: border-color 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card Top Section */
+.process__card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: var(--space-2xl);
+}
+
+.process__step-label {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+  background: var(--color-orange-pill-bg);
+  border: 1px solid var(--color-orange-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
 }
 
 .process__card-title {
   font-size: var(--font-size-xl);
   font-weight: 700;
-  color: rgba(245, 245, 245, 0.85); /* Slightly muted white by default */
-  margin-bottom: var(--space-xs);
-  transition: color 300ms ease;
+  color: #F5F5F5;
+  margin-bottom: var(--space-sm);
+  line-height: 1.25;
 }
 
 .process__card-description {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* Illustrative Visual Preview Box */
+.process__preview-box {
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  transition: border-color 300ms ease;
+}
+
+.process__mockup-window {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.process__mockup-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.process__mockup-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.process__mockup-title {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.04em;
+}
+
+.process__preview-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card 01 Preview Elements */
+.process__preview-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(245, 245, 245, 0.85);
+}
+
+.process__preview-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+.process__preview-skeleton-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.process__preview-skeleton-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+
+.process__preview-skeleton-bar.short { width: 35%; }
+.process__preview-skeleton-bar.medium { width: 55%; }
+.process__preview-skeleton-bar.long { width: 60%; }
+
+.process__preview-skeleton-pill {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: rgba(201, 122, 43, 0.15);
+  border: 1px solid rgba(201, 122, 43, 0.3);
+  color: #FFB347;
+  border-radius: 4px;
+}
+
+/* Card 02 Preview Elements */
+.process__preview-code-block {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: rgba(245, 245, 245, 0.8);
   line-height: 1.6;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Hover Interactions */
-.process__step-item:hover .process__node-circle {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 18px rgba(201, 122, 43, 0.45);
-  transform: scale(1.1);
+.code-keyword { color: #FFB347; font-weight: 600; }
+.code-string { color: #A5D6A7; }
+.code-function { color: #81D4FA; }
+.code-boolean { color: #CE93D8; }
+
+.process__preview-badge-row {
+  display: flex;
+  gap: 8px;
 }
 
-.process__step-item:hover .process__node-inner {
-  opacity: 1;
-  transform: scale(1.2);
+.process__preview-chip {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.process__step-item:hover .process__card {
+/* Card 03 Preview Elements */
+.process__preview-content--deliver {
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+}
+
+.process__preview-success-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(201, 122, 43, 0.12);
+  border: 1px solid rgba(201, 122, 43, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process__preview-status-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(245, 245, 245, 0.9);
+}
+
+.process__preview-btn {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: var(--color-primary);
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px var(--color-primary-glow);
+}
+
+/* Card Hover Animations */
+.process__card:hover {
+  transform: translateY(-8px);
   border-color: var(--color-orange-border);
-  box-shadow: 0 12px 32px rgba(201, 122, 43, 0.18),
-              0 0 15px var(--color-primary-glow);
-  transform: translateX(4px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5),
+              0 0 25px var(--color-primary-glow);
 }
 
-.process__step-item:hover .process__card-title {
-  color: #FFFFFF; /* Fully white on hover */
+.process__card:hover .process__preview-box {
+  border-color: rgba(201, 122, 43, 0.3);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .process__timeline-wrapper {
-    padding-left: 56px;
-  }
-
-  .process__timeline-line-track {
-    left: 17px;
-  }
-
-  .process__node {
-    left: -56px;
-  }
-
-  .process__node-circle {
-    width: 20px;
-    height: 20px;
-  }
-
-  .process__node-inner {
-    width: 6px;
-    height: 6px;
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .process__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
   }
 
   .process__card {
-    padding: 24px 26px;
-  }
-
-  .process__title {
-    font-size: var(--font-size-2xl);
+    padding: 24px 20px 20px 20px;
   }
 }
 
-@media (max-width: 480px) {
-  .process__timeline-wrapper {
-    padding-left: 46px;
+@media (max-width: 768px) {
+  .process__connector-svg-wrap {
+    display: none; /* Hide connector on mobile stacking */
   }
 
-  .process__timeline-line-track {
-    left: 13px;
+  .process__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    max-width: 480px;
+    margin: 0 auto;
   }
 
-  .process__node {
-    left: -46px;
-    gap: 8px;
+  .process__card {
+    padding: 30px 26px 26px 26px;
   }
 }
