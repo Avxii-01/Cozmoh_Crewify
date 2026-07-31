@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Crewify - White Label Agency Partner for Web Design, Development & AI Automation. Scale your agency without growing your team.">
+  <title>Crewify | White Label Web Design, Development & AI Automation Partner</title>
+
+  <!-- Modular CSS Files -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="header animate-fade-down" id="header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Logo Left -->
+        <a href="#" class="navbar__brand" aria-label="Crewify Home">
+          <span class="navbar__brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 3a9 9 0 0 0 0 18" />
+            </svg>
+          </span>
+          crewify<span class="navbar__brand-dot">.</span>
+        </a>
+
+        <!-- Center Navigation Links -->
+        <ul class="navbar__menu" id="navMenu">
+          <li class="navbar__item">
+            <a href="#services" class="navbar__link">Services</a>
+          </li>
+          <li class="navbar__item">
+            <a href="#workflow" class="navbar__link">Workflow</a>
+          </li>
+          <li class="navbar__item">
+            <a href="#portfolio" class="navbar__link">Portfolio</a>
+          </li>
+          <li class="navbar__item">
+            <a href="#about" class="navbar__link">About</a>
+          </li>
+          <!-- Mobile CTA display inside drawer -->
+          <li class="navbar__item navbar__mobile-cta">
+            <a href="#contact" class="btn btn--primary" style="width: 100%;">Book a Discovery Call</a>
+          </li>
+        </ul>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar__toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <!-- Background Layers: Particle Canvas, Dot Grid, Ambient Glow, Vignette -->
+      <div class="hero__background" aria-hidden="true">
+        <canvas class="hero__particles-canvas" id="heroCanvas"></canvas>
+        <div class="hero__dot-grid"></div>
+        <div class="hero__ambient-glow"></div>
+        <div class="hero__vignette"></div>
+      </div>
+
+      <div class="container hero__container">
+        <div class="hero__content">
+
+          <!-- Hero Badge -->
+          <div class="hero__badge animate-fade-scale">
+            <span class="hero__badge-dot"></span>
+            WHITE LABEL AGENCY • DESIGN • DEVELOPMENT • AI AUTOMATION
+          </div>
+
+          <!-- Hero Heading (Exactly 2 Lines) -->
+          <h1 class="hero__title animate-fade-up-1">
+            <span class="hero__title-line">Scale Your Agency.</span>
+            <span class="hero__title-line">Not Your <span class="hero__title-highlight">Team.</span></span>
+          </h1>
+
+          <!-- Supporting Text -->
+          <p class="hero__description animate-fade-up-2">
+            Deliver premium websites, UI/UX design, development and AI-powered solutions under your brand. Crewify works
+            as your white-label delivery partner so you can take on more clients without growing your internal team.
+          </p>
+
+          <!-- Trust Indicators Row -->
+          <ul class="hero__trust-list animate-fade-up-2">
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              White-Label Delivery
+            </li>
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              Fast Turnaround
+            </li>
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              Built for Agencies
+            </li>
+          </ul>
+
+          <!-- CTA Buttons -->
+          <div class="hero__cta-group animate-fade-up-3">
+            <a href="#contact" class="btn btn--primary">
+              Book a Discovery Call
+            </a>
+            <a href="#portfolio" class="btn btn--secondary">
+              View Our Work
+            </a>
+          </div>
+
+
+        </div>
+
+        <!-- Phase 2: Client Logos / Trust Strip -->
+        <div class="client-strip animate-fade-up-3">
+          <h2 class="client-strip__heading">Trusted by Agencies & Businesses Worldwide</h2>
+          <div class="client-strip__marquee">
+            <div class="client-strip__track">
+              <!-- Set 1 -->
+              <ul class="client-strip__list">
+                <li class="client-strip__item"><img src="assets/logos/logo-01.svg" alt="Nexus"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-02.svg" alt="Orbital"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-03.svg" alt="Vertex"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-04.svg" alt="Synergy"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-05.svg" alt="Pulse"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-06.svg" alt="Alpha"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-07.svg" alt="Prism"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-08.svg" alt="Stride"
+                    class="client-strip__logo"></li>
+              </ul>
+              <!-- Set 2 (Duplicate for Infinite Seamless Marquee) -->
+              <ul class="client-strip__list" aria-hidden="true">
+                <li class="client-strip__item"><img src="assets/logos/logo-01.svg" alt="Nexus"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-02.svg" alt="Orbital"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-03.svg" alt="Vertex"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-04.svg" alt="Synergy"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-05.svg" alt="Pulse"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-06.svg" alt="Alpha"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-07.svg" alt="Prism"
+                    class="client-strip__logo"></li>
+                <li class="client-strip__item"><img src="assets/logos/logo-08.svg" alt="Stride"
+                    class="client-strip__logo"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Modular Vanilla JavaScript Files -->
+  <script src="js/main.js" defer></script>
+  <script src="js/navbar.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/animations.js" defer></script>
+</body>
+
+</html>

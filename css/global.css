@@ -1,0 +1,149 @@
+/* global.css - Base Reset, Typography, Buttons & Keyframe Animations */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-family-base);
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Button Component (BEM) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+/* Primary Button: Dark fill with thin orange border & soft glow */
+.btn--primary {
+  background-color: #0d0d0f;
+  color: #F5F5F5;
+  border: 1px solid var(--color-orange-border);
+  box-shadow: 0 0 12px var(--color-primary-glow);
+}
+
+.btn--primary:hover {
+  border-color: var(--color-primary);
+  background-color: #121215;
+  box-shadow: 0 0 18px var(--color-primary-glow);
+  transform: translateY(-2px);
+}
+
+/* Secondary Button: Transparent background with thin gray border */
+.btn--secondary {
+  background-color: transparent;
+  color: #F5F5F5;
+  border: 1px solid var(--color-border-dark);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-border-hover);
+  background-color: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Outer Header CTA Button */
+.btn--nav-cta {
+  background-color: #0d0d0f;
+  color: #F5F5F5;
+  border: 1px solid var(--color-orange-border);
+  padding: 0.55rem 1.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px var(--color-primary-glow);
+}
+
+.btn--nav-cta:hover {
+  border-color: var(--color-primary);
+  color: #F5F5F5;
+  box-shadow: 0 0 16px var(--color-primary-glow);
+}
+
+/* Keyframe Animations for Entrance */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-down {
+  animation: fadeInDown 0.8s var(--transition-normal) forwards;
+}
+
+.animate-fade-scale {
+  animation: fadeScaleIn 0.8s var(--transition-normal) 0.1s both;
+}
+
+.animate-fade-up-1 {
+  animation: fadeInUp 0.8s var(--transition-normal) 0.25s both;
+}
+
+.animate-fade-up-2 {
+  animation: fadeInUp 0.8s var(--transition-normal) 0.4s both;
+}
+
+.animate-fade-up-3 {
+  animation: fadeInUp 0.8s var(--transition-normal) 0.55s both;
+}

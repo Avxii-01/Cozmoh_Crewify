@@ -1,0 +1,5 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="14" cy="14" r="12" fill="white" fill-opacity="0.9"/>
+  <circle cx="14" cy="14" r="6" fill="#050505"/>
+  <text x="36" y="20" fill="white" font-family="sans-serif" font-weight="700" font-size="14" letter-spacing="1">ORBITAL</text>
+</svg>

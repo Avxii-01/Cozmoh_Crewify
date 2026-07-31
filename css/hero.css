@@ -1,0 +1,287 @@
+/* hero.css - Centered Typography-Focused Dark Hero & Seamless Client Logo Marquee */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: calc(var(--header-height) + var(--space-3xl));
+  padding-bottom: var(--space-3xl);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background Layer Box */
+.hero__background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Canvas for subtle floating particles */
+.hero__particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Subtle Orange Dot Grid Overlay Pattern */
+.hero__dot-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(201, 122, 43, 0.16) 1.2px, transparent 1.2px);
+  background-size: 32px 32px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 20%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 20%, transparent 85%);
+}
+
+/* Extremely Subtle Radial Ambient Glow Overlay */
+.hero__ambient-glow {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 122, 43, 0.05) 0%, transparent 70%);
+  filter: blur(90px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Vignette Dark Mask */
+.hero__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  box-shadow: inset 0 0 140px rgba(5, 5, 5, 0.95);
+  pointer-events: none;
+}
+
+/* Hero Content Box */
+.hero__container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.hero__content {
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hero Badge */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.4rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-orange-border);
+  background: var(--color-orange-pill-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9A9A9A;
+  margin-bottom: var(--space-2xl);
+}
+
+.hero__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+/* Hero Title & Typography */
+.hero__title {
+  font-size: var(--font-size-hero);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #F5F5F5;
+  margin-bottom: var(--space-xl);
+}
+
+.hero__title-line {
+  display: block;
+}
+
+/* Subtle Silver Gradient highlight for "Team." */
+.hero__title-highlight {
+  font-style: italic;
+  font-weight: 400;
+  color: #F5F5F5;
+  background: linear-gradient(180deg, #F5F5F5 0%, #BCC5D8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-right: 4px;
+}
+
+/* Supporting Paragraph */
+.hero__description {
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: #9A9A9A;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: var(--space-xl);
+}
+
+/* Trust Indicators Row */
+.hero__trust-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.hero__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: #9A9A9A;
+}
+
+.hero__trust-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Hero CTA Buttons Container */
+.hero__cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* Small Supporting Text below CTAs */
+.hero__sub-text {
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  color: #7A7A7A;
+  max-width: 520px;
+  line-height: 1.5;
+  margin-bottom: var(--space-3xl);
+}
+
+/* ==========================================================================
+   CLIENT LOGOS / TRUST STRIP (Phase 2)
+   ========================================================================== */
+
+.client-strip {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-2xl);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.client-strip__heading {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+/* Full Viewport Width Marquee Track Wrapper */
+.client-strip__marquee {
+  width: 100vw;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+.client-strip__track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl);
+  width: max-content;
+  will-change: transform;
+  animation: marquee-infinite 38s linear infinite;
+}
+
+.client-strip__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.client-strip__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.client-strip__logo {
+  height: 28px;
+  width: auto;
+  opacity: 0.45;
+  filter: grayscale(100%) brightness(1.2);
+  transition: opacity var(--transition-fast), filter var(--transition-fast);
+  display: block;
+}
+
+.client-strip__item:hover .client-strip__logo {
+  opacity: 0.95;
+  filter: grayscale(0%) brightness(1.6);
+}
+
+/* Smooth 60fps CSS Marquee Keyframes */
+@keyframes marquee-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

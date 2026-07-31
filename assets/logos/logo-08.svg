@@ -1,0 +1,5 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="10" height="24" rx="2" fill="white" fill-opacity="0.9"/>
+  <rect x="16" y="2" width="10" height="24" rx="2" fill="white" fill-opacity="0.6"/>
+  <text x="34" y="20" fill="white" font-family="sans-serif" font-weight="700" font-size="14" letter-spacing="1">STRIDE</text>
+</svg>
