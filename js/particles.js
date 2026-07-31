@@ -18,7 +18,7 @@ class ParticleSystem {
     this.resizeCanvas();
     window.addEventListener('resize', () => this.resizeCanvas(), { passive: true });
 
-    // Create subtle particles matching #C97A2B
+    // Create subtle particles matching #8B5CF6
     for (let i = 0; i < this.particleCount; i++) {
       this.particles.push({
         x: Math.random() * this.canvas.width,
@@ -63,12 +63,12 @@ class ParticleSystem {
       if (p.y < 0) p.y = this.canvas.height;
       if (p.y > this.canvas.height) p.y = 0;
 
-      // Render glowing dot with #C97A2B
+      // Render glowing dot with purple #8B5CF6
       this.ctx.beginPath();
       this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      this.ctx.fillStyle = `rgba(201, 122, 43, ${p.alpha})`;
+      this.ctx.fillStyle = `rgba(139, 92, 246, ${p.alpha})`;
       this.ctx.shadowBlur = 5;
-      this.ctx.shadowColor = 'rgba(201, 122, 43, 0.3)';
+      this.ctx.shadowColor = 'rgba(139, 92, 246, 0.35)';
       this.ctx.fill();
     }
 

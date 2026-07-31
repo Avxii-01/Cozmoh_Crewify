@@ -47,11 +47,11 @@ body {
   text-decoration: none;
 }
 
-/* Primary Button: Dark fill with thin orange border & soft glow */
+/* Primary Button: Dark fill with thin purple border & soft glow */
 .btn--primary {
   background-color: #0d0d0f;
   color: #F5F5F5;
-  border: 1px solid var(--color-orange-border);
+  border: 1px solid var(--color-purple-border);
   box-shadow: 0 0 12px var(--color-primary-glow);
 }
 
@@ -79,7 +79,7 @@ body {
 .btn--nav-cta {
   background-color: #0d0d0f;
   color: #F5F5F5;
-  border: 1px solid var(--color-orange-border);
+  border: 1px solid var(--color-purple-border);
   padding: 0.55rem 1.25rem;
   font-size: var(--font-size-xs);
   font-weight: 600;
