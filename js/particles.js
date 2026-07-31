@@ -1,14 +1,15 @@
 /**
- * particles.js - Ultra-subtle Floating Background Particles
+ * particles.js - Ultra-subtle Floating Background Particles System
+ * Supports both Hero canvas and CTA section canvas.
  */
 
-class HeroParticleSystem {
-  constructor(canvasId) {
+class ParticleSystem {
+  constructor(canvasId, particleCount = 30) {
     this.canvas = document.getElementById(canvasId);
     if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
     this.particles = [];
-    this.particleCount = 30;
+    this.particleCount = particleCount;
     
     this.init();
   }
@@ -76,5 +77,6 @@ class HeroParticleSystem {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new HeroParticleSystem('heroCanvas');
+  new ParticleSystem('heroCanvas', 30);
+  new ParticleSystem('ctaCanvas', 18); // Lower particle density for CTA
 });

@@ -1,0 +1,369 @@
+/* cta.css - Final CTA / Contact Section */
+
+.cta-section {
+  position: relative;
+  padding: var(--space-4xl) 0;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Background Layers for CTA Container */
+.cta-section__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.cta-section__dot-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(201, 122, 43, 0.16) 1.2px, transparent 1.2px);
+  background-size: 32px 32px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse 80% 80% at 30% 40%, black 20%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 30% 40%, black 20%, transparent 90%);
+}
+
+.cta-section__particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cta-section__ambient-glow {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 122, 43, 0.12) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Rounded Main CTA Glass Box */
+.cta-container {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 70px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  animation: subtle-border-glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes subtle-border-glow {
+  0% {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    border-color: rgba(201, 122, 43, 0.28);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 25px rgba(201, 122, 43, 0.08);
+  }
+}
+
+/* Two-Column Layout Grid (45% / 55%) */
+.cta-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 10;
+}
+
+/* Left Marketing Content */
+.cta-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.4rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-orange-border);
+  background: var(--color-orange-pill-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9A9A9A;
+  margin-bottom: var(--space-xl);
+}
+
+.cta-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+.cta-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #F5F5F5;
+  margin-bottom: var(--space-md);
+}
+
+.cta-title-highlight {
+  font-style: italic;
+  font-weight: 400;
+  color: #F5F5F5;
+  background: linear-gradient(180deg, #F5F5F5 0%, #BCC5D8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-right: 4px;
+}
+
+.cta-description {
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: var(--space-2xl);
+}
+
+.cta-action-wrap {
+  margin-bottom: var(--space-2xl);
+}
+
+/* Secondary Info Block */
+.cta-secondary-info {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+  line-height: 1.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: var(--space-lg);
+  width: 100%;
+}
+
+.cta-secondary-info p {
+  margin-bottom: 4px;
+}
+
+.cta-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.cta-contact-link {
+  color: #F5F5F5;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.cta-contact-link:hover {
+  color: var(--color-primary);
+}
+
+/* Right Side Premium Contact Form */
+.cta-right {
+  background: rgba(10, 10, 12, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 22px;
+  padding: 40px;
+}
+
+.cta-form-header {
+  margin-bottom: var(--space-xl);
+}
+
+.cta-form-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: #F5F5F5;
+  margin-bottom: 6px;
+}
+
+.cta-form-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+/* Responsive Grid Form Fields */
+.cta-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.cta-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cta-form-group--full {
+  grid-column: 1 / -1;
+}
+
+.cta-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: #D1D1D1;
+  letter-spacing: 0.02em;
+}
+
+.cta-input,
+.cta-select,
+.cta-textarea {
+  width: 100%;
+  background: rgba(5, 5, 5, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  color: #F5F5F5;
+  outline: none;
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.cta-input::placeholder,
+.cta-textarea::placeholder {
+  color: #6E6E6E;
+}
+
+.cta-select option {
+  background-color: #121215;
+  color: #F5F5F5;
+}
+
+/* Input Focus State */
+.cta-input:focus,
+.cta-select:focus,
+.cta-textarea:focus {
+  border-color: var(--color-orange-border);
+  box-shadow: 0 0 14px var(--color-primary-glow);
+}
+
+.cta-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* Submit Button */
+.cta-submit-btn {
+  width: 100%;
+  padding: 0.95rem;
+  font-size: var(--font-size-sm);
+}
+
+/* Footer Section Below CTA */
+.footer {
+  padding: var(--space-2xl) 0 var(--space-xl) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+}
+
+.footer__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footer__brand {
+  font-weight: 700;
+  color: #F5F5F5;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer__links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+
+.footer__link {
+  color: var(--color-text-nav);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: #F5F5F5;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .cta-container {
+    padding: 50px 40px;
+  }
+
+  .cta-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .cta-left {
+    max-width: 100%;
+  }
+
+  .cta-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 640px) {
+  .cta-container {
+    padding: 36px 24px;
+    border-radius: 20px;
+  }
+
+  .cta-right {
+    padding: 24px 18px;
+  }
+
+  .cta-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-submit-btn,
+  .cta-action-wrap .btn {
+    width: 100%;
+  }
+
+  .footer__content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

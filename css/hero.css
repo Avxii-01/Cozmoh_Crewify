@@ -1,10 +1,10 @@
-/* hero.css - Centered Typography-Focused Dark Hero & Seamless Client Logo Marquee */
+/* hero.css - Refined Editorial Dark Hero with Oversized Ghost Background Word & 4 Organic Badges */
 
 .hero {
   position: relative;
   min-height: 100vh;
-  padding-top: calc(var(--header-height) + var(--space-3xl));
-  padding-bottom: var(--space-3xl);
+  padding-top: calc(var(--header-height) + var(--space-4xl));
+  padding-bottom: var(--space-4xl);
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   display: flex;
@@ -22,7 +22,7 @@
   pointer-events: none;
 }
 
-/* Canvas for subtle floating particles */
+/* Canvas for floating particles */
 .hero__particles-canvas {
   position: absolute;
   inset: 0;
@@ -32,7 +32,7 @@
   pointer-events: none;
 }
 
-/* Subtle Orange Dot Grid Overlay Pattern */
+/* Subtle Orange Dot Grid Pattern */
 .hero__dot-grid {
   position: absolute;
   inset: 0;
@@ -45,21 +45,21 @@
   -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 20%, transparent 85%);
 }
 
-/* Extremely Subtle Radial Ambient Glow Overlay */
+/* Subtle Radial Ambient Glow Overlay */
 .hero__ambient-glow {
   position: absolute;
   top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(201, 122, 43, 0.05) 0%, transparent 70%);
+  width: 680px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(201, 122, 43, 0.08) 0%, transparent 70%);
   filter: blur(90px);
   z-index: 3;
   pointer-events: none;
 }
 
-/* Vignette Dark Mask */
+/* Vignette Mask */
 .hero__vignette {
   position: absolute;
   inset: 0;
@@ -68,7 +68,7 @@
   pointer-events: none;
 }
 
-/* Hero Content Box */
+/* Hero Container & Content Box */
 .hero__container {
   position: relative;
   z-index: 10;
@@ -80,102 +80,153 @@
 }
 
 .hero__content {
-  max-width: 960px;
+  max-width: 980px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 5;
 }
 
-/* Hero Badge */
-.hero__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0.4rem 1.25rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-orange-border);
-  background: var(--color-orange-pill-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #9A9A9A;
-  margin-bottom: var(--space-2xl);
+/* ==========================================================================
+   OVERSIZED BACKGROUND OUTLINE WATERMARK ("CREWIFY" - 110–130% CONTENT WIDTH)
+   ========================================================================== */
+
+.hero__ghost-word-wrapper {
+  position: absolute;
+  top: 64%; /* Lowered 20-30px to sit behind Built to Scale & Paragraph */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
 }
 
-.hero__badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  box-shadow: 0 0 6px var(--color-primary);
+.hero__ghost-word {
+  /* Increased width to 110–130% of content width (spans ~120vw horizontally) */
+  font-size: clamp(140px, 20vw, 290px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: transparent;
+  white-space: nowrap;
 }
 
-/* Hero Title & Typography */
+/* Layer 1: Permanent base outline (2px stroke, 8–10% opacity, no fill, no permanent glow) */
+.hero__ghost-word--base {
+  -webkit-text-stroke: 2px rgba(201, 122, 43, 0.45);
+  opacity: 0.09;
+}
+
+/* Layer 2, 3 & 4: Primary Warm Orange Light Sweep (35–45% opacity, 2x wider band, 18-24px blur bloom, inner stroke glow) */
+.hero__ghost-word--reveal {
+  position: absolute;
+  inset: 0;
+  -webkit-text-stroke: 2.2px rgba(255, 180, 80, 0.95);
+  opacity: 0.45; /* 30-40% brighter intensity sweep */
+  filter: drop-shadow(0 0 22px rgba(255, 140, 30, 0.55)) drop-shadow(0 0 6px rgba(255, 200, 120, 0.60)); /* Layer 3 soft bloom (22px) + Layer 4 inner stroke glow */
+  mask-image: radial-gradient(ellipse 320px 180px at var(--scan-x, -500px) var(--scan-y, -500px), black 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 320px 180px at var(--scan-x, -500px) var(--scan-y, -500px), black 0%, transparent 80%);
+  z-index: 3;
+  transition: opacity 600ms ease;
+}
+
+/* Secondary Coordinated Amber Reflection Trail Layer (20–30% intensity, trailing behind) */
+.hero__ghost-word--trail {
+  position: absolute;
+  inset: 0;
+  -webkit-text-stroke: 2px rgba(230, 140, 50, 0.70);
+  opacity: 0.25; /* 25% intensity trailing amber reflection */
+  filter: drop-shadow(0 0 16px rgba(230, 130, 30, 0.35));
+  mask-image: radial-gradient(ellipse 260px 140px at var(--trail-x, -500px) var(--trail-y, -500px), black 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 260px 140px at var(--trail-x, -500px) var(--trail-y, -500px), black 0%, transparent 80%);
+  z-index: 2;
+  transition: opacity 600ms ease;
+}
+
+/* Cursor-follow reveal state when mouse is inside 20% local interaction zone around watermark (140-180px radius reveal) */
+.hero__ghost-word-wrapper.is-cursor-active .hero__ghost-word--reveal {
+  mask-image: radial-gradient(circle 160px at var(--mouse-x, -500px) var(--mouse-y, -500px), black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle 160px at var(--mouse-x, -500px) var(--mouse-y, -500px), black 0%, transparent 75%);
+  opacity: 0.50;
+}
+
+.hero__ghost-word-wrapper.is-cursor-active .hero__ghost-word--trail {
+  opacity: 0; /* Hide trailing pass during direct cursor spotlight */
+}
+
+/* ==========================================================================
+   EDITORIAL HEADING & STATIC "BUILT TO SCALE" FOCAL POINT
+   ========================================================================== */
+
 .hero__title {
-  font-size: var(--font-size-hero);
+  position: relative;
+  z-index: 3;
+  font-size: clamp(2.6rem, 6vw, 5.0rem);
   font-weight: 800;
   line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: #F5F5F5;
-  margin-bottom: var(--space-xl);
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  margin: 0 0 14px 0; /* Reduced gap between Line 2 and Built to Scale (12-16px) */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero__title-line {
   display: block;
 }
 
-/* Subtle Silver Gradient highlight for "Team." */
-.hero__title-highlight {
-  font-style: italic;
-  font-weight: 400;
-  color: #F5F5F5;
-  background: linear-gradient(180deg, #F5F5F5 0%, #BCC5D8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  padding-right: 4px;
+/* Dedicated Static "Built to Scale." Focal Block */
+.hero__focal-block {
+  margin: 0 0 44px 0; /* Generous spacing to paragraph */
+  position: relative;
+  z-index: 4;
 }
 
-/* Supporting Paragraph */
+/* Static typography without pop, scale, or hover translate */
+.hero__static-word {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: #FFFFFF; /* Pure static white text */
+  user-select: none;
+}
+
+/* Orange Accent color for "Scale." only */
+.hero__orange-accent {
+  color: var(--color-primary);
+  display: inline-block;
+}
+
+.hero__layered-word:hover .hero__layered-word-bg {
+  transform: translate(9px, 9px);
+  opacity: 0.60;
+}
+
+/* Supporting Paragraph with Selective Orange Phrase Highlights */
 .hero__description {
   font-size: var(--font-size-md);
   font-weight: 400;
-  color: #9A9A9A;
-  line-height: 1.6;
-  max-width: 700px;
-  margin-bottom: var(--space-xl);
+  color: #9A9A9A; /* Neutral gray base */
+  line-height: 1.65;
+  max-width: 650px;
+  margin: 0 auto var(--space-3xl) auto;
+  position: relative;
+  z-index: 4;
 }
 
-/* Trust Indicators Row */
-.hero__trust-list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xl);
-  margin-bottom: var(--space-2xl);
-  flex-wrap: wrap;
-}
-
-.hero__trust-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: #9A9A9A;
-}
-
-.hero__trust-icon {
-  width: 16px;
-  height: 16px;
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+/* Selective Orange Phrase Highlights in Paragraph (Medium Weight, Solid Orange) */
+.hero__para-highlight {
+  color: var(--color-primary); /* #C97A2B */
+  font-weight: 500; /* Medium weight, not heavy bold */
+  display: inline;
 }
 
 /* Hero CTA Buttons Container */
@@ -184,21 +235,91 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-}
-
-/* Small Supporting Text below CTAs */
-.hero__sub-text {
-  font-size: var(--font-size-xs);
-  font-weight: 400;
-  color: #7A7A7A;
-  max-width: 520px;
-  line-height: 1.5;
   margin-bottom: var(--space-3xl);
+  position: relative;
+  z-index: 4;
 }
 
 /* ==========================================================================
-   CLIENT LOGOS / TRUST STRIP (Phase 2)
+   4 SCATTERED FLOATING GLASS BADGES (WordPress, Shopify, AI, Webflow)
+   ========================================================================== */
+
+.hero__floating-badge {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: rgba(245, 245, 245, 0.85);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  pointer-events: auto;
+  user-select: none;
+  animation: badge-float 7s ease-in-out infinite alternate;
+  animation-delay: var(--delay, 0s);
+  transition: border-color 300ms ease, box-shadow 300ms ease, color 300ms ease, transform 300ms ease;
+}
+
+.hero__floating-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+/* Soft Orange Glow on Hover */
+.hero__floating-badge:hover {
+  border-color: var(--color-orange-border);
+  box-shadow: 0 0 16px var(--color-primary-glow), 0 4px 20px rgba(201, 122, 43, 0.15);
+  color: #FFFFFF;
+  transform: translateY(-4px) scale(1.04);
+}
+
+/* Continuous Floating Animation */
+@keyframes badge-float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Asymmetrical Framing Placement (Away from main text) */
+.hero__floating-badge--wp {
+  /* WordPress - Top Left */
+  top: 5%;
+  left: 2%;
+}
+
+.hero__floating-badge--ai {
+  /* AI Automation - Upper Right */
+  top: 8%;
+  right: 2%;
+}
+
+.hero__floating-badge--webflow {
+  /* Webflow - Middle Left */
+  top: 48%;
+  left: -2%;
+}
+
+.hero__floating-badge--shopify {
+  /* Shopify - Middle Right */
+  top: 46%;
+  right: -2%;
+}
+
+/* ==========================================================================
+   CLIENT LOGOS / TRUST STRIP
    ========================================================================== */
 
 .client-strip {
@@ -215,7 +336,7 @@
 }
 
 .client-strip__heading {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -224,7 +345,6 @@
   margin-bottom: var(--space-2xl);
 }
 
-/* Full Viewport Width Marquee Track Wrapper */
 .client-strip__marquee {
   width: 100vw;
   max-width: 100%;
@@ -276,12 +396,71 @@
   filter: grayscale(0%) brightness(1.6);
 }
 
-/* Smooth 60fps CSS Marquee Keyframes */
 @keyframes marquee-infinite {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
+  }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+  .hero__floating-badge--shopify {
+    right: 1%;
+  }
+
+  .hero__floating-badge--webflow {
+    left: 1%;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero__title {
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+  }
+
+  .hero__title-line--1,
+  .hero__title-line--2,
+  .hero__title-line--3 {
+    transform: none;
+  }
+
+  .hero__ghost-word {
+    font-size: clamp(80px, 16vw, 150px);
+  }
+
+  .hero__floating-badge--webflow,
+  .hero__floating-badge--shopify {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__title {
+    font-size: 2.1rem;
+    line-height: 1.08;
+  }
+
+  .hero__ghost-word {
+    display: none;
+    /* Hide watermark on small mobile screens */
+  }
+
+  .hero__floating-badge {
+    padding: 6px 12px;
+    font-size: 0.68rem;
+  }
+
+  .hero__floating-badge--wp {
+    top: 2%;
+    left: 2%;
+  }
+
+  .hero__floating-badge--ai {
+    top: 2%;
+    right: 2%;
   }
 }
