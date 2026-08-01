@@ -61,6 +61,7 @@
   color: #F5F5F5;
   background: linear-gradient(180deg, #F5F5F5 0%, #BCC5D8 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   padding-right: 4px;
@@ -97,7 +98,8 @@
 
 .why-choose__card--featured {
   grid-column: 2;
-  grid-row: 1 / span 2; /* Noticeably taller middle card */
+  grid-row: 1 / span 2;
+  /* Noticeably taller middle card */
 }
 
 .why-choose__card--4 {
@@ -125,8 +127,8 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 300ms ease,
-              box-shadow 300ms ease;
+    border-color 300ms ease,
+    box-shadow 300ms ease;
 }
 
 /* Card Hover Effects */
@@ -134,7 +136,7 @@
   transform: translateY(-6px);
   border-color: var(--color-purple-border);
   box-shadow: 0 12px 32px rgba(139, 92, 246, 0.2),
-              0 0 16px var(--color-primary-glow);
+    0 0 16px var(--color-primary-glow);
 }
 
 /* Line Icons */
@@ -154,7 +156,8 @@
 .why-choose__icon {
   width: 24px;
   height: 24px;
-  color: #FFFFFF; /* White by default */
+  color: #FFFFFF;
+  /* White by default */
   stroke-width: 1.8;
   transition: color 300ms ease, transform 300ms ease;
 }
@@ -165,7 +168,8 @@
 }
 
 .why-choose__card:hover .why-choose__icon {
-  color: var(--color-primary); /* Purple on hover */
+  color: var(--color-primary);
+  /* Purple on hover */
   transform: scale(1.08);
 }
 
@@ -215,7 +219,8 @@
 }
 
 .why-choose__card--featured .why-choose__card-title {
-  font-size: 1.75rem; /* ~28px */
+  font-size: 1.75rem;
+  /* ~28px */
   line-height: 1.25;
   margin-bottom: var(--space-md);
 }
@@ -255,6 +260,7 @@
 
 /* Responsive Layout */
 @media (max-width: 992px) {
+
   /* Tablet: 2-column layout */
   .why-choose__grid {
     grid-template-columns: 1fr 1fr;
@@ -293,6 +299,7 @@
 }
 
 @media (max-width: 640px) {
+
   /* Mobile: Single column */
   .why-choose__grid {
     grid-template-columns: 1fr;

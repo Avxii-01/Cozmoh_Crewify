@@ -93,8 +93,8 @@
 .services__card:hover {
   transform: translateY(-6px);
   border-color: var(--color-purple-border);
-  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.22),
-              0 0 15px var(--color-primary-glow);
+  box-shadow: 0 14px 36px rgba(139, 92, 246, 0.28),
+              0 0 18px var(--color-primary-glow);
 }
 
 /* Card Top: Premium Gradient Placeholder Image Area */
@@ -107,6 +107,53 @@
   position: relative;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(139, 92, 246, 0.12) 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Premium Clickable Service Price Pill in Top-Right Corner */
+.services__price-pill {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(10, 10, 14, 0.75);
+  border: 1px solid var(--color-purple-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 10px var(--color-primary-glow);
+  text-decoration: none;
+  font-size: 0.78rem;
+  color: #FFFFFF;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms ease,
+              box-shadow 300ms ease,
+              background-color 300ms ease;
+  cursor: pointer;
+}
+
+.services__price-from {
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.services__price-amount {
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+}
+
+/* Price Pill Hover Micro-Interaction (Gentle Scale to 1.05 & Brightened Glow) */
+.services__price-pill:hover,
+.services__card:hover .services__price-pill {
+  transform: scale(1.05);
+  border-color: var(--color-primary);
+  background: rgba(18, 14, 28, 0.88);
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35), 0 0 14px var(--color-primary);
 }
 
 .services__card-image-placeholder {
@@ -130,6 +177,13 @@
   background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
   filter: blur(20px);
   pointer-events: none;
+  transition: opacity 300ms ease, filter 300ms ease;
+}
+
+.services__card:hover .services__card-image-glow {
+  opacity: 1;
+  filter: blur(16px);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.38) 0%, transparent 70%);
 }
 
 .services__card-image-icon {
@@ -151,7 +205,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .services__card-title {
@@ -174,7 +228,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: auto;
+  margin-bottom: var(--space-lg);
 }
 
 .services__tag {
@@ -192,6 +246,44 @@
   border-color: rgba(139, 92, 246, 0.3);
   color: #F5F5F5;
   background-color: rgba(139, 92, 246, 0.08);
+}
+
+/* Card Dual Action Links (View Work & Learn More) */
+.services__card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
+}
+
+.services__action-link {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 250ms ease;
+}
+
+.services__action-link--work {
+  color: rgba(245, 245, 245, 0.9);
+}
+
+.services__action-link--more {
+  color: var(--color-primary);
+}
+
+.services__action-arrow {
+  display: inline-block;
+  transition: transform 250ms ease;
+}
+
+.services__action-link:hover .services__action-arrow,
+.services__card:hover .services__action-arrow {
+  transform: translate(4px, -2px); /* Arrow slides 4px on hover */
 }
 
 /* Navigation Controls (Below Carousel) */
