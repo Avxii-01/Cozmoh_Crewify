@@ -79,8 +79,17 @@
         <canvas class="hero__particles-canvas" id="heroCanvas"></canvas>
         <div class="hero__dot-grid"></div>
         <div class="hero__ambient-glow"></div>
-        <divgit class="hero__vignette">
+        <div class="hero__vignette"></div>
       </div>
+
+      <!-- Dedicated Background Watermark Layer (z-index: 1) -->
+      <div class="hero__watermark-layer" aria-hidden="true">
+        <!-- CREWIFY Oversized Outline Watermark (Base, Primary Warm Light & Secondary Purple Reflection Trail) -->
+        <div class="hero__ghost-word-wrapper" id="heroGhostWrapper">
+          <div class="hero__ghost-word hero__ghost-word--base">CREWIIFY</div>
+          <div class="hero__ghost-word hero__ghost-word--trail" id="heroGhostTrail">CREWIIFY</div>
+          <div class="hero__ghost-word hero__ghost-word--reveal" id="heroGhostReveal">CREWIIFY</div>
+        </div>
       </div>
 
       <div class="container hero__container">
@@ -120,16 +129,8 @@
             <span class="hero__title-line">Ahead of the Competition.</span>
           </h1>
 
-          <!-- "Built to Scale." Focal Line with Oversized CREWIFY Background Watermark -->
+          <!-- "Built to Scale." Focal Line -->
           <div class="hero__focal-block animate-fade-up-2">
-
-            <!-- CREWIFY Oversized Outline Watermark (Base, Primary Warm Light & Secondary Amber Reflection Trail) -->
-            <div class="hero__ghost-word-wrapper" aria-hidden="true" id="heroGhostWrapper">
-              <div class="hero__ghost-word hero__ghost-word--base">CREWIFY</div>
-              <div class="hero__ghost-word hero__ghost-word--trail" id="heroGhostTrail">CREWIFY</div>
-              <div class="hero__ghost-word hero__ghost-word--reveal" id="heroGhostReveal">CREWIFY</div>
-            </div>
-
             <div class="hero__static-word">
               Built to <span class="hero__orange-accent">Scale.</span>
             </div>
@@ -570,7 +571,8 @@
             Simple Process.<br>Exceptional <span class="process__title-highlight">Results.</span>
           </h2>
           <p class="process__description">
-            A streamlined white-label workflow designed to help agencies deliver high-converting web projects faster without adding headcount.
+            A streamlined white-label workflow designed to help agencies deliver high-converting web projects faster
+            without adding headcount.
           </p>
         </div>
 
@@ -581,11 +583,13 @@
           <div class="process__connector-svg-wrap" aria-hidden="true">
             <svg class="process__connector-svg" viewBox="0 0 1100 120" fill="none" preserveAspectRatio="none">
               <!-- Background thin line -->
-              <path d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120" 
-                    stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120"
+                stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               <!-- Glowing Purple Accent Line Overlay -->
-              <path class="process__connector-path-glow" d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120" 
-                    stroke="rgba(139, 92, 246, 0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path class="process__connector-path-glow"
+                d="M 550,0 L 550,45 M 183.3,45 L 916.7,45 M 183.3,45 L 183.3,120 M 550,45 L 550,120 M 916.7,45 L 916.7,120"
+                stroke="rgba(139, 92, 246, 0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               <!-- Center Junction & Branch Nodes -->
               <circle cx="550" cy="45" r="4.5" fill="#8B5CF6" />
               <circle cx="183.3" cy="45" r="3.5" fill="rgba(139, 92, 246, 0.85)" />
@@ -653,7 +657,8 @@
                   <div class="process__preview-code-block">
                     <span class="code-keyword">const</span> agency = <span class="code-string">"Your Brand"</span>;
                     <br>
-                    <span class="code-function">buildWebsite</span>({ responsive: <span class="code-boolean">true</span> });
+                    <span class="code-function">buildWebsite</span>({ responsive: <span class="code-boolean">true</span>
+                    });
                   </div>
                   <div class="process__preview-badge-row">
                     <span class="process__preview-chip">Figma UI/UX</span>
@@ -683,7 +688,8 @@
                 </div>
                 <div class="process__preview-content process__preview-content--deliver">
                   <div class="process__preview-success-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round">
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                       <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
@@ -715,7 +721,8 @@
             Real Results.<br><span class="portfolio__title-highlight">Built Behind the Scenes.</span>
           </h2>
           <p class="portfolio__description">
-            Explore a selection of websites, digital products and white-label solutions we've crafted for agencies and growing businesses.
+            Explore a selection of websites, digital products and white-label solutions we've crafted for agencies and
+            growing businesses.
           </p>
         </div>
 
@@ -728,8 +735,8 @@
             <!-- Card 1 (Tall) -->
             <article class="portfolio__card portfolio__card--tall">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
-                     alt="White Label Web Platform" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                  alt="White Label Web Platform" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">Website Development</span>
@@ -743,7 +750,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">White Label Web Platform</h4>
                 <p class="portfolio__card-desc">
-                  Designed and developed a scalable white-label website platform for a growing digital agency, expanding client capacity without internal overhead.
+                  Designed and developed a scalable white-label website platform for a growing digital agency, expanding
+                  client capacity without internal overhead.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -754,8 +762,8 @@
             <!-- Card 2 (Medium) -->
             <article class="portfolio__card portfolio__card--medium">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" 
-                     alt="Healthcare Clinic Website" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80"
+                  alt="Healthcare Clinic Website" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">UI/UX & Development</span>
@@ -769,7 +777,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">Healthcare Clinic Website</h4>
                 <p class="portfolio__card-desc">
-                  Engineered a HIPAA-compliant booking portal and responsive medical practice website, increasing patient appointments by 42%.
+                  Engineered a HIPAA-compliant booking portal and responsive medical practice website, increasing
+                  patient appointments by 42%.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -780,8 +789,8 @@
             <!-- Card 3 (Short) -->
             <article class="portfolio__card portfolio__card--short">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" 
-                     alt="Restaurant Ordering System" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80"
+                  alt="Restaurant Ordering System" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">Web Application</span>
@@ -795,7 +804,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">Restaurant Ordering System</h4>
                 <p class="portfolio__card-desc">
-                  Built a custom digital menu and direct ordering system, cutting third-party delivery commission costs for a multi-location dining brand.
+                  Built a custom digital menu and direct ordering system, cutting third-party delivery commission costs
+                  for a multi-location dining brand.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -811,8 +821,8 @@
             <!-- Card 4 (Medium) -->
             <article class="portfolio__card portfolio__card--medium">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" 
-                     alt="SaaS Dashboard Redesign" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+                  alt="SaaS Dashboard Redesign" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">UI/UX Design</span>
@@ -826,7 +836,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">SaaS Dashboard Redesign</h4>
                 <p class="portfolio__card-desc">
-                  Redesigned an analytics web application dashboard, streamlining user workflows and improving 30-day user retention rates.
+                  Redesigned an analytics web application dashboard, streamlining user workflows and improving 30-day
+                  user retention rates.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -837,8 +848,8 @@
             <!-- Card 5 (Tall) -->
             <article class="portfolio__card portfolio__card--tall">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" 
-                     alt="AI Customer Support Assistant" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+                  alt="AI Customer Support Assistant" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">AI Automation</span>
@@ -852,7 +863,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">AI Customer Support Assistant</h4>
                 <p class="portfolio__card-desc">
-                  Integrated an intelligent AI knowledge-base bot for an e-commerce agency, resolving 65% of support tickets automatically.
+                  Integrated an intelligent AI knowledge-base bot for an e-commerce agency, resolving 65% of support
+                  tickets automatically.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -863,8 +875,8 @@
             <!-- Card 6 (Medium) -->
             <article class="portfolio__card portfolio__card--medium">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" 
-                     alt="Corporate Business Website" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                  alt="Corporate Business Website" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">Corporate Web</span>
@@ -878,7 +890,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">Corporate Business Website</h4>
                 <p class="portfolio__card-desc">
-                  Rebranded and built a fast enterprise website for a financial advisory firm, establishing authority and driving enterprise inquiries.
+                  Rebranded and built a fast enterprise website for a financial advisory firm, establishing authority
+                  and driving enterprise inquiries.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -894,8 +907,8 @@
             <!-- Card 7 (Short) -->
             <article class="portfolio__card portfolio__card--short">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80" 
-                     alt="Construction Company Website" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80"
+                  alt="Construction Company Website" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">Web Development</span>
@@ -920,8 +933,8 @@
             <!-- Card 8 (Tall) -->
             <article class="portfolio__card portfolio__card--tall">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" 
-                     alt="Luxury Interior Studio" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+                  alt="Luxury Interior Studio" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">Creative Design</span>
@@ -935,7 +948,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">Luxury Interior Studio</h4>
                 <p class="portfolio__card-desc">
-                  Crafted an editorial, photo-first digital experience showcasing high-end architectural and interior design portfolios.
+                  Crafted an editorial, photo-first digital experience showcasing high-end architectural and interior
+                  design portfolios.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
@@ -946,8 +960,8 @@
             <!-- Card 9 (Medium) -->
             <article class="portfolio__card portfolio__card--medium">
               <div class="portfolio__card-media">
-                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" 
-                     alt="Agency Showcase Portfolio" class="portfolio__card-img" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80"
+                  alt="Agency Showcase Portfolio" class="portfolio__card-img" loading="lazy">
               </div>
               <div class="portfolio__card-overlay-front">
                 <span class="portfolio__card-badge">White Label</span>
@@ -961,7 +975,8 @@
               <div class="portfolio__card-panel-back">
                 <h4 class="portfolio__card-panel-title">Agency Showcase Portfolio</h4>
                 <p class="portfolio__card-desc">
-                  Built a white-label case study framework allowing creative agencies to rapidly present high-converting client proposals.
+                  Built a white-label case study framework allowing creative agencies to rapidly present high-converting
+                  client proposals.
                 </p>
                 <a href="#contact" class="portfolio__card-btn">
                   View Case Study <span class="portfolio__card-btn-arrow">→</span>
