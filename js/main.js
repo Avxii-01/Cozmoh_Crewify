@@ -85,5 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  console.log('Crewify Landing Page & Metallic Dual Light Sweep initialized smoothly.');
+  console.log('CREWIIFY Landing Page & Metallic Dual Light Sweep initialized smoothly.');
 });
