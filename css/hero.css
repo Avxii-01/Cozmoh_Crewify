@@ -381,7 +381,7 @@
   gap: var(--space-3xl);
   width: max-content;
   will-change: transform;
-  animation: marquee-infinite 38s linear infinite;
+  animation: marquee-infinite 45s linear infinite;
 }
 
 .client-strip__list {
@@ -399,20 +399,43 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  height: 48px;
+  min-width: 100px;
+  max-width: 160px;
+  padding: 0 var(--space-xs);
+  box-sizing: border-box;
 }
 
 .client-strip__logo {
-  height: 28px;
+  max-height: 38px;
+  max-width: 140px;
   width: auto;
-  opacity: 0.45;
-  filter: grayscale(100%) brightness(1.2);
-  transition: opacity var(--transition-fast), filter var(--transition-fast);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: none;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
   display: block;
 }
 
+.client-strip__logo--wide {
+  max-width: 155px;
+  max-height: 36px;
+}
+
+.client-strip__logo--square {
+  max-width: 80px;
+  max-height: 42px;
+}
+
+.client-strip__logo--compact {
+  max-width: 120px;
+  max-height: 32px;
+}
+
 .client-strip__item:hover .client-strip__logo {
-  opacity: 0.95;
-  filter: grayscale(0%) brightness(1.6);
+  opacity: 1;
+  transform: scale(1.04);
 }
 
 @keyframes marquee-infinite {
