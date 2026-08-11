@@ -299,6 +299,16 @@
   .why-choose__title {
     font-size: var(--font-size-2xl);
   }
+
+  .why-choose {
+    padding: var(--space-3-5xl) 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-choose {
+    padding: var(--space-3xl) 0;
+  }
 }
 
 @media (max-width: 640px) {
@@ -317,9 +327,5 @@
   .why-choose__card--5 {
     grid-column: 1;
     grid-row: auto;
-  }
-
-  .why-choose {
-    padding: var(--space-3xl) 0;
   }
 }

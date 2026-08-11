@@ -33,7 +33,7 @@
 .navbar__brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 1.4rem;
   font-weight: 800;
   color: #FFFFFF;
@@ -41,12 +41,11 @@
   text-decoration: none;
 }
 
-.navbar__brand-icon {
-  width: 22px;
-  height: 22px;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
+.navbar__brand-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .navbar__brand-dot {

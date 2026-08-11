@@ -322,6 +322,16 @@
     box-shadow: 0 4px 14px var(--color-primary-glow);
     align-self: flex-start;
   }
+
+  .portfolio {
+    padding: var(--space-3-5xl) 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio {
+    padding: var(--space-3xl) 0;
+  }
 }
 
 @media (max-width: 640px) {
@@ -339,9 +349,5 @@
   .portfolio__card--medium,
   .portfolio__card--short {
     min-height: 320px;
-  }
-
-  .portfolio {
-    padding: var(--space-3xl) 0;
   }
 }

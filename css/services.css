@@ -19,6 +19,33 @@
   align-items: center;
 }
 
+/* Badge */
+.services__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.4rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-purple-border);
+  background: var(--color-purple-pill-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9A9A9A;
+  margin-bottom: var(--space-xl);
+}
+
+.services__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
 .services__title {
   font-size: var(--font-size-3xl);
   font-weight: 800;
@@ -345,6 +372,10 @@
 
 /* Responsive Layout */
 @media (max-width: 992px) {
+  .services {
+    padding: var(--space-3-5xl) 0;
+  }
+
   .services__card {
     flex: 0 0 calc((100% - var(--space-xl)) / 2);
     /* 2 cards visible tablet */
@@ -355,13 +386,15 @@
   }
 }
 
+@media (max-width: 768px) {
+  .services {
+    padding: var(--space-3xl) 0;
+  }
+}
+
 @media (max-width: 640px) {
   .services__card {
     flex: 0 0 100%;
     /* 1 card visible mobile */
-  }
-
-  .services {
-    padding: var(--space-3xl) 0;
   }
 }
