@@ -14,6 +14,13 @@
   }
 }
 
+/* Desktop / Laptop gap adjustments */
+@media (max-width: 1100px) {
+  .navbar__menu {
+    gap: var(--space-md);
+  }
+}
+
 /* Tablet (992px) */
 @media (max-width: 992px) {
   .hero__title {
@@ -21,7 +28,12 @@
   }
 
   .navbar__menu {
-    gap: var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .navbar__link {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
   }
 }
 
@@ -29,6 +41,11 @@
 @media (max-width: 768px) {
   .header {
     height: 72px;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
   }
 
   .navbar__toggle {
@@ -47,14 +64,15 @@
     left: 0;
     width: 100%;
     height: calc(100vh - 72px);
-    background-color: rgba(5, 5, 5, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background-color: rgba(5, 5, 5, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-xl);
-    padding: var(--space-2xl);
+    justify-content: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-2xl) var(--space-xl);
+    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -68,12 +86,55 @@
     transform: translateY(0);
   }
 
-  .navbar__link {
-    font-size: 1rem;
-    letter-spacing: 0.16em;
+  .navbar__item {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
   }
 
-  .navbar__mobile-cta {
+  .navbar__link {
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  /* Mobile Dropdown (Collapsible Accordion) */
+  .navbar__item--dropdown .navbar__dropdown {
+    position: static;
+    transform: none;
+    min-width: unset;
+    width: 100%;
+    background: rgba(18, 18, 20, 0.7);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+    box-shadow: none;
+    padding: 4px 8px;
+    margin-top: 6px;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .navbar__item--dropdown.is-mobile-expanded .navbar__dropdown {
+    display: block;
+    animation: fadeInDown 0.25s ease forwards;
+  }
+
+  .navbar__item--dropdown.is-mobile-expanded .navbar__caret {
+    transform: rotate(180deg);
+  }
+
+  .navbar__dropdown-link {
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .navbar__item.navbar__mobile-cta {
+    display: block;
     margin-top: var(--space-lg);
     width: 100%;
     max-width: 280px;
