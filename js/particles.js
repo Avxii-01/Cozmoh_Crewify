@@ -102,21 +102,24 @@ class ParticleSystem {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Hero Particles — initialize immediately but pause when hero is off-screen
-  const heroSystem = new ParticleSystem('heroCanvas', 30);
-  const heroSection = document.getElementById('hero');
+  const heroCanvas = document.getElementById('heroCanvas') || document.getElementById('csHeroCanvas');
+  if (heroCanvas) {
+    const heroSystem = new ParticleSystem(heroCanvas.id, 24);
+    const heroSection = document.getElementById('hero') || document.getElementById('case-studies-hero');
 
-  if (heroSystem.canvas && heroSection) {
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          heroSystem.start();
-        } else {
-          heroSystem.pause();
-        }
-      });
-    }, { rootMargin: '100px' });
+    if (heroSystem.canvas && heroSection) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            heroSystem.start();
+          } else {
+            heroSystem.pause();
+          }
+        });
+      }, { rootMargin: '100px' });
 
-    heroObserver.observe(heroSection);
+      heroObserver.observe(heroSection);
+    }
   }
 
   // CTA Particles — defer initialization until CTA approaches viewport

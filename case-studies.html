@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Explore CREWIIFY Case Studies - Real projects, real results, and trusted white-label delivery for digital agencies worldwide.">
+  <title>Case Studies | CREWIIFY - Real Projects, Real Results</title>
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap">
+
+  <!-- Modular CSS Files -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/case-studies.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+  <!-- Header / Navigation (Global Reusable Component) -->
+  <header class="header animate-fade-down" id="header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Brand Group: Left -->
+        <a href="index.html" class="navbar__brand" aria-label="CREWIIFY Home">
+          <img src="assets/logos/c-logo-optimized.png" alt="CREWIIFY Logo" class="navbar__brand-logo-img" width="48"
+            height="48">
+          <span class="navbar__brand-text">CREW<span class="navbar__brand-small-i">ii</span>FY</span>
+        </a>
+
+        <!-- Center Navigation Links -->
+        <ul class="navbar__menu" id="navMenu">
+          <li class="navbar__item">
+            <a href="services.html" class="navbar__link">Services</a>
+          </li>
+          <li class="navbar__item">
+            <a href="case-studies.html" class="navbar__link navbar__link--active">Case Studies</a>
+          </li>
+          <li class="navbar__item navbar__item--dropdown">
+            <a href="#" class="navbar__link navbar__link--dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+              White-Label <span class="navbar__caret" aria-hidden="true">▼</span>
+            </a>
+            <ul class="navbar__dropdown" aria-label="White-Label submenu">
+              <li class="navbar__dropdown-item">
+                <a href="white-label/seo.html" class="navbar__dropdown-link">SEO</a>
+              </li>
+              <li class="navbar__dropdown-item">
+                <a href="white-label/website-development.html" class="navbar__dropdown-link">Website Development</a>
+              </li>
+            </ul>
+          </li>
+          <li class="navbar__item">
+            <a href="free-resources.html" class="navbar__link">Free Resources</a>
+          </li>
+          <!-- Mobile CTA inside drawer -->
+          <li class="navbar__item navbar__mobile-cta">
+            <a href="contact.html" class="btn btn--primary" style="width: 100%;">Book a Discovery Call</a>
+          </li>
+        </ul>
+
+        <!-- Right CTA Action (Desktop) -->
+        <div class="navbar__actions">
+          <a href="contact.html" class="btn btn--nav-cta">
+            Book a Discovery Call
+          </a>
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar__toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Section 1: Case Studies Hero Section -->
+    <section class="cs-hero" id="case-studies-hero">
+      <!-- Background Layers -->
+      <div class="cs-hero__background" aria-hidden="true">
+        <canvas class="cs-hero__particles-canvas" id="csHeroCanvas"></canvas>
+        <div class="cs-hero__dot-grid"></div>
+        <div class="cs-hero__ambient-glow"></div>
+        <div class="cs-hero__ambient-glow-left"></div>
+      </div>
+
+      <div class="container">
+        <!-- Main 2-Column Hero Grid -->
+        <div class="cs-hero__container">
+
+          <!-- Left Column: Editorial Headline & Actions -->
+          <div class="cs-hero__content">
+            <!-- Eyebrow Badge -->
+            <div class="cs-hero__badge animate-fade-scale">
+              <span class="cs-hero__badge-dot"></span>
+              CASE STUDIES
+            </div>
+
+            <!-- Main Display Headline -->
+            <h1 class="cs-hero__title animate-fade-up-1">
+              <span class="cs-hero__title-line">Real projects.</span>
+              <span class="cs-hero__title-line">Real results.</span>
+              <span class="cs-hero__title-line cs-hero__title-gradient">Trusted by agencies.</span>
+            </h1>
+
+            <!-- Supporting Description -->
+            <p class="cs-hero__description animate-fade-up-2">
+              Explore how we help agencies and businesses grow with websites, SEO, paid ads and automation — delivered
+              under the CREWiiFY brand.
+            </p>
+
+            <!-- CTA Group -->
+            <div class="cs-hero__cta-group animate-fade-up-3">
+              <a href="#case-studies-grid" class="btn btn--primary">
+                Explore Case Studies <span class="cs-hero__btn-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="contact.html" class="btn btn--secondary">
+                Start a Project <span class="cs-hero__btn-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Tailored Monochrome Client Brand Showcase -->
+          <div class="cs-hero__visual animate-fade-up-2">
+            <div class="cs-showcase" aria-label="Curated Client Brand Showcase">
+              <!-- Broad Ambient Glow Centered Behind Showcase -->
+              <div class="cs-showcase__glow" aria-hidden="true"></div>
+
+              <!-- 1. Primary Focal Anchor: Royal Caribbean (Center) -->
+              <div class="cs-brand-card cs-brand-card--focal-royal" title="Royal Caribbean">
+                <img src="assets/logos/Royal_Caribbean_logo_(2024).svg.png" alt="Royal Caribbean Logo"
+                  class="cs-brand-card__img">
+              </div>
+
+              <!-- 2. Secondary: KIMS Hospitals (Top-Left) -->
+              <div class="cs-brand-card cs-brand-card--kims" title="KIMS Hospitals">
+                <img src="assets/logos/kimshospitals.png" alt="KIMS Hospitals Logo" class="cs-brand-card__img">
+              </div>
+
+              <!-- 3. Secondary: Wockhardt / Life Wins (Top-Right) -->
+              <div class="cs-brand-card cs-brand-card--wockhardt" title="Wockhardt">
+                <img src="assets/logos/wockhardtlogo.webp" alt="Wockhardt Logo" class="cs-brand-card__img">
+              </div>
+
+              <!-- 4. Secondary: Travezy (Mid-Left) -->
+              <div class="cs-brand-card cs-brand-card--travezy" title="Travezy">
+                <img src="assets/logos/travezy.png" alt="Travezy Logo" class="cs-brand-card__img">
+              </div>
+
+              <!-- 5. Supporting: Celebrity Cruises (Mid-Right) -->
+              <div class="cs-brand-card cs-brand-card--celebrity" title="Celebrity Cruises">
+                <img src="assets/logos/celebrity-cruises.png" alt="Celebrity Cruises Logo" class="cs-brand-card__img">
+              </div>
+
+              <!-- 6. Supporting: Acktive Vision (Lower-Left) -->
+              <div class="cs-brand-card cs-brand-card--acktive" title="Acktive Vision">
+                <img src="assets/logos/acktive-vision-logo-Final-e1771914753291.png" alt="Acktive Vision Logo"
+                  class="cs-brand-card__img">
+              </div>
+
+              <!-- 7. Supporting: Maheshwari (Lower-Right) -->
+              <div class="cs-brand-card cs-brand-card--maheshwari" title="Maheshwari">
+                <img src="assets/logos/maishwari.png" alt="Maheshwari Logo" class="cs-brand-card__img">
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Refined Editorial Credibility & Audio Testimonial -->
+    <section class="cs-credibility" id="credibility">
+      <!-- Atmospheric Soft Purple Ambient Glow -->
+      <div class="cs-credibility__glow" aria-hidden="true"></div>
+
+      <div class="container">
+        <!-- Eyebrow Section Identifier (No redundant heading/paragraph) -->
+        <div class="cs-credibility__eyebrow-wrap animate-fade-scale">
+          <div class="cs-credibility__badge">
+            <span class="cs-credibility__badge-dot"></span>
+            TRUSTED BY AGENCIES &amp; BUSINESSES
+          </div>
+        </div>
+
+        <div class="cs-credibility__grid">
+
+          <!-- Left Column: Editorial Stats & Real Project Photography (~50%) -->
+          <div class="cs-credibility__left">
+            <div class="cs-editorial-grid animate-fade-up-2">
+
+              <!-- Block 1: 400+ Stat (Open, light glass surface) -->
+              <div class="cs-editorial-item cs-editorial-item--stat-large">
+                <div class="cs-stat-hero">
+                  <div class="cs-stat-hero__number-wrap">
+                    <span class="cs-stat-hero__num" data-target="400">0</span><span class="cs-stat-hero__plus">+</span>
+                  </div>
+                  <div class="cs-stat-hero__label-group">
+                    <span class="cs-stat-hero__dot" aria-hidden="true"></span>
+                    <span class="cs-stat-hero__label">Projects Delivered</span>
+                  </div>
+                  <div class="cs-stat-hero__sub">Delivered on time for global digital agencies</div>
+                </div>
+              </div>
+
+              <!-- Block 2: Project Media 1 (Web Platforms) -->
+              <div class="cs-editorial-item cs-editorial-item--img-top">
+                <div class="cs-media-card">
+                  <img src="assets/images/web-development-service.webp" alt="CREWiiFY Web Development Project"
+                    class="cs-media-card__img" loading="lazy">
+                  <div class="cs-media-card__overlay">
+                    <span class="cs-media-card__tag">Web Platforms</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Block 3: Project Media 2 (Organic Growth / SEO) -->
+              <div class="cs-editorial-item cs-editorial-item--img-bottom">
+                <div class="cs-media-card">
+                  <img src="assets/images/seo-service.webp" alt="CREWiiFY SEO &amp; Organic Growth Case Study"
+                    class="cs-media-card__img" loading="lazy">
+                  <div class="cs-media-card__overlay">
+                    <span class="cs-media-card__tag">Organic Growth</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Block 4: Dedicated 4.9/5 Rating Badge (Orbital / Circular Frame) -->
+              <div class="cs-editorial-item cs-editorial-item--rating">
+                <div class="cs-rating-badge">
+                  <!-- Orbital Decorative Circular Frame -->
+                  <div class="cs-rating-badge__orbit">
+                    <span class="cs-rating-badge__orbit-dot" aria-hidden="true"></span>
+                    <div class="cs-rating-badge__score-wrap">
+                      <span class="cs-rating-badge__score">4.9</span>
+                      <span class="cs-rating-badge__max">/5</span>
+                    </div>
+                    <div class="cs-rating-badge__stars" aria-label="5 stars rating">★★★★★</div>
+                  </div>
+                  <div class="cs-rating-badge__label">Average Client Rating</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Refined Audio Testimonial Card (~44%) -->
+          <div class="cs-credibility__right animate-fade-up-2">
+            <div class="cs-testimonial-panel">
+              <!-- Subtle Upper-Right Ambient Glow -->
+              <div class="cs-testimonial-panel__glow" aria-hidden="true"></div>
+
+              <!-- Decorative Quote Mark -->
+              <div class="cs-testimonial__quote-mark" aria-hidden="true">“</div>
+
+              <!-- Testimonial Quote Text -->
+              <blockquote class="cs-testimonial__quote">
+                “CREWIIFY has been an extension of our team. They delivered beyond expectations and our clients love the
+                results.”
+              </blockquote>
+
+              <!-- Custom Interactive Audio Player -->
+              <div class="cs-audio-player" role="region" aria-label="Audio Testimonial Player">
+                <!-- Play/Pause Button -->
+                <button class="cs-audio-player__btn" id="csCredAudioBtn" aria-label="Play audio testimonial">
+                  <svg class="cs-audio-player__icon" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </button>
+
+                <!-- Waveform Visualizer -->
+                <div class="cs-audio-player__waveform" id="csCredWaveform" aria-hidden="true">
+                  <!-- Generated dynamically via case-studies.js -->
+                </div>
+
+                <!-- Duration Display -->
+                <div class="cs-audio-player__time" id="csCredTime">0:24</div>
+              </div>
+
+              <!-- Author / Client Metadata & Rating -->
+              <div class="cs-testimonial__author">
+                <div class="cs-testimonial__author-left">
+                  <div class="cs-testimonial__avatar" aria-hidden="true">SW</div>
+                  <div class="cs-testimonial__author-info">
+                    <div class="cs-testimonial__author-name">Sophia Williams</div>
+                    <div class="cs-testimonial__author-role">Agency Director, Verve Coffee</div>
+                  </div>
+                </div>
+
+                <!-- Star Rating Badge -->
+                <div class="cs-testimonial__stars" aria-label="Rated 4.9 out of 5 stars">
+                  <span class="cs-testimonial__stars-score">4.9/5</span>
+                  <span class="cs-testimonial__stars-icons" aria-hidden="true">★★★★★</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (Global Reusable Component) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <a href="index.html" class="footer__brand" aria-label="CREWIIFY Home">
+          <img src="assets/logos/c-logo-optimized.png" alt="CREWIIFY Logo" class="footer__brand-logo-img"
+            loading="lazy">
+        </a>
+        <p>© 2026 CREWIIFY. All rights reserved. White-Label Delivery Partner for Agencies.</p>
+        <ul class="footer__links">
+          <li><a href="services.html" class="footer__link">Services</a></li>
+          <li><a href="case-studies.html" class="footer__link">Case Studies</a></li>
+          <li><a href="free-resources.html" class="footer__link">Free Resources</a></li>
+          <li><a href="contact.html" class="footer__link">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modular Vanilla JavaScript Files -->
+  <script src="js/navbar.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/case-studies.js" defer></script>
+</body>
+
+</html>
