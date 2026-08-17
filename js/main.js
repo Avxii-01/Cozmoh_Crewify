@@ -1,5 +1,9 @@
 /**
  * main.js - Main Application Entry Script, Dual Coordinated Metallic Light Sweeps & 20% Local Interaction Radius
+ *
+ * Performance optimization (P1):
+ * - Watermark light sweep pauses when hero section scrolls out of viewport
+ * - Resumes smoothly from current animation state when hero becomes visible again
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,8 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanSpeed = 0.0015; // ~9s base cycle duration
   let isHoveringWatermark = false;
   let rafScanId = null;
+  let isHeroVisible = true; // Track hero visibility for pause/resume
 
   function animateTravellingLight() {
+    if (!isHeroVisible) return; // Stop the loop when hero is off-screen
+
     if (!isHoveringWatermark) {
       // Organic progress deceleration across central letter crossings (0.35 - 0.65)
       let currentStep = scanSpeed;
@@ -51,8 +58,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // Start continuous dual light sweep
   rafScanId = requestAnimationFrame(animateTravellingLight);
 
+  // Hero Visibility Observer — pause/resume sweep when hero enters/leaves viewport
+  const heroVisibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!isHeroVisible) {
+          isHeroVisible = true;
+          // Resume from current animation state
+          rafScanId = requestAnimationFrame(animateTravellingLight);
+        }
+      } else {
+        isHeroVisible = false;
+        // The loop will self-terminate at the top of animateTravellingLight
+        if (rafScanId) {
+          cancelAnimationFrame(rafScanId);
+          rafScanId = null;
+        }
+      }
+    });
+  }, { rootMargin: '100px' });
+
+  heroVisibilityObserver.observe(heroSection);
+
   // 2. Local Interaction Zone Detection (Only within 20% radius of the CREWIFY watermark)
   document.addEventListener('mousemove', (e) => {
+    // Skip expensive getBoundingClientRect when hero is not visible
+    if (!isHeroVisible) return;
+
     const rect = ghostWrapper.getBoundingClientRect();
     
     // Calculate distance from cursor to watermark center with 20% padding zone

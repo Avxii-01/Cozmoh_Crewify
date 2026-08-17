@@ -1,6 +1,11 @@
 /**
  * particles.js - Ultra-subtle Floating Background Particles System
  * Supports both Hero canvas and CTA section canvas.
+ *
+ * Performance optimizations (P1):
+ * - Hero particles pause when hero section scrolls out of viewport
+ * - CTA particles defer initialization until CTA approaches viewport
+ * - Both systems resume smoothly when re-entering viewport
  */
 
 class ParticleSystem {
@@ -10,6 +15,8 @@ class ParticleSystem {
     this.ctx = this.canvas.getContext('2d');
     this.particles = [];
     this.particleCount = particleCount;
+    this.rafId = null;
+    this.isRunning = false;
     
     this.init();
   }
@@ -31,7 +38,7 @@ class ParticleSystem {
       });
     }
 
-    this.animate();
+    this.start();
   }
 
   resizeCanvas() {
@@ -42,7 +49,24 @@ class ParticleSystem {
     }
   }
 
+  start() {
+    if (this.isRunning) return;
+    this.isRunning = true;
+    this.animate();
+  }
+
+  pause() {
+    if (!this.isRunning) return;
+    this.isRunning = false;
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
   animate() {
+    if (!this.isRunning) return;
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let i = 0; i < this.particles.length; i++) {
@@ -72,11 +96,50 @@ class ParticleSystem {
       this.ctx.fill();
     }
 
-    requestAnimationFrame(() => this.animate());
+    this.rafId = requestAnimationFrame(() => this.animate());
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new ParticleSystem('heroCanvas', 30);
-  new ParticleSystem('ctaCanvas', 18); // Lower particle density for CTA
+  // Hero Particles — initialize immediately but pause when hero is off-screen
+  const heroSystem = new ParticleSystem('heroCanvas', 30);
+  const heroSection = document.getElementById('hero');
+
+  if (heroSystem.canvas && heroSection) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          heroSystem.start();
+        } else {
+          heroSystem.pause();
+        }
+      });
+    }, { rootMargin: '100px' });
+
+    heroObserver.observe(heroSection);
+  }
+
+  // CTA Particles — defer initialization until CTA approaches viewport
+  const ctaCanvas = document.getElementById('ctaCanvas');
+  if (ctaCanvas) {
+    let ctaSystem = null;
+    const ctaSection = ctaCanvas.closest('section') || ctaCanvas.parentElement;
+
+    const ctaObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!ctaSystem) {
+            // First time entering viewport — initialize the particle system
+            ctaSystem = new ParticleSystem('ctaCanvas', 18);
+          } else {
+            ctaSystem.start();
+          }
+        } else if (ctaSystem) {
+          ctaSystem.pause();
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    ctaObserver.observe(ctaSection);
+  }
 });

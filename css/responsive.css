@@ -36,7 +36,8 @@
   }
 
   .navbar__actions {
-    display: none; /* Hidden on header bar, accessible in mobile menu */
+    display: none;
+    /* Hidden on header bar, accessible in mobile menu */
   }
 
   /* Mobile Fullscreen Navigation Overlay */
