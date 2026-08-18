@@ -8,15 +8,10 @@ export const caseStudiesData = [
     category: "Web Development",
     client: "Global Luxury Cruise Line",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/seo-service.webp"
-    ],
-    featured: true,
     cardSpan: "tall",
-    cardHeight: 460,
     description: "Re-engineered a global luxury booking portal with modern server-rendered architecture and sub-second page loads.",
+    result: "+148%",
+    resultLabel: "Mobile Conversion Rate",
     metrics: [
       { value: "+148%", label: "Mobile Conversion Rate" },
       { value: "0.8s", label: "Avg Page Load Time" },
@@ -36,15 +31,10 @@ export const caseStudiesData = [
     category: "SEO",
     client: "Multi-Specialty Healthcare Network",
     image: "assets/images/seo-service.webp",
-    heroImage: "assets/images/seo-service.webp",
-    gallery: [
-      "assets/images/seo-service.webp",
-      "assets/images/ppc-management-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 380,
     description: "Scaled organic search visibility across 14 hospital locations, dominating competitive medical search terms.",
+    result: "+340%",
+    resultLabel: "Organic Search Traffic",
     metrics: [
       { value: "+340%", label: "Organic Search Traffic" },
       { value: "210+", label: "Top-3 Keyword Rankings" },
@@ -64,15 +54,10 @@ export const caseStudiesData = [
     category: "Google Ads",
     client: "Pharmaceutical & Healthcare Group",
     image: "assets/images/ppc-management-service.webp",
-    heroImage: "assets/images/ppc-management-service.webp",
-    gallery: [
-      "assets/images/ppc-management-service.webp",
-      "assets/images/web-development-service.webp"
-    ],
-    featured: false,
     cardSpan: "tall",
-    cardHeight: 440,
     description: "Precision PPC campaign structure delivering consistent 4.8x ROAS while cutting acquisition costs by 38%.",
+    result: "4.8x",
+    resultLabel: "Verified ROAS",
     metrics: [
       { value: "4.8x", label: "Verified Return on Ad Spend" },
       { value: "-38%", label: "Cost Per Acquisition" },
@@ -92,15 +77,10 @@ export const caseStudiesData = [
     category: "WhatsApp Automation",
     client: "International Travel & Tour Operator",
     image: "assets/images/whatsapp-automation-service.webp",
-    heroImage: "assets/images/whatsapp-automation-service.webp",
-    gallery: [
-      "assets/images/whatsapp-automation-service.webp",
-      "assets/images/seo-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 360,
     description: "Built an intelligent WhatsApp conversational engine handling 12,000+ monthly travel bookings 24/7.",
+    result: "+240%",
+    resultLabel: "Instant Bookings Rate",
     metrics: [
       { value: "12,000+", label: "Automated Bookings / Mo" },
       { value: "92%", label: "Instant Response Rate" },
@@ -120,15 +100,10 @@ export const caseStudiesData = [
     category: "Shopify",
     client: "Specialty Coffee Brand",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/ppc-management-service.webp"
-    ],
-    featured: false,
     cardSpan: "tall",
-    cardHeight: 450,
     description: "Engineered a bespoke Shopify Plus subscription portal with custom roast-matching quiz and instant re-ordering.",
+    result: "+215%",
+    resultLabel: "DTC Online Revenue",
     metrics: [
       { value: "+215%", label: "DTC Online Revenue" },
       { value: "+42%", label: "Average Order Value" },
@@ -148,15 +123,10 @@ export const caseStudiesData = [
     category: "Web Development",
     client: "Global Cruise & Travel Enterprise",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/seo-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 390,
     description: "Interactive visual itinerary mapping engine designed for multi-million concurrent international search sessions.",
+    result: "+84%",
+    resultLabel: "Interactive Engagement",
     metrics: [
       { value: "+84%", label: "Interactive Engagement" },
       { value: "99.99%", label: "Uptime During Black Friday" },
@@ -176,15 +146,10 @@ export const caseStudiesData = [
     category: "SEO",
     client: "B2B SaaS Analytics Platform",
     image: "assets/images/seo-service.webp",
-    heroImage: "assets/images/seo-service.webp",
-    gallery: [
-      "assets/images/seo-service.webp",
-      "assets/images/web-development-service.webp"
-    ],
-    featured: false,
     cardSpan: "tall",
-    cardHeight: 440,
     description: "Built a programmatic content engine generating over 450,000 monthly targeted organic visits.",
+    result: "+450k",
+    resultLabel: "Monthly Organic Visits",
     metrics: [
       { value: "+450k", label: "Monthly Organic Visitors" },
       { value: "1,200+", label: "Enterprise Demo Bookings" },
@@ -204,15 +169,10 @@ export const caseStudiesData = [
     category: "WordPress",
     client: "Boutique Hospitality & Luxury Resorts",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/seo-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 370,
     description: "Fast, editorial custom WordPress build achieving 99 Google PageSpeed score and +92% direct bookings.",
+    result: "99/100",
+    resultLabel: "PageSpeed Score",
     metrics: [
       { value: "99/100", label: "Google PageSpeed Score" },
       { value: "+92%", label: "Direct Online Bookings" },
@@ -232,15 +192,10 @@ export const caseStudiesData = [
     category: "Google Ads",
     client: "Specialized Medical & Surgery Clinic",
     image: "assets/images/ppc-management-service.webp",
-    heroImage: "assets/images/ppc-management-service.webp",
-    gallery: [
-      "assets/images/ppc-management-service.webp",
-      "assets/images/whatsapp-automation-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 380,
     description: "Localized high-intent Google Search campaigns driving 5.2x return on ad spend with zero wasted clicks.",
+    result: "5.2x",
+    resultLabel: "Return on Ad Spend",
     metrics: [
       { value: "5.2x", label: "Return on Ad Spend" },
       { value: "+180%", label: "High-Intent Consultations" },
@@ -260,15 +215,10 @@ export const caseStudiesData = [
     category: "Shopify",
     client: "Sustainable Fashion & Apparel Brand",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/seo-service.webp"
-    ],
-    featured: false,
     cardSpan: "tall",
-    cardHeight: 440,
     description: "International Shopify build supporting 12 currencies, localized sizing, and instant frictionless checkout.",
+    result: "+180%",
+    resultLabel: "Cross-Border Sales",
     metrics: [
       { value: "+180%", label: "Global Cross-Border Sales" },
       { value: "28%", label: "Abandoned Cart Recovery" },
@@ -288,15 +238,10 @@ export const caseStudiesData = [
     category: "WhatsApp Automation",
     client: "Digital Banking & FinTech Platform",
     image: "assets/images/whatsapp-automation-service.webp",
-    heroImage: "assets/images/whatsapp-automation-service.webp",
-    gallery: [
-      "assets/images/whatsapp-automation-service.webp",
-      "assets/images/web-development-service.webp"
-    ],
-    featured: false,
     cardSpan: "medium",
-    cardHeight: 380,
     description: "End-to-end encrypted WhatsApp automated onboarding processing 45,000+ daily customer queries.",
+    result: "3.5x",
+    resultLabel: "Faster User Onboarding",
     metrics: [
       { value: "3.5x", label: "Faster User Onboarding" },
       { value: "45k+", label: "Daily Automated Messages" },
@@ -316,15 +261,10 @@ export const caseStudiesData = [
     category: "Web Development",
     client: "Computer Vision & AI SaaS",
     image: "assets/images/web-development-service.webp",
-    heroImage: "assets/images/web-development-service.webp",
-    gallery: [
-      "assets/images/web-development-service.webp",
-      "assets/images/ppc-management-service.webp"
-    ],
-    featured: false,
     cardSpan: "tall",
-    cardHeight: 430,
     description: "Interactive real-time computer vision demo web application with zero-latency visual processing.",
+    result: "6.5x",
+    resultLabel: "Demo Engagement Time",
     metrics: [
       { value: "6.5x", label: "Demo Engagement Time" },
       { value: "< 1.0s", label: "Core Web Vitals LCP" },

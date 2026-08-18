@@ -312,14 +312,14 @@
       </div>
     </section>
 
-    <!-- Section 3: Case Studies Portfolio Browsing & Detail Experience -->
+    <!-- Section 3: Case Studies Portfolio Browsing -->
     <section class="cs-portfolio" id="case-studies-grid">
       <!-- Atmospheric Ambient Glow -->
       <div class="cs-portfolio__glow" aria-hidden="true"></div>
 
       <div class="container">
 
-        <!-- A. GRID VIEW (Default Display) -->
+        <!-- Case Studies Listing -->
         <div class="cs-grid-view" id="csGridView">
 
           <!-- 1. Category Filter Navigation -->
@@ -363,27 +363,17 @@
             </ul>
           </nav>
 
-          <!-- 2. Large Featured Case Study Area -->
-          <div class="cs-featured-container" id="csFeaturedArea">
-            <!-- Rendered dynamically from case-studies.js -->
-          </div>
-
-          <!-- 3. All Case Studies Grid Header & Counter -->
+          <!-- 2. All Case Studies Grid Header & Counter -->
           <div class="cs-grid-header">
             <h3 class="cs-grid-header__title">All Case Studies</h3>
-            <span class="cs-grid-header__count" id="csItemCount">Showing 11 of 12 Projects</span>
+            <span class="cs-grid-header__count" id="csItemCount">Showing 12 of 12 Projects</span>
           </div>
 
-          <!-- 4. Responsive Masonry-Inspired Case Study Grid -->
+          <!-- 3. Responsive Masonry-Inspired Case Study Grid -->
           <div class="cs-masonry-grid" id="csMasonryGrid">
             <!-- Rendered dynamically from case-studies.js -->
           </div>
 
-        </div>
-
-        <!-- B. IN-PAGE CASE STUDY DETAIL VIEW (Fades in when a card is clicked) -->
-        <div class="cs-detail-view" id="csDetailView" style="display: none;">
-          <!-- Rendered dynamically from case-studies.js -->
         </div>
 
       </div>
@@ -479,6 +469,24 @@
       </div>
     </div>
   </footer>
+
+  <!-- Case Study Preview Modal Overlay (Compact Preview) -->
+  <div class="cs-modal-backdrop" id="csModalBackdrop" aria-hidden="true" role="presentation">
+    <div class="cs-modal" id="csModal" role="dialog" aria-modal="true" aria-labelledby="csModalTitle" aria-describedby="csModalDesc" tabindex="-1">
+      <!-- Top Close Button -->
+      <button class="cs-modal__close-btn" id="csModalCloseBtn" aria-label="Close case study preview">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Modal Content Body (Rendered dynamically) -->
+      <div class="cs-modal__body" id="csModalBody">
+        <!-- Rendered dynamically from case-studies.js -->
+      </div>
+    </div>
+  </div>
 
   <!-- Modular Vanilla JavaScript Files -->
   <script src="js/navbar.js" defer></script>

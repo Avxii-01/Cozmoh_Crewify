@@ -1,4 +1,4 @@
-// case-studies.js - Case Studies Editorial Counters, Interactive Audio, Dynamic Filtering & In-Page Detail View
+// case-studies.js - CREWiiFY Case Studies Listing, Dynamic Filtering & Compact Modal Preview
 
 import { caseStudiesData } from './case-studies-data.js';
 
@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEditorialAnimations();
   initAudioPlayer();
   initCaseStudiesSection();
+  initModalSystem();
 });
 
 /* ==========================================================================
@@ -156,27 +157,25 @@ function initAudioPlayer() {
 }
 
 /* ==========================================================================
-   3. CASE STUDIES SECTION (FILTERS, FEATURED, MASONRY GRID & IN-PAGE DETAIL)
+   3. CASE STUDIES SECTION (FILTERING & MASONRY GRID)
    ========================================================================== */
 
 let currentFilter = 'all';
-let currentDetailId = null;
 
 function initCaseStudiesSection() {
   const gridContainer = document.getElementById('csMasonryGrid');
-  const featuredContainer = document.getElementById('csFeaturedArea');
   const countDisplay = document.getElementById('csItemCount');
   const filterBtns = document.querySelectorAll('.cs-filter-btn');
 
-  if (!gridContainer || !featuredContainer) return;
+  if (!gridContainer) return;
 
-  // 1. Initial Render
-  renderPortfolio(currentFilter);
+  // 1. Initial Render with default filter
+  renderCaseStudiesGrid(currentFilter);
 
-  // 2. Filter Navigation Clicks
+  // 2. Filter Navigation Clicks & Auto-Scroll into View
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-filter') || 'all';
       if (filter === currentFilter) return;
 
       filterBtns.forEach(b => {
@@ -187,91 +186,90 @@ function initCaseStudiesSection() {
       btn.classList.add('is-active');
       btn.setAttribute('aria-selected', 'true');
 
+      // Auto-scroll ONLY the internal filter list rail (never the page, window, or cards)
+      const filterList = btn.closest('.cs-filter-list');
+      if (filterList) {
+        const listItem = btn.parentElement;
+        const targetEl = (listItem && listItem.tagName === 'LI') ? listItem : btn;
+        const targetScroll = targetEl.offsetLeft - (filterList.clientWidth / 2) + (targetEl.offsetWidth / 2);
+        filterList.scrollTo({
+          left: targetScroll,
+          behavior: 'smooth'
+        });
+      }
+
       currentFilter = filter;
-      renderPortfolio(filter);
+      renderCaseStudiesGrid(filter);
     });
   });
 
-  // 3. Check Initial URL Hash for deep link
-  handleInitialHash();
+  // 3. Scroll End Detection for Visual Cue Fade on Mobile / Tablet
+  const filterNav = document.querySelector('.cs-filter-nav');
+  const filterList = document.querySelector('.cs-filter-list');
+  if (filterNav && filterList) {
+    const updateScrollEnd = () => {
+      const isEnd = (filterList.scrollLeft + filterList.clientWidth) >= (filterList.scrollWidth - 12);
+      filterNav.classList.toggle('is-scrolled-end', isEnd);
+    };
 
-  // 4. Handle Browser Back/Forward buttons
-  window.addEventListener('hashchange', () => {
-    handleInitialHash();
-  });
-}
-
-function handleInitialHash() {
-  const hash = window.location.hash;
-  if (hash && hash.startsWith('#case-study/')) {
-    const id = hash.replace('#case-study/', '').trim();
-    if (id) {
-      showDetailView(id, false);
-    }
-  } else if (currentDetailId) {
-    showGridView(false);
+    filterList.addEventListener('scroll', updateScrollEnd, { passive: true });
+    window.addEventListener('resize', updateScrollEnd, { passive: true });
+    updateScrollEnd();
   }
 }
 
-/* ==========================================================================
-   PORTFOLIO RENDERING (Featured + Masonry Grid)
-   ========================================================================== */
-
-function renderPortfolio(filter) {
+/**
+ * Filter and render case studies into the masonry grid
+ */
+function renderCaseStudiesGrid(filter) {
   const gridContainer = document.getElementById('csMasonryGrid');
-  const featuredContainer = document.getElementById('csFeaturedArea');
   const countDisplay = document.getElementById('csItemCount');
+  if (!gridContainer) return;
 
-  // Filter items
-  const filteredData = filter === 'all' 
-    ? caseStudiesData 
+  // Filter items client-side
+  const filteredData = filter === 'all'
+    ? caseStudiesData
     : caseStudiesData.filter(item => item.category.toLowerCase() === filter.toLowerCase());
 
-  // Update counter
+  // Update dynamic count indicator
   if (countDisplay) {
     const totalCount = caseStudiesData.length;
     countDisplay.textContent = `Showing ${filteredData.length} of ${totalCount} Projects`;
   }
 
-  // 1. Render Featured Case Study (First featured or first item)
-  const featuredItem = filteredData.find(item => item.featured) || filteredData[0];
-  const gridItems = filteredData.filter(item => item.id !== (featuredItem ? featuredItem.id : null));
+  // Smooth Grid Repopulation
+  gridContainer.innerHTML = '';
 
-  if (featuredItem) {
-    featuredContainer.innerHTML = createFeaturedCardHTML(featuredItem);
-    featuredContainer.style.display = 'block';
-
-    const featCard = featuredContainer.querySelector('.cs-featured-card');
-    if (featCard) {
-      featCard.addEventListener('click', () => {
-        showDetailView(featuredItem.id);
-      });
-    }
-  } else {
-    featuredContainer.innerHTML = '';
-    featuredContainer.style.display = 'none';
+  if (filteredData.length === 0) {
+    gridContainer.innerHTML = `
+      <div class="cs-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+        <p style="color: #A3A3A3; font-size: 1.1rem;">No case studies found in this category.</p>
+      </div>
+    `;
+    return;
   }
 
-  // 2. Render Masonry Grid Cards
-  gridContainer.innerHTML = '';
-  gridItems.forEach((item, index) => {
+  filteredData.forEach((item, index) => {
     const card = document.createElement('article');
-    card.className = `cs-card cs-card--${item.cardSpan || 'medium'} animate-fade-up-${(index % 3) + 1}`;
+    const spanClass = item.cardSpan ? `cs-card--${item.cardSpan}` : 'cs-card--medium';
+    card.className = `cs-card ${spanClass} animate-fade-up-${(index % 3) + 1}`;
     card.setAttribute('data-id', item.id);
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', `View ${item.title} Case Study`);
+    card.setAttribute('aria-label', `View ${item.title} Case Study Preview`);
 
     card.innerHTML = createCardHTML(item);
 
-    card.addEventListener('click', () => {
-      showDetailView(item.id);
+    // Click on entire card opens modal preview
+    card.addEventListener('click', (e) => {
+      openModal(item.id, card);
     });
 
+    // Keyboard activation (Enter / Space)
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        showDetailView(item.id);
+        openModal(item.id, card);
       }
     });
 
@@ -279,52 +277,13 @@ function renderPortfolio(filter) {
   });
 }
 
-// HTML generator for Featured Case Study
-function createFeaturedCardHTML(item) {
-  const metricPills = item.metrics.slice(0, 3).map(m => `
-    <div class="cs-featured-metric">
-      <span class="cs-featured-metric__val">${m.value}</span>
-      <span class="cs-featured-metric__lbl">${m.label}</span>
-    </div>
-  `).join('');
-
-  return `
-    <article class="cs-featured-card" data-id="${item.id}" tabindex="0" role="button" aria-label="Featured: ${item.title}">
-      <!-- Left Content -->
-      <div class="cs-featured-card__content">
-        <div class="cs-featured-card__eyebrow-row">
-          <span class="cs-tag cs-tag--featured">FEATURED CASE STUDY</span>
-          <span class="cs-tag cs-tag--category">${item.category}</span>
-        </div>
-
-        <h3 class="cs-featured-card__title">${item.title}</h3>
-        <p class="cs-featured-card__subtitle">${item.subtitle || item.description}</p>
-
-        <!-- Metric Badges -->
-        <div class="cs-featured-card__metrics">
-          ${metricPills}
-        </div>
-
-        <!-- CTA Action -->
-        <div class="cs-featured-card__action">
-          <span class="cs-cta-link">
-            View Case Study <span class="cs-cta-arrow" aria-hidden="true">→</span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Right Dominant Visual -->
-      <div class="cs-featured-card__visual">
-        <img src="${item.heroImage || item.image}" alt="${item.title} Platform Showcase" class="cs-featured-card__img" loading="lazy">
-        <div class="cs-featured-card__overlay"></div>
-      </div>
-    </article>
-  `;
-}
-
-// HTML generator for Masonry Grid Cards
+/**
+ * HTML generator for Case Study Cards
+ */
 function createCardHTML(item) {
-  const primaryMetric = item.metrics && item.metrics.length > 0 ? item.metrics[0] : null;
+  const primaryMetric = (item.result && item.resultLabel) 
+    ? { value: item.result, label: item.resultLabel }
+    : (item.metrics && item.metrics.length > 0 ? item.metrics[0] : null);
 
   return `
     <div class="cs-card__media">
@@ -356,272 +315,220 @@ function createCardHTML(item) {
 }
 
 /* ==========================================================================
-   4. IN-PAGE DETAILED CASE STUDY VIEW
+   4. COMPACT CASE STUDY MODAL PREVIEW SYSTEM
    ========================================================================== */
 
-function showDetailView(caseStudyId, updateHistory = true) {
+let lastFocusedElement = null;
+let isModalOpen = false;
+
+function initModalSystem() {
+  const backdrop = document.getElementById('csModalBackdrop');
+  const modal = document.getElementById('csModal');
+  const closeBtn = document.getElementById('csModalCloseBtn');
+
+  if (!backdrop || !modal) return;
+
+  // Close via top-right close button
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal();
+    });
+  }
+
+  // Close when clicking on backdrop (outside modal dialog)
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) {
+      closeModal();
+    }
+  });
+
+  // Close via ESC key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isModalOpen) {
+      closeModal();
+    }
+  });
+}
+
+/**
+ * Open Modal with Case Study Data
+ */
+function openModal(caseStudyId, triggerElement) {
   const item = caseStudiesData.find(cs => cs.id === caseStudyId);
   if (!item) return;
 
-  currentDetailId = item.id;
+  const backdrop = document.getElementById('csModalBackdrop');
+  const modal = document.getElementById('csModal');
+  const modalBody = document.getElementById('csModalBody');
+  const closeBtn = document.getElementById('csModalCloseBtn');
 
-  const gridView = document.getElementById('csGridView');
-  const detailView = document.getElementById('csDetailView');
-  const section = document.getElementById('case-studies-grid');
+  if (!backdrop || !modal || !modalBody) return;
 
-  if (!gridView || !detailView) return;
+  // Save trigger element for accessible focus restoration
+  lastFocusedElement = triggerElement || document.activeElement;
 
-  // Find Previous and Next case studies
-  const currentIndex = caseStudiesData.findIndex(cs => cs.id === item.id);
-  const prevIndex = (currentIndex - 1 + caseStudiesData.length) % caseStudiesData.length;
-  const nextIndex = (currentIndex + 1) % caseStudiesData.length;
-  const prevItem = caseStudiesData[prevIndex];
-  const nextItem = caseStudiesData[nextIndex];
+  // Populate dynamic modal content
+  modalBody.innerHTML = createModalContentHTML(item);
 
-  // Render Detail Content
-  detailView.innerHTML = createDetailViewHTML(item, prevItem, nextItem);
+  // Bind the bottom "Back to Case Studies" button
+  const bottomCloseBtn = modalBody.querySelector('#csModalBottomCloseBtn');
+  if (bottomCloseBtn) {
+    bottomCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal();
+    });
+  }
 
-  // Smooth View Transition
-  gridView.style.opacity = '0';
-  gridView.style.transform = 'translateY(10px)';
-  
+  // Lock background scroll without shifting content
+  lockScroll();
+
+  // Show Modal with Animation
+  backdrop.setAttribute('aria-hidden', 'false');
+  backdrop.classList.add('is-active');
+  modal.classList.add('is-active');
+  isModalOpen = true;
+
+  // Set focus into modal close button
   setTimeout(() => {
-    gridView.style.display = 'none';
-    detailView.style.display = 'block';
-    detailView.style.opacity = '0';
-    detailView.style.transform = 'translateY(16px)';
-
-    // Trigger reflow
-    void detailView.offsetWidth;
-
-    detailView.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    detailView.style.opacity = '1';
-    detailView.style.transform = 'translateY(0)';
-
-    // Scroll to section header
-    if (section) {
-      const topOffset = section.getBoundingClientRect().top + window.pageYOffset - 90;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    if (closeBtn) {
+      closeBtn.focus();
+    } else {
+      modal.focus();
     }
+  }, 50);
+}
 
-    // Attach Event Listeners inside Detail View
-    attachDetailEventListeners(prevItem.id, nextItem.id);
-  }, 200);
+/**
+ * Close Modal & Restore Focus + Background Scroll
+ */
+function closeModal() {
+  if (!isModalOpen) return;
 
-  // Update URL Hash
-  if (updateHistory) {
-    history.pushState(null, '', `#case-study/${item.id}`);
+  const backdrop = document.getElementById('csModalBackdrop');
+  const modal = document.getElementById('csModal');
+
+  if (backdrop && modal) {
+    backdrop.classList.remove('is-active');
+    modal.classList.remove('is-active');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  isModalOpen = false;
+
+  // Restore background scrolling
+  unlockScroll();
+
+  // Return focus to triggering card
+  if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+    lastFocusedElement.focus();
   }
 }
 
-function showGridView(updateHistory = true) {
-  currentDetailId = null;
+/**
+ * Generate Modal Internal Content HTML
+ * Compact preview: Category -> Title -> Large Image -> Description -> Result -> Services -> CTA
+ */
+function createModalContentHTML(item) {
+  const primaryMetric = (item.result && item.resultLabel)
+    ? { value: item.result, label: item.resultLabel }
+    : (item.metrics && item.metrics.length > 0 ? item.metrics[0] : null);
 
-  const gridView = document.getElementById('csGridView');
-  const detailView = document.getElementById('csDetailView');
-  const section = document.getElementById('case-studies-grid');
+  // Secondary metrics if present
+  const secondaryMetricsHTML = (item.metrics && item.metrics.length > 1)
+    ? `
+      <div class="cs-modal__submetrics">
+        ${item.metrics.slice(1, 3).map(m => `
+          <div class="cs-modal__submetric">
+            <span class="cs-modal__submetric-val">${m.value}</span>
+            <span class="cs-modal__submetric-lbl">${m.label}</span>
+          </div>
+        `).join('')}
+      </div>
+    `
+    : '';
 
-  if (!gridView || !detailView) return;
-
-  detailView.style.opacity = '0';
-  detailView.style.transform = 'translateY(10px)';
-
-  setTimeout(() => {
-    detailView.style.display = 'none';
-    gridView.style.display = 'block';
-    gridView.style.opacity = '0';
-    gridView.style.transform = 'translateY(16px)';
-
-    void gridView.offsetWidth;
-
-    gridView.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    gridView.style.opacity = '1';
-    gridView.style.transform = 'translateY(0)';
-
-    if (section) {
-      const topOffset = section.getBoundingClientRect().top + window.pageYOffset - 90;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
-    }
-  }, 200);
-
-  if (updateHistory) {
-    history.pushState(null, '', window.location.pathname + window.location.search);
-  }
-}
-
-function attachDetailEventListeners(prevId, nextId) {
-  const backBtn = document.getElementById('csDetailBackBtn');
-  const prevBtn = document.getElementById('csDetailPrevBtn');
-  const nextBtn = document.getElementById('csDetailNextBtn');
-
-  if (backBtn) {
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      showGridView(true);
-    });
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      showDetailView(prevId, true);
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      showDetailView(nextId, true);
-    });
-  }
-}
-
-// Full-Page Detail HTML Generator
-function createDetailViewHTML(item, prevItem, nextItem) {
-  const metricsHTML = item.metrics.map(m => `
-    <div class="cs-detail-stat-card">
-      <div class="cs-detail-stat-card__val">${m.value}</div>
-      <div class="cs-detail-stat-card__lbl">${m.label}</div>
-    </div>
-  `).join('');
-
-  const servicesHTML = item.services.map(s => `
-    <span class="cs-detail-service-tag">${s}</span>
-  `).join('');
-
-  const galleryHTML = item.gallery.map(img => `
-    <div class="cs-detail-gallery__item">
-      <img src="${img}" alt="${item.title} Detailed Visual" class="cs-detail-gallery__img" loading="lazy">
-    </div>
-  `).join('');
+  // Services delivered list
+  const servicesList = (item.services && item.services.length > 0)
+    ? item.services.join(' · ')
+    : (item.category || 'Digital Strategy');
 
   return `
-    <div class="cs-detail">
+    <div class="cs-modal__content-wrap">
       
-      <!-- Top Navigation Bar -->
-      <div class="cs-detail__top-bar">
-        <button class="cs-detail__back-btn" id="csDetailBackBtn">
-          <span class="cs-detail__back-arrow">←</span> Back to All Case Studies
-        </button>
-
-        <div class="cs-detail__category-pill">
-          ${item.category}
-        </div>
+      <!-- 1. Category Eyebrow Badge -->
+      <div class="cs-modal__eyebrow-row">
+        <span class="cs-tag cs-tag--category">${item.category}</span>
+        ${item.client ? `<span class="cs-modal__client">${item.client}</span>` : ''}
       </div>
 
-      <!-- Header Title & Subtitle -->
-      <header class="cs-detail__header">
-        <div class="cs-detail__client-badge">${item.client || 'Agency Client'}</div>
-        <h2 class="cs-detail__title">${item.title}</h2>
-        <p class="cs-detail__subtitle">${item.subtitle || item.description}</p>
-      </header>
+      <!-- 2. Project Title -->
+      <h2 class="cs-modal__title" id="csModalTitle">${item.title}</h2>
+      ${item.subtitle ? `<p class="cs-modal__subtitle">${item.subtitle}</p>` : ''}
 
-      <!-- Key Results Bar (3 High-Impact Metrics) -->
-      <section class="cs-detail__metrics-bar" aria-label="Key Project Metrics">
-        ${metricsHTML}
-      </section>
-
-      <!-- Dominant Hero Visual / Mockup -->
-      <div class="cs-detail__hero-visual">
-        <img src="${item.heroImage || item.image}" alt="${item.title} Platform Mockup" class="cs-detail__hero-img" loading="lazy">
-        <div class="cs-detail__hero-glow"></div>
+      <!-- 3. Large Project Visual (Proper aspect ratio, no stretching) -->
+      <div class="cs-modal__media">
+        <img src="${item.heroImage || item.image}" alt="${item.title} Project Visual" class="cs-modal__img" loading="lazy">
+        <div class="cs-modal__media-glow" aria-hidden="true"></div>
       </div>
 
-      <!-- Main 2-Column Content Layout -->
-      <div class="cs-detail__content-grid">
-        
-        <!-- Left: Project Overview & Challenge -->
-        <div class="cs-detail__main-column">
-          
-          <div class="cs-detail__section">
-            <h3 class="cs-detail__section-title">Project Overview</h3>
-            <p class="cs-detail__section-text">${item.overview}</p>
-          </div>
-
-          <div class="cs-detail__section">
-            <h3 class="cs-detail__section-title">The Challenge</h3>
-            <p class="cs-detail__section-text">${item.challenge}</p>
-          </div>
-
-          <div class="cs-detail__section">
-            <h3 class="cs-detail__section-title">Our Solution &amp; Approach</h3>
-            <p class="cs-detail__section-text">${item.solution}</p>
-          </div>
-
-          <div class="cs-detail__section">
-            <h3 class="cs-detail__section-title">Measurable Results &amp; Impact</h3>
-            <p class="cs-detail__section-text">${item.results}</p>
-            <div class="cs-detail__outcome-box">
-              <strong>Final Outcome:</strong> ${item.outcome}
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Right: Sidebar Metadata & Services -->
-        <aside class="cs-detail__sidebar">
-          
-          <div class="cs-detail__meta-card">
-            <h4 class="cs-detail__meta-title">Services Delivered</h4>
-            <div class="cs-detail__services-list">
-              ${servicesHTML}
-            </div>
-
-            <div class="cs-detail__meta-divider"></div>
-
-            <h4 class="cs-detail__meta-title">Delivery Model</h4>
-            <div class="cs-detail__meta-item">
-              <span class="cs-detail__meta-lbl">Model:</span>
-              <span class="cs-detail__meta-val">100% White-Label Delivery</span>
-            </div>
-            <div class="cs-detail__meta-item">
-              <span class="cs-detail__meta-lbl">NDA:</span>
-              <span class="cs-detail__meta-val">Protected &amp; Confidential</span>
-            </div>
-            <div class="cs-detail__meta-item">
-              <span class="cs-detail__meta-lbl">Industry:</span>
-              <span class="cs-detail__meta-val">${item.category}</span>
-            </div>
-
-            <!-- In-Detail CTA -->
-            <div class="cs-detail__meta-cta">
-              <a href="contact.html" class="btn btn--primary" style="width: 100%; text-align: center;">
-                Book a Discovery Call
-              </a>
-            </div>
-          </div>
-
-        </aside>
-
+      <!-- 4. Project Short Description / Overview -->
+      <div class="cs-modal__section">
+        <p class="cs-modal__desc" id="csModalDesc">
+          ${item.overview || item.description}
+        </p>
       </div>
 
-      <!-- Project Gallery Visuals -->
-      <section class="cs-detail__gallery" aria-label="Project Visual Gallery">
-        <h3 class="cs-detail__section-title" style="margin-bottom: 24px;">Project Showcase</h3>
-        <div class="cs-detail-gallery__grid">
-          ${galleryHTML}
+      <!-- 5. Key Results Highlight -->
+      ${primaryMetric ? `
+        <div class="cs-modal__result-box">
+          <div class="cs-modal__result-header">
+            <span class="cs-modal__result-dot" aria-hidden="true"></span>
+            <span class="cs-modal__result-tag">KEY RESULT</span>
+          </div>
+          <div class="cs-modal__result-main">
+            <div class="cs-modal__result-primary">
+              <span class="cs-modal__result-val">${primaryMetric.value}</span>
+              <span class="cs-modal__result-lbl">${primaryMetric.label}</span>
+            </div>
+            ${secondaryMetricsHTML}
+          </div>
         </div>
-      </section>
+      ` : ''}
 
-      <!-- Bottom Next / Previous Navigation -->
-      <nav class="cs-detail__nav-bar" aria-label="Case Study Pagination">
-        <button class="cs-detail__nav-btn" id="csDetailPrevBtn">
-          <span class="cs-detail__nav-arrow">←</span>
-          <div class="cs-detail__nav-info">
-            <span class="cs-detail__nav-label">Previous Project</span>
-            <span class="cs-detail__nav-title">${prevItem.title}</span>
-          </div>
-        </button>
+      <!-- 6. Services Delivered -->
+      <div class="cs-modal__services-section">
+        <div class="cs-modal__services-label">SERVICES DELIVERED</div>
+        <div class="cs-modal__services-text">${servicesList}</div>
+      </div>
 
-        <button class="cs-detail__nav-btn cs-detail__nav-btn--next" id="csDetailNextBtn">
-          <div class="cs-detail__nav-info" style="text-align: right;">
-            <span class="cs-detail__nav-label">Next Project</span>
-            <span class="cs-detail__nav-title">${nextItem.title}</span>
-          </div>
-          <span class="cs-detail__nav-arrow">→</span>
+      <!-- 7. Action Footer -->
+      <div class="cs-modal__footer">
+        <button type="button" class="btn btn--secondary cs-modal__back-btn" id="csModalBottomCloseBtn">
+          ← Back to Case Studies
         </button>
-      </nav>
+        <a href="contact.html" class="btn btn--primary cs-modal__contact-btn">
+          Book a Discovery Call <span aria-hidden="true">→</span>
+        </a>
+      </div>
 
     </div>
   `;
+}
+
+/* ==========================================================================
+   5. SCROLL LOCK UTILITIES
+   ========================================================================== */
+
+function lockScroll() {
+  const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.paddingRight = `${scrollBarWidth}px`;
+  document.body.classList.add('modal-open');
+  document.documentElement.classList.add('modal-open');
+}
+
+function unlockScroll() {
+  document.body.style.paddingRight = '';
+  document.body.classList.remove('modal-open');
+  document.documentElement.classList.remove('modal-open');
 }
