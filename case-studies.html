@@ -311,6 +311,154 @@
         </div>
       </div>
     </section>
+
+    <!-- Section 3: Case Studies Portfolio Browsing & Detail Experience -->
+    <section class="cs-portfolio" id="case-studies-grid">
+      <!-- Atmospheric Ambient Glow -->
+      <div class="cs-portfolio__glow" aria-hidden="true"></div>
+
+      <div class="container">
+
+        <!-- A. GRID VIEW (Default Display) -->
+        <div class="cs-grid-view" id="csGridView">
+
+          <!-- 1. Category Filter Navigation -->
+          <nav class="cs-filter-nav" aria-label="Case Study Category Filters">
+            <ul class="cs-filter-list" role="tablist">
+              <li role="presentation">
+                <button class="cs-filter-btn is-active" data-filter="all" role="tab" aria-selected="true">
+                  All Work
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="SEO" role="tab" aria-selected="false">
+                  SEO
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="Web Development" role="tab" aria-selected="false">
+                  Web Development
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="Google Ads" role="tab" aria-selected="false">
+                  Google Ads
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="WhatsApp Automation" role="tab" aria-selected="false">
+                  WhatsApp Automation
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="WordPress" role="tab" aria-selected="false">
+                  WordPress
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="cs-filter-btn" data-filter="Shopify" role="tab" aria-selected="false">
+                  Shopify
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- 2. Large Featured Case Study Area -->
+          <div class="cs-featured-container" id="csFeaturedArea">
+            <!-- Rendered dynamically from case-studies.js -->
+          </div>
+
+          <!-- 3. All Case Studies Grid Header & Counter -->
+          <div class="cs-grid-header">
+            <h3 class="cs-grid-header__title">All Case Studies</h3>
+            <span class="cs-grid-header__count" id="csItemCount">Showing 11 of 12 Projects</span>
+          </div>
+
+          <!-- 4. Responsive Masonry-Inspired Case Study Grid -->
+          <div class="cs-masonry-grid" id="csMasonryGrid">
+            <!-- Rendered dynamically from case-studies.js -->
+          </div>
+
+        </div>
+
+        <!-- B. IN-PAGE CASE STUDY DETAIL VIEW (Fades in when a card is clicked) -->
+        <div class="cs-detail-view" id="csDetailView" style="display: none;">
+          <!-- Rendered dynamically from case-studies.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 4: Final Case Studies Closing CTA -->
+    <section class="cs-final-cta" id="cta">
+      <!-- Atmospheric Background Layers -->
+      <div class="cs-final-cta__bg" aria-hidden="true">
+        <!-- Radial Ambient Violet Glow -->
+        <div class="cs-final-cta__glow"></div>
+        <!-- Dot Grid Pattern -->
+        <div class="cs-final-cta__dot-grid"></div>
+        <!-- Subtle Constellation / Digital Network SVG Graphic -->
+        <svg class="cs-final-cta__network" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Network Lines -->
+          <line x1="200" y1="180" x2="380" y2="280" stroke="rgba(167, 139, 250, 0.12)" stroke-dasharray="4 4" />
+          <line x1="380" y1="280" x2="600" y2="220" stroke="rgba(167, 139, 250, 0.15)" />
+          <line x1="600" y1="220" x2="820" y2="310" stroke="rgba(167, 139, 250, 0.15)" />
+          <line x1="820" y1="310" x2="1020" y2="200" stroke="rgba(167, 139, 250, 0.12)" stroke-dasharray="4 4" />
+          <line x1="380" y1="280" x2="480" y2="440" stroke="rgba(167, 139, 250, 0.08)" stroke-dasharray="3 3" />
+          <line x1="600" y1="220" x2="600" y2="480" stroke="rgba(167, 139, 250, 0.08)" stroke-dasharray="3 3" />
+          <line x1="820" y1="310" x2="740" y2="450" stroke="rgba(167, 139, 250, 0.08)" stroke-dasharray="3 3" />
+
+          <!-- Node Dots -->
+          <circle cx="200" cy="180" r="3" fill="#C4B5FD" opacity="0.4" />
+          <circle cx="380" cy="280" r="4.5" fill="#8B5CF6" opacity="0.7" />
+          <circle cx="600" cy="220" r="5" fill="#A78BFA" opacity="0.9" />
+          <circle cx="820" cy="310" r="4.5" fill="#8B5CF6" opacity="0.7" />
+          <circle cx="1020" cy="200" r="3" fill="#C4B5FD" opacity="0.4" />
+          <circle cx="480" cy="440" r="2.5" fill="#8B5CF6" opacity="0.3" />
+          <circle cx="600" cy="480" r="3" fill="#A78BFA" opacity="0.35" />
+          <circle cx="740" cy="450" r="2.5" fill="#8B5CF6" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div class="container">
+        <div class="cs-final-cta__content">
+
+          <!-- Eyebrow Pill -->
+          <div class="cs-final-cta__badge animate-fade-scale">
+            <span class="cs-final-cta__badge-dot"></span>
+            READY TO BUILD?
+          </div>
+
+          <!-- Primary Headline -->
+          <h2 class="cs-final-cta__title animate-fade-up-1">
+            <span class="cs-final-cta__title-line">Your next case study</span>
+            <span class="cs-final-cta__title-line cs-final-cta__title-gradient">could be here.</span>
+          </h2>
+
+          <!-- Supporting Description -->
+          <p class="cs-final-cta__desc animate-fade-up-2">
+            Let’s turn your next digital challenge into a result worth showcasing.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="cs-final-cta__actions animate-fade-up-3">
+            <a href="contact.html" class="btn btn--primary">
+              Book a Discovery Call <span class="cs-btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="contact.html" class="btn btn--secondary">
+              Start a Project <span class="cs-btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- Micro Reassurance Line -->
+          <div class="cs-final-cta__reassurance animate-fade-up-3">
+            No pressure. Just a conversation about what’s next.
+          </div>
+
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer (Global Reusable Component) -->
@@ -335,7 +483,7 @@
   <!-- Modular Vanilla JavaScript Files -->
   <script src="js/navbar.js" defer></script>
   <script src="js/particles.js" defer></script>
-  <script src="js/case-studies.js" defer></script>
+  <script type="module" src="js/case-studies.js"></script>
 </body>
 
 </html>
