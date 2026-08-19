@@ -183,7 +183,7 @@
   line-height: 1.08;
   letter-spacing: -0.04em;
   color: #FFFFFF;
-  margin: 0 0 44px 0;
+  margin: 0 0 clamp(1.125rem, 2vw, 1.625rem) 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -215,9 +215,12 @@
   user-select: none;
 }
 
-/* Orange Accent color for "Scale." only */
+/* Purple Gradient Accent matching Services page hero */
 .hero__orange-accent {
-  color: var(--color-primary);
+  background: var(--gradient-purple-text, linear-gradient(135deg, #FFFFFF 0%, #D8B4FE 30%, #A78BFA 70%, #8B5CF6 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: inline-block;
 }
 
@@ -226,7 +229,7 @@
   opacity: 0.60;
 }
 
-/* Supporting Paragraph with Selective Orange Phrase Highlights */
+/* Supporting Paragraph with Selective Purple Gradient Phrase Highlights */
 .hero__description {
   font-size: var(--font-size-md);
   font-weight: 400;
@@ -234,17 +237,18 @@
   /* Neutral gray base */
   line-height: 1.65;
   max-width: clamp(650px, 530px + 8vw, 720px);
-  margin: 0 auto var(--space-3xl) auto;
+  margin: 0 auto clamp(1.5rem, 2.8vw, 2.625rem) auto;
   position: relative;
   z-index: 4;
 }
 
-/* Selective Orange Phrase Highlights in Paragraph (Medium Weight, Solid Orange) */
+/* Selective Purple Gradient Phrase Highlights in Paragraph */
 .hero__para-highlight {
-  color: var(--color-primary);
-  /* #C97A2B */
-  font-weight: 500;
-  /* Medium weight, not heavy bold */
+  background: var(--gradient-purple-text, linear-gradient(135deg, #FFFFFF 0%, #D8B4FE 30%, #A78BFA 70%, #8B5CF6 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
   display: inline;
 }
 
@@ -254,7 +258,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
-  margin-bottom: var(--space-3xl);
+  margin-bottom: clamp(2rem, 3.5vw, 3.5rem);
   position: relative;
   z-index: 4;
 }
@@ -361,18 +365,22 @@
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.55);
   text-align: center;
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-lg);
+  max-width: var(--container-max-width);
+  width: 100%;
+  padding: 0 var(--space-md);
 }
 
 .client-strip__marquee {
-  width: 100vw;
-  max-width: 100%;
+  width: 100%;
+  max-width: clamp(100%, calc(var(--container-max-width) + 180px), 1680px);
+  margin-inline: auto;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
-  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
 .client-strip__track {

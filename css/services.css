@@ -130,7 +130,7 @@
 }
 
 .srv-hero__title-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, #D8B4FE 30%, #A78BFA 70%, #8B5CF6 100%);
+  background: var(--gradient-purple-text, linear-gradient(135deg, #FFFFFF 0%, #D8B4FE 30%, #A78BFA 70%, #8B5CF6 100%));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
