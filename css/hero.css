@@ -550,13 +550,41 @@
 }
 
 /* Responsive Media Queries */
-@media (max-width: 1200px) {
-  .hero__floating-badge--shopify {
+/* Desktop default for badges wrapper */
+.hero__badges-wrapper {
+  display: contents;
+}
+
+/* Tablet / Intermediate (768px - 1199px): Badges positioned safely in peripheral margins outside hero text */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .hero__floating-badge {
+    padding: 7px 13px;
+    font-size: 0.72rem;
+    gap: 6px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero__floating-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Peripheral positioning outside centered hero content */
+  .hero__floating-badge--wp {
+    top: 4%;
+    left: 1%;
+  }
+
+  .hero__floating-badge--ai {
+    top: 6%;
     right: 1%;
   }
 
-  .hero__floating-badge--webflow {
-    left: 1%;
+  .hero__floating-badge--shopify {
+    top: 50%;
+    right: 1%;
   }
 }
 
@@ -574,47 +602,6 @@
   .hero__ghost-word {
     font-size: clamp(80px, 16vw, 150px);
   }
-
-  .hero__floating-badge--webflow {
-    display: none;
-  }
-}
-
-/* Desktop default for badges wrapper */
-.hero__badges-wrapper {
-  display: contents;
-}
-
-@media (max-width: 768px) {
-  .hero__badges-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 8px 12px;
-    margin-bottom: var(--space-md);
-    width: 100%;
-    position: relative;
-    z-index: 10;
-  }
-
-  .hero__floating-badge {
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    animation: none !important;
-    transform: none !important;
-    margin: 0;
-    padding: 7px 14px;
-    font-size: 0.72rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  }
-
-  .hero__floating-badge:hover {
-    transform: translateY(-2px) !important;
-  }
 }
 
 @media (max-width: 640px) {
@@ -627,14 +614,12 @@
     display: none;
     /* Hide watermark on small mobile screens */
   }
+}
 
-  .hero__badges-wrapper {
-    gap: 8px 10px;
-    margin-bottom: var(--space-sm);
-  }
-
+/* Mobile (<= 767px): Completely hide decorative floating badges for clean, unobstructed hierarchy */
+@media (max-width: 767px) {
+  .hero__badges-wrapper,
   .hero__floating-badge {
-    padding: 6px 12px;
-    font-size: 0.7rem;
+    display: none !important;
   }
 }
