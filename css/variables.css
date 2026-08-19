@@ -3,51 +3,78 @@
   /* Color Palette - Warm Monochromatic Luxury SaaS */
   --color-bg-dark: #050505;
   --color-bg-card: rgba(18, 18, 20, 0.6);
-  
+
   /* Accent Colors - Premium Luxury Purple Palette */
-  --color-primary: #8B5CF6; /* Sophisticated luxury purple primary accent */
-  --color-primary-hover: #A78BFA; /* Hover purple */
-  --color-primary-dark: #6D28D9; /* Dark accent */
+  --color-primary: #8B5CF6;
+  /* Sophisticated luxury purple primary accent */
+  --color-primary-hover: #A78BFA;
+  /* Hover purple */
+  --color-primary-dark: #6D28D9;
+  /* Dark accent */
   --color-primary-glow: rgba(139, 92, 246, 0.25);
   --color-purple-border: rgba(167, 139, 250, 0.35);
   --color-purple-pill-bg: rgba(139, 92, 246, 0.08);
 
   /* Text Colors */
-  --color-text-main: #F5F5F5;      /* High-contrast bright white/silver heading */
-  --color-text-muted: #9A9A9A;     /* Muted gray paragraph text */
-  --color-text-nav: #9C9C9C;       /* Navigation muted text */
-  --color-text-nav-hover: #F5F5F5; /* Navigation hover text */
-  --color-text-subtle: #7A7A7A;    /* Extra small supporting text */
-  --color-text-highlight: #F5F5F5; /* Badge text */
-  
+  --color-text-main: #F5F5F5;
+  /* High-contrast bright white/silver heading */
+  --color-text-muted: #9A9A9A;
+  /* Muted gray paragraph text */
+  --color-text-nav: #9C9C9C;
+  /* Navigation muted text */
+  --color-text-nav-hover: #F5F5F5;
+  /* Navigation hover text */
+  --color-text-subtle: #7A7A7A;
+  /* Extra small supporting text */
+  --color-text-highlight: #F5F5F5;
+  /* Badge text */
+
   /* Borders */
   --color-border-dark: rgba(255, 255, 255, 0.10);
   --color-border-hover: rgba(255, 255, 255, 0.25);
 
   /* Typography */
   --font-family-base: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  
+
   /* Font Sizes */
-  --font-size-xs: 0.72rem;     /* ~11.5px */
-  --font-size-sm: 0.85rem;     /* ~13.6px */
-  --font-size-base: 1rem;      /* 16px */
-  --font-size-md: 1.125rem;    /* 18px */
-  --font-size-lg: 1.25rem;     /* 20px */
-  --font-size-xl: 1.5rem;      /* 24px */
-  --font-size-2xl: 2.25rem;    /* 36px */
-  --font-size-3xl: 3.25rem;    /* 52px */
-  --font-size-hero: 4.5rem;    /* 72px */
+  --font-size-xs: 0.72rem;
+  /* ~11.5px */
+  --font-size-sm: 0.85rem;
+  /* ~13.6px */
+  --font-size-base: 1rem;
+  /* 16px */
+  --font-size-md: 1.125rem;
+  /* 18px */
+  --font-size-lg: 1.25rem;
+  /* 20px */
+  --font-size-xl: 1.5rem;
+  /* 24px */
+  --font-size-2xl: 2.25rem;
+  /* 36px */
+  --font-size-3xl: 3.25rem;
+  /* 52px */
+  --font-size-hero: 4.5rem;
+  /* 72px */
 
   /* Spacing */
-  --space-xs: 0.5rem;   /* 8px */
-  --space-sm: 0.75rem;  /* 12px */
-  --space-md: 1rem;     /* 16px */
-  --space-lg: 1.5rem;    /* 24px */
-  --space-xl: 2rem;     /* 32px */
-  --space-2xl: 3rem;    /* 48px */
-  --space-3xl: 4.5rem;  /* 72px */
-  --space-3-5xl: 5rem;  /* 80px */
-  --space-4xl: 6rem;    /* 96px */
+  --space-xs: 0.5rem;
+  /* 8px */
+  --space-sm: 0.75rem;
+  /* 12px */
+  --space-md: 1rem;
+  /* 16px */
+  --space-lg: 1.5rem;
+  /* 24px */
+  --space-xl: 2rem;
+  /* 32px */
+  --space-2xl: 3rem;
+  /* 48px */
+  --space-3xl: 4.5rem;
+  /* 72px */
+  --space-3-5xl: 5rem;
+  /* 80px */
+  --space-4xl: 6rem;
+  /* 96px */
 
   /* Border Radius */
   --radius-sm: 6px;
@@ -60,6 +87,7 @@
   --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Layout */
-  --container-max-width: 1200px;
+  --container-max-width: clamp(1240px, 376px + 60vw, 1540px);
+  --container-padding-x: clamp(1.5rem, 2.5vw, 2.5rem);
   --header-height: 84px;
 }

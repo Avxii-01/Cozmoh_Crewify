@@ -80,7 +80,7 @@
 .process__layout {
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
 }
 
