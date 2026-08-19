@@ -17,6 +17,7 @@ const NAV_CONFIG = {
     homeUrl: 'index.html'
   },
   items: [
+    { label: 'Home', url: 'index.html', id: 'home' },
     { label: 'Services', url: 'services.html', id: 'services' },
     { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies' },
     { 
@@ -46,22 +47,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentPath = window.location.pathname.toLowerCase();
   
   const updateActiveStates = () => {
-    // Map URL patterns to active nav IDs
     const navLinks = document.querySelectorAll('.navbar__link');
     const dropdownLinks = document.querySelectorAll('.navbar__dropdown-link');
 
+    // Determine if current view is homepage
+    const isHomePage = currentPath === '/' || 
+      currentPath.endsWith('/index.html') || 
+      currentPath.endsWith('/crewify/') || 
+      currentPath.endsWith('/crewify') ||
+      currentPath.split('/').filter(Boolean).pop() === 'index.html';
+
     dropdownLinks.forEach(link => {
       const href = link.getAttribute('href')?.toLowerCase() || '';
-      if (href && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
+      if (href && !isHomePage && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
         link.classList.add('navbar__dropdown-link--active');
-        // Also highlight parent White-Label
         link.closest('.navbar__item--dropdown')?.querySelector('.navbar__link')?.classList.add('navbar__link--active');
       }
     });
 
     navLinks.forEach(link => {
       const href = link.getAttribute('href')?.toLowerCase() || '';
-      if (href && href !== '#' && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
+      if (href === 'index.html') {
+        if (isHomePage) {
+          link.classList.add('navbar__link--active');
+        } else {
+          link.classList.remove('navbar__link--active');
+        }
+      } else if (href && href !== '#' && !isHomePage && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
         link.classList.add('navbar__link--active');
       }
     });
@@ -101,16 +113,18 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleBtn.addEventListener('click', () => toggleMobileMenu());
   }
 
-  // 4. White-Label Dropdown Interactions (Desktop & Mobile)
+  // 4. White-Label Dropdown Interactions (Desktop & Mobile/Tablet)
+  const isMobileOrTablet = () => window.matchMedia('(max-width: 992px)').matches;
+
   dropdownItems.forEach(item => {
     const trigger = item.querySelector('.navbar__link--dropdown-trigger');
     const dropdown = item.querySelector('.navbar__dropdown');
 
     if (!trigger) return;
 
-    // Mobile click behavior: expand accordion
+    // Mobile/Tablet click behavior: expand accordion
     trigger.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
+      if (isMobileOrTablet()) {
         e.preventDefault();
         e.stopPropagation();
         item.classList.toggle('is-mobile-expanded');
@@ -160,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const leafLinks = document.querySelectorAll('.navbar__link:not(.navbar__link--dropdown-trigger), .navbar__dropdown-link, .navbar__mobile-cta a');
   leafLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 768 && navMenu?.classList.contains('navbar__menu--mobile-open')) {
+      if (isMobileOrTablet() && navMenu?.classList.contains('navbar__menu--mobile-open')) {
         toggleMobileMenu(true);
       }
     });

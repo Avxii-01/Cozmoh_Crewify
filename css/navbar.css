@@ -64,7 +64,7 @@
 .navbar__menu {
   display: flex;
   align-items: center;
-  gap: 38px;
+  gap: clamp(20px, 2.2vw, 34px);
   list-style: none;
   margin: 0;
   padding: 0;
