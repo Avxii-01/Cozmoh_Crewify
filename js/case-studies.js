@@ -172,13 +172,16 @@ function initCaseStudiesSection() {
   // Category Mapping Table
   const categoryMap = {
     'seo': 'SEO',
+    'ppc': 'PPC Management & Growth',
+    'ppc-management': 'PPC Management & Growth',
+    'ppc management': 'PPC Management & Growth',
+    'ppc-management-and-growth': 'PPC Management & Growth',
+    'ppc management & growth': 'PPC Management & Growth',
+    'google-ads': 'PPC Management & Growth',
+    'google ads': 'PPC Management & Growth',
     'web-development': 'Web Development',
     'web development': 'Web Development',
     'web': 'Web Development',
-    'google-ads': 'Google Ads',
-    'google ads': 'Google Ads',
-    'ppc': 'Google Ads',
-    'ppc-management': 'Google Ads',
     'whatsapp-automation': 'WhatsApp Automation',
     'whatsapp automation': 'WhatsApp Automation',
     'whatsapp': 'WhatsApp Automation',
@@ -359,7 +362,8 @@ function renderCaseStudiesGrid(filter) {
   // Update dynamic count indicator
   if (countDisplay) {
     const totalCount = caseStudiesData.length;
-    countDisplay.textContent = `Showing ${filteredData.length} of ${totalCount} Projects`;
+    const displayTotal = (filter === 'all') ? totalCount : filteredData.length;
+    countDisplay.textContent = `Showing ${filteredData.length} of ${displayTotal} Projects`;
   }
 
   // Smooth Grid Repopulation
@@ -412,7 +416,7 @@ function createCardHTML(item) {
 
   return `
     <div class="cs-card__media">
-      <img src="${item.image}" alt="${item.title} Project" class="cs-card__img" loading="lazy">
+      <img src="${item.image}" alt="${item.title} Project" class="cs-card__img" style="object-position: ${item.imagePosition || 'center center'};" loading="lazy">
       <div class="cs-card__overlay"></div>
       <div class="cs-card__tag-wrap">
         <span class="cs-tag cs-tag--category">${item.category}</span>
@@ -581,30 +585,30 @@ function createModalContentHTML(item) {
   return `
     <div class="cs-modal__content-wrap">
       
-      <!-- 1. Category Eyebrow Badge -->
+      <!-- 1. Category Eyebrow Badge & Client -->
       <div class="cs-modal__eyebrow-row">
         <span class="cs-tag cs-tag--category">${item.category}</span>
         ${item.client ? `<span class="cs-modal__client">${item.client}</span>` : ''}
       </div>
 
-      <!-- 2. Project Title -->
+      <!-- 2. Project Title & Subtitle -->
       <h2 class="cs-modal__title" id="csModalTitle">${item.title}</h2>
       ${item.subtitle ? `<p class="cs-modal__subtitle">${item.subtitle}</p>` : ''}
 
-      <!-- 3. Large Project Visual (Proper aspect ratio, no stretching) -->
+      <!-- 3. Wide Full-Width Horizontal Hero Image -->
       <div class="cs-modal__media">
-        <img src="${item.heroImage || item.image}" alt="${item.title} Project Visual" class="cs-modal__img" loading="lazy">
+        <img src="${item.heroImage || item.image}" alt="${item.title} Case Study Visual" class="cs-modal__img" style="object-position: ${item.imagePosition || 'center center'};" loading="lazy">
         <div class="cs-modal__media-glow" aria-hidden="true"></div>
       </div>
 
-      <!-- 4. Project Short Description / Overview -->
+      <!-- 4. Project Short Description / Narrative -->
       <div class="cs-modal__section">
         <p class="cs-modal__desc" id="csModalDesc">
           ${item.overview || item.description}
         </p>
       </div>
 
-      <!-- 5. Key Results Highlight -->
+      <!-- 5. Key Results Highlight Panel -->
       ${primaryMetric ? `
         <div class="cs-modal__result-box">
           <div class="cs-modal__result-header">
@@ -622,10 +626,12 @@ function createModalContentHTML(item) {
       ` : ''}
 
       <!-- 6. Services Delivered -->
-      <div class="cs-modal__services-section">
-        <div class="cs-modal__services-label">SERVICES DELIVERED</div>
-        <div class="cs-modal__services-text">${servicesList}</div>
-      </div>
+      ${(item.services && item.services.length > 0) ? `
+        <div class="cs-modal__services-section">
+          <div class="cs-modal__services-label">SERVICES DELIVERED</div>
+          <div class="cs-modal__services-text">${servicesList}</div>
+        </div>
+      ` : ''}
 
       <!-- 7. Action Footer -->
       <div class="cs-modal__footer">
