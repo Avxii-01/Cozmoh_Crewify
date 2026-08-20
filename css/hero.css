@@ -359,13 +359,14 @@
 }
 
 .client-strip__heading {
-  font-size: 0.875rem;
+  font-size: clamp(0.68rem, 0.62rem + 0.28vw, 0.875rem);
+  line-height: 1.4;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1.2px, 0.12em, 2px);
   color: rgba(255, 255, 255, 0.55);
   text-align: center;
-  margin-bottom: var(--space-lg);
+  margin-bottom: clamp(var(--space-sm), 1.5vw, var(--space-lg));
   max-width: var(--container-max-width);
   width: 100%;
   padding: 0 var(--space-md);
