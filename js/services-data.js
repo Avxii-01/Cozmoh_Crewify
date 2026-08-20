@@ -20,7 +20,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Essential",
         ctaText: "Get Started →",
-        ctaLink: "contact.html?service=seo&plan=starter",
+        ctaLink: "index.html#contact",
         features: [
           "Up to 20 Target Keywords",
           "Comprehensive Technical SEO Audit",
@@ -40,7 +40,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Accelerate Growth →",
-        ctaLink: "contact.html?service=seo&plan=growth",
+        ctaLink: "index.html#contact",
         features: [
           "Up to 50 Target Keywords",
           "Advanced Technical & Schema SEO",
@@ -62,7 +62,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Schedule Consultation →",
-        ctaLink: "contact.html?service=seo&plan=enterprise",
+        ctaLink: "index.html#contact",
         features: [
           "Unlimited / 100+ Target Keywords",
           "Enterprise Programmatic SEO Architecture",
@@ -95,7 +95,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Starter",
         ctaText: "Start Building →",
-        ctaLink: "contact.html?service=web-development&plan=starter",
+        ctaLink: "index.html#contact",
         features: [
           "Custom 5-Page Responsive Website",
           "Mobile-First Clean Codebase",
@@ -115,7 +115,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Build Your Platform →",
-        ctaLink: "contact.html?service=web-development&plan=growth",
+        ctaLink: "index.html#contact",
         features: [
           "Custom 10–15 Page Bespoke Architecture",
           "CMS Integration (WordPress / Next.js / Headless)",
@@ -137,7 +137,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Discuss Architecture →",
-        ctaLink: "contact.html?service=web-development&plan=enterprise",
+        ctaLink: "index.html#contact",
         features: [
           "Fully Custom Web Application / SaaS",
           "Full-Stack Database & Authentication",
@@ -170,7 +170,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Starter",
         ctaText: "Launch Campaigns →",
-        ctaLink: "contact.html?service=ppc&plan=starter",
+        ctaLink: "index.html#contact",
         features: [
           "Google Ads OR Meta Ads Management",
           "Up to ₹1,50,000 Monthly Ad Spend Scope",
@@ -190,7 +190,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Scale Ad Spend →",
-        ctaLink: "contact.html?service=ppc&plan=growth",
+        ctaLink: "index.html#contact",
         features: [
           "Google Search, Performance Max & Meta Ads",
           "Up to ₹5,00,000 Monthly Ad Spend Scope",
@@ -212,7 +212,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Request Proposal →",
-        ctaLink: "contact.html?service=ppc&plan=enterprise",
+        ctaLink: "index.html#contact",
         features: [
           "Omnichannel (Google, Meta, LinkedIn, YouTube)",
           "Unlimited Ad Spend Management",
@@ -245,7 +245,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Essential",
         ctaText: "Get Started →",
-        ctaLink: "contact.html?service=whatsapp&plan=starter",
+        ctaLink: "index.html#contact",
         features: [
           "Official WhatsApp Business API Setup",
           "Green Tick Verification Assistance",
@@ -265,7 +265,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Automate Your Flow →",
-        ctaLink: "contact.html?service=whatsapp&plan=growth",
+        ctaLink: "index.html#contact",
         features: [
           "Interactive Multi-Step Chatbot Workflows",
           "E-Commerce Cart Recovery & Order Updates",
@@ -287,7 +287,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Custom AI Solution →",
-        ctaLink: "contact.html?service=whatsapp&plan=enterprise",
+        ctaLink: "index.html#contact",
         features: [
           "Custom ChatGPT / Claude AI Agent Integration",
           "Complex Two-Way API & Database Sync",

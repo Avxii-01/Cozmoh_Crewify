@@ -17,23 +17,25 @@ const NAV_CONFIG = {
     homeUrl: 'index.html'
   },
   items: [
-    { label: 'Home', url: 'index.html', id: 'home' },
-    { label: 'Services', url: 'services.html', id: 'services' },
-    { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies' },
+    { label: 'Home', url: 'index.html', id: 'home', enabled: true },
+    { label: 'Services', url: 'services.html', id: 'services', enabled: true },
+    { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies', enabled: true },
     { 
       label: 'White-Label', 
       id: 'white-label',
+      enabled: false,
       dropdown: [
-        { label: 'SEO', url: 'white-label/seo.html', id: 'seo' },
-        { label: 'Website Development', url: 'white-label/website-development.html', id: 'website-development' }
+        { label: 'SEO', url: 'white-label/seo.html', id: 'seo', enabled: false },
+        { label: 'Website Development', url: 'white-label/website-development.html', id: 'website-development', enabled: false }
       ]
     },
-    { label: 'Free Resources', url: 'free-resources.html', id: 'free-resources' }
+    { label: 'Free Resources', url: 'free-resources.html', id: 'free-resources', enabled: false }
   ],
   cta: {
     label: 'Book a Discovery Call',
-    url: 'contact.html',
-    id: 'contact'
+    url: 'index.html#contact',
+    id: 'contact',
+    enabled: true
   }
 };
 
@@ -41,45 +43,83 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('.header');
   const toggleBtn = document.querySelector('.navbar__toggle');
   const navMenu = document.querySelector('.navbar__menu');
-  const dropdownItems = document.querySelectorAll('.navbar__item--dropdown');
+  const navbarActions = document.querySelector('.navbar__actions');
 
-  // 1. Determine Current Page Active State
+  // Determine if current view is homepage
   const currentPath = window.location.pathname.toLowerCase();
-  
-  const updateActiveStates = () => {
-    const navLinks = document.querySelectorAll('.navbar__link');
-    const dropdownLinks = document.querySelectorAll('.navbar__dropdown-link');
+  const isHomePage = currentPath === '/' || 
+    currentPath.endsWith('/index.html') || 
+    currentPath.endsWith('/crewify/') || 
+    currentPath.endsWith('/crewify') ||
+    currentPath.split('/').filter(Boolean).pop() === 'index.html' ||
+    currentPath.split('/').filter(Boolean).pop() === '';
 
-    // Determine if current view is homepage
-    const isHomePage = currentPath === '/' || 
-      currentPath.endsWith('/index.html') || 
-      currentPath.endsWith('/crewify/') || 
-      currentPath.endsWith('/crewify') ||
-      currentPath.split('/').filter(Boolean).pop() === 'index.html';
+  // 1. Dynamic Rendering & Filtering of Navigation Items based on NAV_CONFIG
+  const renderNavMenu = () => {
+    if (!navMenu) return;
 
-    dropdownLinks.forEach(link => {
-      const href = link.getAttribute('href')?.toLowerCase() || '';
-      if (href && !isHomePage && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
-        link.classList.add('navbar__dropdown-link--active');
-        link.closest('.navbar__item--dropdown')?.querySelector('.navbar__link')?.classList.add('navbar__link--active');
-      }
-    });
+    const itemsHTML = NAV_CONFIG.items
+      .filter(item => item.enabled)
+      .map(item => {
+        if (item.dropdown && item.dropdown.length > 0) {
+          const enabledChildren = item.dropdown.filter(child => child.enabled);
+          if (enabledChildren.length === 0) return ''; // Hide dropdown if no children are enabled
 
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href')?.toLowerCase() || '';
-      if (href === 'index.html') {
-        if (isHomePage) {
-          link.classList.add('navbar__link--active');
-        } else {
-          link.classList.remove('navbar__link--active');
+          const isParentActive = enabledChildren.some(child => 
+            !isHomePage && (currentPath.endsWith(child.url) || currentPath.includes(child.url.replace('.html', '')))
+          );
+
+          return `
+            <li class="navbar__item navbar__item--dropdown">
+              <a href="#" class="navbar__link navbar__link--dropdown-trigger ${isParentActive ? 'navbar__link--active' : ''}" aria-haspopup="true" aria-expanded="false">
+                ${item.label} <span class="navbar__caret" aria-hidden="true">▼</span>
+              </a>
+              <ul class="navbar__dropdown" aria-label="${item.label} submenu">
+                ${enabledChildren.map(child => {
+                  const isChildActive = !isHomePage && (currentPath.endsWith(child.url) || currentPath.includes(child.url.replace('.html', '')));
+                  return `
+                    <li class="navbar__dropdown-item">
+                      <a href="${child.url}" class="navbar__dropdown-link ${isChildActive ? 'navbar__dropdown-link--active' : ''}">${child.label}</a>
+                    </li>
+                  `;
+                }).join('')}
+              </ul>
+            </li>
+          `;
         }
-      } else if (href && href !== '#' && !isHomePage && (currentPath.endsWith(href) || currentPath.includes(href.replace('.html', '')))) {
-        link.classList.add('navbar__link--active');
-      }
-    });
+
+        const isCurrent = (item.url === 'index.html' && isHomePage) || 
+          (item.url !== 'index.html' && !isHomePage && (currentPath.endsWith(item.url) || currentPath.includes(item.url.replace('.html', ''))));
+
+        return `
+          <li class="navbar__item">
+            <a href="${item.url}" class="navbar__link ${isCurrent ? 'navbar__link--active' : ''}">${item.label}</a>
+          </li>
+        `;
+      }).join('');
+
+    const ctaTargetUrl = isHomePage ? '#contact' : NAV_CONFIG.cta.url;
+    const ctaHTML = NAV_CONFIG.cta.enabled ? `
+      <li class="navbar__item navbar__mobile-cta">
+        <a href="${ctaTargetUrl}" class="btn btn--primary" style="width: 100%;">${NAV_CONFIG.cta.label}</a>
+      </li>
+    ` : '';
+
+    navMenu.innerHTML = itemsHTML + ctaHTML;
+
+    // Update Desktop Actions CTA if present
+    if (navbarActions && NAV_CONFIG.cta.enabled) {
+      navbarActions.innerHTML = `
+        <a href="${ctaTargetUrl}" class="btn btn--nav-cta">
+          ${NAV_CONFIG.cta.label}
+        </a>
+      `;
+    }
   };
 
-  updateActiveStates();
+  renderNavMenu();
+
+  const dropdownItems = document.querySelectorAll('.navbar__item--dropdown');
 
   // 2. Sticky Header Glass Effect on Scroll
   const handleScroll = () => {

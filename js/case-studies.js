@@ -169,8 +169,133 @@ function initCaseStudiesSection() {
 
   if (!gridContainer) return;
 
-  // 1. Initial Render with default filter
+  // Category Mapping Table
+  const categoryMap = {
+    'seo': 'SEO',
+    'web-development': 'Web Development',
+    'web development': 'Web Development',
+    'web': 'Web Development',
+    'google-ads': 'Google Ads',
+    'google ads': 'Google Ads',
+    'ppc': 'Google Ads',
+    'ppc-management': 'Google Ads',
+    'whatsapp-automation': 'WhatsApp Automation',
+    'whatsapp automation': 'WhatsApp Automation',
+    'whatsapp': 'WhatsApp Automation',
+    'wordpress': 'WordPress',
+    'shopify': 'Shopify'
+  };
+
+  // Helper to resolve category from query parameter or hash
+  const resolveCategoryFilter = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('category') || urlParams.get('filter');
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+
+    if (filterParam) {
+      const cleanParam = filterParam.toLowerCase();
+      if (categoryMap[cleanParam]) return categoryMap[cleanParam];
+      const match = Array.from(filterBtns).find(btn => 
+        btn.getAttribute('data-filter')?.toLowerCase() === cleanParam
+      );
+      if (match) return match.getAttribute('data-filter');
+    }
+
+    if (hash && categoryMap[hash]) {
+      return categoryMap[hash];
+    }
+
+    return 'all';
+  };
+
+  const initialFilter = resolveCategoryFilter();
+  if (initialFilter && initialFilter !== 'all') {
+    currentFilter = initialFilter;
+    const matchingBtn = Array.from(filterBtns).find(btn => 
+      btn.getAttribute('data-filter')?.toLowerCase() === initialFilter.toLowerCase()
+    );
+    if (matchingBtn) {
+      filterBtns.forEach(b => {
+        const isSelected = (b === matchingBtn);
+        b.classList.toggle('is-active', isSelected);
+        b.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      });
+
+      // Auto-scroll filter list rail on load so the selected filter is centered in view
+      const filterList = matchingBtn.closest('.cs-filter-list');
+      if (filterList) {
+        setTimeout(() => {
+          const listItem = matchingBtn.parentElement;
+          const targetEl = (listItem && listItem.tagName === 'LI') ? listItem : matchingBtn;
+          const targetScroll = targetEl.offsetLeft - (filterList.clientWidth / 2) + (targetEl.offsetWidth / 2);
+          filterList.scrollTo({
+            left: targetScroll,
+            behavior: 'smooth'
+          });
+        }, 100);
+      }
+    }
+  }
+
+  // 1. Initial Render with determined filter
   renderCaseStudiesGrid(currentFilter);
+
+  // Helper to scroll accurately to target listing section with sticky navbar offset & breathing room
+  const scrollToTarget = (targetEl) => {
+    if (!targetEl) return;
+    const header = document.querySelector('.header');
+    const headerHeight = header ? header.offsetHeight : 84;
+    const offsetPadding = 24; // Visual breathing room
+    const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = Math.max(0, elementPosition - headerHeight - offsetPadding);
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+  };
+
+  // Check if page was loaded with a deep link (category param or listing hash)
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasDeepLink = urlParams.has('category') || urlParams.has('filter') || window.location.hash.length > 1;
+
+  if (hasDeepLink) {
+    // Wait until masonry cards are painted into DOM
+    setTimeout(() => {
+      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+      const targetEl = document.getElementById(hash) || 
+                       document.getElementById('case-studies-grid') || 
+                       document.getElementById('csGridView');
+      scrollToTarget(targetEl);
+    }, 120);
+  }
+
+  // Handle browser back/forward and dynamic hash updates
+  window.addEventListener('hashchange', () => {
+    const newCategory = resolveCategoryFilter();
+    if (newCategory && newCategory !== currentFilter) {
+      currentFilter = newCategory;
+      const matchingBtn = Array.from(filterBtns).find(btn => 
+        btn.getAttribute('data-filter')?.toLowerCase() === currentFilter.toLowerCase()
+      );
+      if (matchingBtn) {
+        filterBtns.forEach(b => {
+          const isSelected = (b === matchingBtn);
+          b.classList.toggle('is-active', isSelected);
+          b.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        });
+      }
+      renderCaseStudiesGrid(currentFilter);
+    }
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+    const targetEl = document.getElementById(hash) || 
+                     document.getElementById('case-studies-grid') || 
+                     document.getElementById('csGridView');
+    if (targetEl) {
+      scrollToTarget(targetEl);
+    }
+  });
 
   // 2. Filter Navigation Clicks & Auto-Scroll into View
   filterBtns.forEach(btn => {
@@ -507,7 +632,7 @@ function createModalContentHTML(item) {
         <button type="button" class="btn btn--secondary cs-modal__back-btn" id="csModalBottomCloseBtn">
           ← Back to Case Studies
         </button>
-        <a href="contact.html" class="btn btn--primary cs-modal__contact-btn">
+        <a href="index.html#contact" class="btn btn--primary cs-modal__contact-btn">
           Book a Discovery Call <span aria-hidden="true">→</span>
         </a>
       </div>

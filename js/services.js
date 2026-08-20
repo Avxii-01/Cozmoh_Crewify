@@ -17,17 +17,87 @@ function initServicesInteraction() {
 
   if (!serviceCards.length || !pricingGrid) return;
 
-  // Retrieve service from URL param or default to 'seo'
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialService = urlParams.get('service') && servicesData[urlParams.get('service')] 
-    ? urlParams.get('service') 
-    : 'seo';
+  // Service Mapping Table
+  const serviceMap = {
+    'seo': 'seo',
+    'web-development': 'web-development',
+    'web-dev': 'web-development',
+    'web': 'web-development',
+    'ppc': 'ppc',
+    'ppc-management': 'ppc',
+    'google-ads': 'ppc',
+    'whatsapp': 'whatsapp',
+    'whatsapp-automation': 'whatsapp'
+  };
 
-  let currentService = initialService;
+  // Helper to resolve service from URL query parameter or hash
+  const resolveServiceKey = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get('service')?.toLowerCase();
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+
+    if (queryParam && serviceMap[queryParam] && servicesData[serviceMap[queryParam]]) {
+      return serviceMap[queryParam];
+    }
+    if (hash && serviceMap[hash] && servicesData[serviceMap[hash]]) {
+      return serviceMap[hash];
+    }
+    return 'seo';
+  };
+
+  let currentService = resolveServiceKey();
 
   // Render initial packages immediately without scroll
   updateActiveCardState(currentService);
   renderPackages(currentService, false);
+
+  // Helper to scroll accurately to a target element with dynamic sticky navbar offset & breathing room
+  const scrollToTarget = (targetEl) => {
+    if (!targetEl) return;
+    const header = document.querySelector('.header');
+    const headerHeight = header ? header.offsetHeight : 84;
+    const offsetPadding = 24; // Comfortable visual breathing room
+    const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = Math.max(0, elementPosition - headerHeight - offsetPadding);
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+  };
+
+  // Check if page was loaded via direct deep-link (hash or service param)
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasDeepLink = urlParams.has('service') || window.location.hash.length > 1;
+
+  if (hasDeepLink) {
+    // Wait until initial DOM painting and package markup are ready
+    setTimeout(() => {
+      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+      const targetEl = document.getElementById(hash) || 
+                       document.querySelector(`[data-service="${currentService}"]`) || 
+                       document.getElementById('services-overview');
+      scrollToTarget(targetEl);
+    }, 120);
+  }
+
+  // Handle browser back/forward and dynamic hash updates
+  window.addEventListener('hashchange', () => {
+    const newService = resolveServiceKey();
+    if (newService && newService !== currentService) {
+      currentService = newService;
+      updateActiveCardState(currentService);
+      renderPackages(currentService, true);
+    }
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+    const targetEl = document.getElementById(hash) || 
+                     document.querySelector(`[data-service="${currentService}"]`) || 
+                     document.getElementById('services-overview');
+    if (targetEl) {
+      scrollToTarget(targetEl);
+    }
+  });
 
   // Handle service selection helper
   const handleSelectService = (selectedService) => {
@@ -81,19 +151,7 @@ function initServicesInteraction() {
    */
   function smoothScrollToPackages() {
     if (!pricingSection) return;
-    const rect = pricingSection.getBoundingClientRect();
-    const isAboveOrBelow = rect.top > (window.innerHeight - 150) || rect.top < 0;
-    
-    if (isAboveOrBelow) {
-      const headerOffset = 90;
-      const elementPosition = rect.top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    scrollToTarget(pricingSection);
   }
 
   /**
