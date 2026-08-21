@@ -173,7 +173,7 @@
 }
 
 /* ==========================================================================
-   HERO RIGHT COLUMN - TAILORED MONOCHROME CLIENT SHOWCASE
+   HERO RIGHT COLUMN - ASYMMETRIC ORGANIC BRAND CONSTELLATION
    ========================================================================== */
 
 .cs-hero__visual {
@@ -184,191 +184,256 @@
   width: 100%;
 }
 
-.cs-showcase {
+.cs-constellation {
   position: relative;
   width: 100%;
-  max-width: 610px;
-  height: 490px;
+  max-width: 580px;
+  height: 440px;
+  margin-left: auto;
 }
 
-.cs-showcase__glow {
+.cs-constellation__glow {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 540px;
-  height: 420px;
+  width: 520px;
+  height: 380px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(130, 70, 230, 0.11) 0%, rgba(100, 50, 180, 0.03) 48%, transparent 74%);
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.12) 0%, rgba(109, 40, 217, 0.03) 50%, transparent 72%);
   filter: blur(65px);
   pointer-events: none;
   z-index: 0;
 }
 
-.cs-brand-card {
+.cs-constellation__node {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(22, 18, 34, 0.68) 0%, rgba(12, 10, 20, 0.78) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 220ms ease,
-    box-shadow 220ms ease;
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
   user-select: none;
   z-index: 2;
-  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
 }
 
-.cs-brand-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at center, rgba(140, 75, 255, 0.08) 0%, transparent 68%);
-  pointer-events: none;
-  transition: opacity 220ms ease;
+.cs-constellation__node:hover {
+  transform: translateY(-3px) scale(1.04);
+  z-index: 10;
 }
 
-.cs-brand-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(167, 139, 250, 0.45);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 22px var(--color-primary-glow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  z-index: 10 !important;
-}
-
-.cs-brand-card:hover::before {
-  opacity: 1;
-  background: radial-gradient(circle at center, rgba(167, 139, 250, 0.16) 0%, transparent 70%);
-}
-
-.cs-brand-card__img {
+.cs-constellation__img {
   width: auto;
   object-fit: contain;
   display: block;
-  filter: brightness(0) invert(0.96);
-  transition: opacity 220ms ease, filter 220ms ease;
-  position: relative;
-  z-index: 1;
+  filter: brightness(0) invert(0.92);
+  opacity: 0.82;
+  transition: filter 0.28s ease, opacity 0.28s ease;
 }
 
-.cs-brand-card:hover .cs-brand-card__img {
+.cs-constellation__node:hover .cs-constellation__img {
   opacity: 1 !important;
-  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+  filter: brightness(0) invert(1) drop-shadow(0 0 14px rgba(167, 139, 250, 0.5));
 }
 
-/* 7 Brand Position Classes */
-.cs-brand-card--focal-royal {
-  top: 195px;
-  left: 185px;
-  width: 240px;
-  height: 92px;
-  padding: 22px 36px;
-  border-color: rgba(167, 139, 250, 0.35);
-  background: linear-gradient(135deg, rgba(30, 24, 48, 0.85) 0%, rgba(16, 13, 26, 0.92) 100%);
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65), 0 0 32px rgba(139, 92, 246, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+/* 7 Asymmetric Organic Constellation Coordinates (No boxes, no grid, no symmetry) */
+
+/* 1. Anchor Logo: Royal Caribbean (Central anchor, subtle natural offset) */
+.cs-constellation__node--anchor {
+  top: 172px;
+  left: 170px;
   z-index: 5;
 }
 
-.cs-brand-card--focal-royal .cs-brand-card__img {
+.cs-constellation__img--anchor {
   max-height: 52px;
-  max-width: 175px;
-  opacity: 1;
+  max-width: 195px;
+  opacity: 0.95;
   filter: brightness(0) invert(1);
 }
 
-.cs-brand-card--kims {
-  top: 30px;
-  left: 25px;
-  width: 190px;
-  height: 74px;
-  padding: 18px 30px;
+/* 2. KIMS Hospitals (Top-Left) */
+.cs-constellation__node--kims {
+  top: 22px;
+  left: 30px;
   z-index: 4;
 }
 
-.cs-brand-card--kims .cs-brand-card__img {
-  max-height: 40px;
-  max-width: 135px;
-  opacity: 0.88;
+.cs-constellation__img--kims {
+  max-height: 42px;
+  max-width: 145px;
+  opacity: 0.85;
 }
 
-.cs-brand-card--wockhardt {
-  top: 20px;
-  right: 45px;
-  width: 155px;
-  height: 80px;
-  padding: 16px 24px;
+/* 3. Wockhardt (Top-Right, offset) */
+.cs-constellation__node--wockhardt {
+  top: 15px;
+  right: 35px;
   z-index: 4;
 }
 
-.cs-brand-card--wockhardt .cs-brand-card__img {
-  max-height: 44px;
-  max-width: 110px;
-  opacity: 0.88;
+.cs-constellation__img--wockhardt {
+  max-height: 48px;
+  max-width: 120px;
+  opacity: 0.85;
 }
 
-.cs-brand-card--travezy {
-  top: 145px;
-  left: 5px;
-  width: 160px;
-  height: 68px;
-  padding: 16px 26px;
-  z-index: 4;
-}
-
-.cs-brand-card--travezy .cs-brand-card__img {
-  max-height: 36px;
-  max-width: 112px;
-  opacity: 0.88;
-}
-
-.cs-brand-card--celebrity {
-  top: 135px;
-  right: 10px;
-  width: 180px;
-  height: 70px;
-  padding: 16px 28px;
+/* 4. Travezy (Mid-Left, floating naturally) */
+.cs-constellation__node--travezy {
+  top: 155px;
+  left: 10px;
   z-index: 3;
 }
 
-.cs-brand-card--celebrity .cs-brand-card__img {
-  max-height: 40px;
-  max-width: 128px;
-  opacity: 0.80;
-}
-
-.cs-brand-card--acktive {
-  top: 300px;
-  left: 20px;
-  width: 195px;
-  height: 74px;
-  padding: 18px 30px;
-  z-index: 3;
-}
-
-.cs-brand-card--acktive .cs-brand-card__img {
+.cs-constellation__img--travezy {
   max-height: 38px;
-  max-width: 140px;
-  opacity: 0.80;
+  max-width: 130px;
+  opacity: 0.78;
 }
 
-.cs-brand-card--maheshwari {
-  top: 295px;
-  right: 30px;
-  width: 185px;
-  height: 72px;
-  padding: 16px 28px;
+/* 5. Celebrity Cruises (Mid-Right, staggered elevation) */
+.cs-constellation__node--celebrity {
+  top: 140px;
+  right: 15px;
   z-index: 3;
 }
 
-.cs-brand-card--maheshwari .cs-brand-card__img {
+.cs-constellation__img--celebrity {
+  max-height: 44px;
+  max-width: 165px;
+  opacity: 0.85;
+}
+
+/* 6. Acktive Vision (Lower Mid-Left) */
+.cs-constellation__node--acktive {
+  top: 305px;
+  left: 55px;
+  z-index: 3;
+}
+
+.cs-constellation__img--acktive {
   max-height: 40px;
-  max-width: 135px;
+  max-width: 155px;
   opacity: 0.80;
+}
+
+/* 7. Maheshwari (Lower-Right, vertically offset) */
+.cs-constellation__node--maheshwari {
+  top: 280px;
+  right: 35px;
+  z-index: 3;
+}
+
+.cs-constellation__img--maheshwari {
+  max-height: 46px;
+  max-width: 165px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET HORIZONTAL CLIENT STRIP (<= 992px)
+   ========================================================================== */
+
+.cs-hero__mobile-strip {
+  display: none;
+}
+
+@keyframes csMarqueeInfinite {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.cs-hero__mobile-strip .client-strip {
+  width: 100%;
+  padding-top: clamp(45px, 4vw, 50px);
+  padding-bottom: 8px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.cs-hero__mobile-strip .client-strip__heading {
+  font-size: clamp(0.68rem, 0.62rem + 0.28vw, 0.82rem);
+  line-height: 1.4;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: clamp(1.2px, 0.12em, 2px);
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.cs-hero__mobile-strip .client-strip__marquee {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.cs-hero__mobile-strip .client-strip__track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: max-content;
+  will-change: transform;
+  animation: csMarqueeInfinite 38s linear infinite;
+}
+
+.cs-hero__mobile-strip .client-strip__list {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.cs-hero__mobile-strip .client-strip__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 64px;
+  padding: 6px 10px;
+}
+
+.cs-hero__mobile-strip .client-strip__logo {
+  max-height: 38px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: brightness(0) invert(0.92);
+  display: block;
+}
+
+.cs-hero__mobile-strip .client-strip__logo--wide {
+  max-height: 36px;
+  max-width: 150px;
+}
+
+.cs-hero__mobile-strip .client-strip__logo--square {
+  max-height: 38px;
+  max-width: 95px;
+}
+
+.cs-hero__mobile-strip .client-strip__logo--compact {
+  max-height: 32px;
+  max-width: 115px;
 }
 
 /* ==========================================================================
@@ -802,15 +867,23 @@
   transition: height 0.15s ease, background-color 0.15s ease;
 }
 
-.cs-audio-player__btn.is-playing ~ .cs-audio-player__waveform .cs-waveform-bar {
+.cs-audio-player__btn.is-playing~.cs-audio-player__waveform .cs-waveform-bar {
   background: #8B5CF6;
   animation: csWavePulse 1.1s ease-in-out infinite alternate;
 }
 
 @keyframes csWavePulse {
-  0% { height: 4px; }
-  50% { height: 22px; }
-  100% { height: 6px; }
+  0% {
+    height: 4px;
+  }
+
+  50% {
+    height: 22px;
+  }
+
+  100% {
+    height: 6px;
+  }
 }
 
 .cs-audio-player__time {
@@ -1072,8 +1145,8 @@
   display: flex;
   flex-direction: column;
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 260ms ease,
-              box-shadow 260ms ease;
+    border-color 260ms ease,
+    box-shadow 260ms ease;
   outline: none;
 }
 
@@ -1545,37 +1618,52 @@ body.modal-open {
 @media (max-width: 1100px) {
   .cs-hero__container {
     gap: var(--space-2xl);
-    grid-template-columns: 1fr 1.18fr;
+    grid-template-columns: 1fr 1.15fr;
   }
 
   .cs-hero__title {
     font-size: 3.6rem;
   }
 
-  .cs-showcase {
-    height: 430px;
-    max-width: 530px;
+  .cs-constellation {
+    height: 390px;
+    max-width: 480px;
   }
 
-  .cs-brand-card--focal-royal {
-    top: 170px;
-    left: 155px;
-    width: 215px;
-    height: 82px;
-    padding: 18px 28px;
+  .cs-constellation__node--anchor {
+    top: 150px;
+    left: 140px;
   }
 
-  .cs-brand-card--focal-royal .cs-brand-card__img {
-    max-height: 44px;
-    max-width: 150px;
+  .cs-constellation__node--kims {
+    top: 18px;
+    left: 20px;
   }
 
-  .cs-brand-card--kims { top: 22px; left: 15px; width: 170px; height: 66px; }
-  .cs-brand-card--wockhardt { top: 15px; right: 25px; width: 140px; height: 70px; }
-  .cs-brand-card--travezy { top: 125px; left: 0px; width: 142px; height: 60px; }
-  .cs-brand-card--celebrity { top: 120px; right: 5px; width: 160px; height: 62px; }
-  .cs-brand-card--acktive { top: 265px; left: 15px; width: 175px; height: 66px; }
-  .cs-brand-card--maheshwari { top: 260px; right: 20px; width: 165px; height: 64px; }
+  .cs-constellation__node--wockhardt {
+    top: 12px;
+    right: 25px;
+  }
+
+  .cs-constellation__node--travezy {
+    top: 135px;
+    left: 0px;
+  }
+
+  .cs-constellation__node--celebrity {
+    top: 125px;
+    right: 10px;
+  }
+
+  .cs-constellation__node--acktive {
+    top: 270px;
+    left: 40px;
+  }
+
+  .cs-constellation__node--maheshwari {
+    top: 250px;
+    right: 25px;
+  }
 
   .cs-credibility__grid {
     gap: 40px;
@@ -1591,11 +1679,12 @@ body.modal-open {
   .cs-hero {
     min-height: auto;
     padding-top: calc(var(--header-height) + var(--space-2xl));
+    padding-bottom: var(--space-2xl);
   }
 
   .cs-hero__container {
     grid-template-columns: 1fr;
-    gap: var(--space-3xl);
+    gap: var(--space-xl);
     text-align: center;
   }
 
@@ -1614,8 +1703,12 @@ body.modal-open {
     justify-content: center;
   }
 
-  .cs-showcase {
-    margin: 0 auto;
+  .cs-hero__visual {
+    display: none;
+  }
+
+  .cs-hero__mobile-strip {
+    display: block;
   }
 
   .cs-credibility {
@@ -1705,48 +1798,6 @@ body.modal-open {
   .cs-hero__cta-group .btn {
     width: 100%;
   }
-
-  /* Compact Asymmetric Showcase on Mobile */
-  .cs-showcase {
-    height: 320px;
-    max-width: 340px;
-    margin: var(--space-lg) auto 0 auto;
-  }
-
-  .cs-brand-card--focal-royal {
-    top: 110px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 195px;
-    height: 68px;
-    padding: 12px 22px;
-  }
-
-  .cs-brand-card--focal-royal .cs-brand-card__img {
-    max-height: 38px;
-    max-width: 140px;
-  }
-
-  .cs-brand-card--focal-royal:hover {
-    transform: translateX(-50%) translateY(-2px);
-  }
-
-  .cs-brand-card--kims { top: 12px; left: 8px; width: 145px; height: 56px; padding: 10px 16px; }
-  .cs-brand-card--kims .cs-brand-card__img { max-height: 28px; max-width: 105px; }
-
-  .cs-brand-card--wockhardt { top: 10px; right: 8px; width: 135px; height: 58px; padding: 10px 14px; }
-  .cs-brand-card--wockhardt .cs-brand-card__img { max-height: 32px; max-width: 95px; }
-
-  .cs-brand-card--travezy { display: none; }
-
-  .cs-brand-card--celebrity { top: 95px; right: 0; width: 140px; height: 54px; padding: 10px 16px; }
-  .cs-brand-card--celebrity .cs-brand-card__img { max-height: 28px; max-width: 100px; }
-
-  .cs-brand-card--acktive { top: 200px; left: 8px; width: 148px; height: 56px; padding: 10px 16px; }
-  .cs-brand-card--acktive .cs-brand-card__img { max-height: 28px; max-width: 108px; }
-
-  .cs-brand-card--maheshwari { top: 195px; right: 8px; width: 145px; height: 56px; padding: 10px 16px; }
-  .cs-brand-card--maheshwari .cs-brand-card__img { max-height: 28px; max-width: 105px; }
 
   /* Credibility Section Mobile */
   .cs-credibility {
@@ -1901,11 +1952,6 @@ body.modal-open {
 @media (max-width: 480px) {
   .cs-hero__title {
     font-size: 2.2rem;
-  }
-
-  .cs-showcase {
-    height: 300px;
-    max-width: 310px;
   }
 
   .cs-testimonial__author {

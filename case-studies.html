@@ -117,52 +117,102 @@
             </div>
           </div>
 
-          <!-- Right Column: Tailored Monochrome Client Brand Showcase -->
+          <!-- Right Column: Organic Brand Constellation (Desktop / Large Viewports) -->
           <div class="cs-hero__visual animate-fade-up-2">
-            <div class="cs-showcase" aria-label="Curated Client Brand Showcase">
-              <!-- Broad Ambient Glow Centered Behind Showcase -->
-              <div class="cs-showcase__glow" aria-hidden="true"></div>
+            <div class="cs-constellation" aria-label="Curated Client Brand Constellation">
+              <!-- Broad Ambient Glow Centered Behind Constellation -->
+              <div class="cs-constellation__glow" aria-hidden="true"></div>
 
-              <!-- 1. Primary Focal Anchor: Royal Caribbean (Center) -->
-              <div class="cs-brand-card cs-brand-card--focal-royal" title="Royal Caribbean">
+              <!-- 1. Anchor Logo: Royal Caribbean (Visual focal anchor, slightly offset from center) -->
+              <div class="cs-constellation__node cs-constellation__node--anchor" title="Royal Caribbean">
                 <img src="assets/logos/Royal_Caribbean_logo_(2024).svg.png" alt="Royal Caribbean Logo"
-                  class="cs-brand-card__img">
+                  class="cs-constellation__img cs-constellation__img--anchor">
               </div>
 
-              <!-- 2. Secondary: KIMS Hospitals (Top-Left) -->
-              <div class="cs-brand-card cs-brand-card--kims" title="KIMS Hospitals">
-                <img src="assets/logos/kimshospitals.png" alt="KIMS Hospitals Logo" class="cs-brand-card__img">
+              <!-- 2. KIMS Hospitals (Upper Left) -->
+              <div class="cs-constellation__node cs-constellation__node--kims" title="KIMS Hospitals">
+                <img src="assets/logos/kimshospitals.png" alt="KIMS Hospitals Logo"
+                  class="cs-constellation__img cs-constellation__img--kims">
               </div>
 
-              <!-- 3. Secondary: Wockhardt / Life Wins (Top-Right) -->
-              <div class="cs-brand-card cs-brand-card--wockhardt" title="Wockhardt">
-                <img src="assets/logos/wockhardtlogo.webp" alt="Wockhardt Logo" class="cs-brand-card__img">
+              <!-- 3. Wockhardt (Upper Right / Offset) -->
+              <div class="cs-constellation__node cs-constellation__node--wockhardt" title="Wockhardt">
+                <img src="assets/logos/wockhardtlogo.webp" alt="Wockhardt Logo"
+                  class="cs-constellation__img cs-constellation__img--wockhardt">
               </div>
 
-              <!-- 4. Secondary: Travezy (Mid-Left) -->
-              <div class="cs-brand-card cs-brand-card--travezy" title="Travezy">
-                <img src="assets/logos/travezy.png" alt="Travezy Logo" class="cs-brand-card__img">
+              <!-- 4. Travezy (Mid Left / Natural organic elevation) -->
+              <div class="cs-constellation__node cs-constellation__node--travezy" title="Travezy">
+                <img src="assets/logos/travezy.png" alt="Travezy Logo"
+                  class="cs-constellation__img cs-constellation__img--travezy">
               </div>
 
-              <!-- 5. Supporting: Celebrity Cruises (Mid-Right) -->
-              <div class="cs-brand-card cs-brand-card--celebrity" title="Celebrity Cruises">
-                <img src="assets/logos/celebrity-cruises.png" alt="Celebrity Cruises Logo" class="cs-brand-card__img">
+              <!-- 5. Celebrity Cruises (Mid Right / Staggered) -->
+              <div class="cs-constellation__node cs-constellation__node--celebrity" title="Celebrity Cruises">
+                <img src="assets/logos/celebrity-cruises.png" alt="Celebrity Cruises Logo"
+                  class="cs-constellation__img cs-constellation__img--celebrity">
               </div>
 
-              <!-- 6. Supporting: Acktive Vision (Lower-Left) -->
-              <div class="cs-brand-card cs-brand-card--acktive" title="Acktive Vision">
+              <!-- 6. Acktive Vision (Lower Left / Deep Offset) -->
+              <div class="cs-constellation__node cs-constellation__node--acktive" title="Acktive Vision">
                 <img src="assets/logos/acktive-vision-logo-Final-e1771914753291.png" alt="Acktive Vision Logo"
-                  class="cs-brand-card__img">
+                  class="cs-constellation__img cs-constellation__img--acktive">
               </div>
 
-              <!-- 7. Supporting: Maheshwari (Lower-Right) -->
-              <div class="cs-brand-card cs-brand-card--maheshwari" title="Maheshwari">
-                <img src="assets/logos/maishwari.png" alt="Maheshwari Logo" class="cs-brand-card__img">
+              <!-- 7. Maheshwari (Lower Right / Shifted Elevation) -->
+              <div class="cs-constellation__node cs-constellation__node--maheshwari" title="Maheshwari">
+                <img src="assets/logos/maishwari.png" alt="Maheshwari Logo"
+                  class="cs-constellation__img cs-constellation__img--maheshwari">
               </div>
 
             </div>
           </div>
 
+        </div>
+      </div>
+
+      <!-- Mobile & Tablet Horizontal Client Strip (<= 992px) -->
+      <div class="cs-hero__mobile-strip animate-fade-up-3">
+        <div class="client-strip">
+
+          <div class="client-strip__marquee">
+            <div class="client-strip__track">
+              <!-- Set 1 -->
+              <ul class="client-strip__list">
+                <li class="client-strip__item"><img src="assets/logos/Royal_Caribbean_logo_(2024).svg.png"
+                    alt="Royal Caribbean" class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/kimshospitals.png" alt="KIMS Hospital"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/wockhardtlogo.webp" alt="Wockhardt"
+                    class="client-strip__logo client-strip__logo--square"></li>
+                <li class="client-strip__item"><img src="assets/logos/travezy.png" alt="Travezy"
+                    class="client-strip__logo client-strip__logo--compact"></li>
+                <li class="client-strip__item"><img src="assets/logos/celebrity-cruises.png" alt="Celebrity Cruises"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/acktive-vision-logo-Final-e1771914753291.png"
+                    alt="Acktive Vision" class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/maishwari.png" alt="Maheshwari"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+              </ul>
+              <!-- Set 2 (Duplicate for Seamless Infinite Marquee) -->
+              <ul class="client-strip__list" aria-hidden="true">
+                <li class="client-strip__item"><img src="assets/logos/Royal_Caribbean_logo_(2024).svg.png"
+                    alt="Royal Caribbean" class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/kimshospitals.png" alt="KIMS Hospital"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/wockhardtlogo.webp" alt="Wockhardt"
+                    class="client-strip__logo client-strip__logo--square"></li>
+                <li class="client-strip__item"><img src="assets/logos/travezy.png" alt="Travezy"
+                    class="client-strip__logo client-strip__logo--compact"></li>
+                <li class="client-strip__item"><img src="assets/logos/celebrity-cruises.png" alt="Celebrity Cruises"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/acktive-vision-logo-Final-e1771914753291.png"
+                    alt="Acktive Vision" class="client-strip__logo client-strip__logo--wide"></li>
+                <li class="client-strip__item"><img src="assets/logos/maishwari.png" alt="Maheshwari"
+                    class="client-strip__logo client-strip__logo--wide"></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
