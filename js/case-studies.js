@@ -75,8 +75,16 @@ function initAudioPlayer() {
   const audioBtn = document.getElementById('csCredAudioBtn');
   const waveform = document.getElementById('csCredWaveform');
   const timeDisplay = document.getElementById('csCredTime');
+  let audio = document.getElementById('csCredAudioEl');
 
   if (!audioBtn || !waveform || !timeDisplay) return;
+
+  if (!audio) {
+    audio = new Audio('assets/audio/testimonial_review.ogg');
+    audio.id = 'csCredAudioEl';
+    audio.preload = 'metadata';
+    document.body.appendChild(audio);
+  }
 
   const barHeights = [
     6, 10, 14, 8, 16, 22, 12, 18, 24, 14, 20, 22, 16, 10, 18, 22, 
@@ -93,67 +101,125 @@ function initAudioPlayer() {
   });
 
   const bars = waveform.querySelectorAll('.cs-waveform-bar');
-  let isPlaying = false;
-  let currentSeconds = 24;
-  let playbackSeconds = 0;
-  let playInterval = null;
+  let isSeeking = false;
 
-  audioBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
 
+  function updateProgress() {
+    const currentTime = audio.currentTime || 0;
+    const duration = audio.duration || 0;
+    timeDisplay.textContent = formatTime(currentTime);
+
+    const progress = duration > 0 ? (currentTime / duration) : 0;
+    bars.forEach((bar, idx) => {
+      const barThreshold = (idx + 0.5) / bars.length;
+      if (barThreshold <= progress) {
+        bar.classList.add('is-played');
+      } else {
+        bar.classList.remove('is-played');
+      }
+    });
+  }
+
+  function setPlayState(isPlaying) {
     if (isPlaying) {
       audioBtn.classList.add('is-playing');
       audioBtn.setAttribute('aria-label', 'Pause audio testimonial');
       audioBtn.innerHTML = `
         <svg class="cs-audio-player__icon" viewBox="0 0 24 24" fill="currentColor">
-          <rect x="6" y="4" width="4" height="16"></rect>
-          <rect x="14" y="4" width="4" height="16"></rect>
+          <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+          <rect x="14" y="4" width="4" height="16" rx="1"></rect>
         </svg>
       `;
-
-      playInterval = setInterval(() => {
-        playbackSeconds++;
-        const remaining = Math.max(0, currentSeconds - playbackSeconds);
-        const mins = Math.floor(remaining / 60);
-        const secs = remaining % 60;
-        timeDisplay.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-
-        const progress = playbackSeconds / currentSeconds;
-        bars.forEach((b, idx) => {
-          if (idx / bars.length <= progress) {
-            b.style.backgroundColor = '#C4B5FD';
-          }
-        });
-
-        if (playbackSeconds >= currentSeconds) {
-          stopAudio();
-        }
-      }, 1000);
     } else {
-      pauseAudio();
+      audioBtn.classList.remove('is-playing');
+      audioBtn.setAttribute('aria-label', 'Play audio testimonial');
+      audioBtn.innerHTML = `
+        <svg class="cs-audio-player__icon" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      `;
+    }
+  }
+
+  audioBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().then(() => {
+        setPlayState(true);
+      }).catch(err => {
+        console.warn('Audio playback prevented or error:', err);
+      });
+    } else {
+      audio.pause();
+      setPlayState(false);
     }
   });
 
-  function pauseAudio() {
-    isPlaying = false;
-    audioBtn.classList.remove('is-playing');
-    audioBtn.setAttribute('aria-label', 'Play audio testimonial');
-    audioBtn.innerHTML = `
-      <svg class="cs-audio-player__icon" viewBox="0 0 24 24" fill="currentColor">
-        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-      </svg>
-    `;
-    if (playInterval) clearInterval(playInterval);
+  audio.addEventListener('play', () => setPlayState(true));
+  audio.addEventListener('pause', () => setPlayState(false));
+  audio.addEventListener('timeupdate', () => {
+    if (!isSeeking) {
+      updateProgress();
+    }
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    updateProgress();
+  });
+
+  audio.addEventListener('ended', () => {
+    setPlayState(false);
+    audio.currentTime = 0;
+    updateProgress();
+  });
+
+  // Seeking via Waveform Click & Pointer Drag
+  function seekFromEvent(e) {
+    const rect = waveform.getBoundingClientRect();
+    if (rect.width <= 0) return;
+    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const ratio = clickX / rect.width;
+    if (audio.duration && !isNaN(audio.duration)) {
+      audio.currentTime = ratio * audio.duration;
+      updateProgress();
+    }
   }
 
-  function stopAudio() {
-    pauseAudio();
-    playbackSeconds = 0;
-    timeDisplay.textContent = '0:24';
-    bars.forEach(b => {
-      b.style.backgroundColor = '';
-    });
-  }
+  waveform.addEventListener('pointerdown', (e) => {
+    isSeeking = true;
+    try {
+      waveform.setPointerCapture(e.pointerId);
+    } catch (_) {}
+    seekFromEvent(e);
+  });
+
+  waveform.addEventListener('pointermove', (e) => {
+    if (isSeeking) {
+      seekFromEvent(e);
+    }
+  });
+
+  waveform.addEventListener('pointerup', (e) => {
+    if (isSeeking) {
+      seekFromEvent(e);
+      isSeeking = false;
+      try {
+        waveform.releasePointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+  });
+
+  waveform.addEventListener('pointercancel', () => {
+    isSeeking = false;
+  });
+
+  // Initial display setup
+  updateProgress();
 }
 
 /* ==========================================================================
