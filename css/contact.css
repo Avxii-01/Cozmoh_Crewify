@@ -447,6 +447,33 @@ a.contact-direct__card:hover .contact-direct__icon-box {
   margin-top: 6px;
 }
 
+.contact-form__status {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  transition: all 0.25s ease;
+}
+
+.contact-form__status.is-success {
+  display: flex;
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: #EDE9FE;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
+}
+
+.contact-form__status.is-error {
+  display: flex;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.15);
+}
+
 .contact-form__notice-icon {
   color: #25D366;
   flex-shrink: 0;

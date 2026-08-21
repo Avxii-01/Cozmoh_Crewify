@@ -1,0 +1,8 @@
+# Secrets and Local Environment Configuration
+config/mail.local.php
+.env
+.env.local
+*.log
+
+# Composer dependencies (can be committed or installed via composer install)
+# vendor/

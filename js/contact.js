@@ -1,21 +1,18 @@
 /**
- * contact.js - Modular Contact Form & WhatsApp Submission Logic
+ * contact.js - CREWiiFY Contact Form & Backend Email Submission Logic
  * 
- * Separates:
- * 1. Form Data Collection
- * 2. Client-Side Validation
- * 3. Message Construction
- * 4. WhatsApp Submission Handler
- * 
- * Future Backend Compatibility:
- * When a backend API is added in the future, only the submission step
- * needs to be redirected to fetch('/api/contact', ...) without changing form markup.
+ * Features:
+ * 1. Form Data Collection & Client-Side Validation
+ * 2. Honeypot Spam Protection
+ * 3. Asynchronous Submission to /api/contact.php
+ * 4. Comprehensive Success / Error UX Handling
+ * 5. Independent WhatsApp Float Widget Integration
  */
 
 import { CONTACT_CONFIG, getWhatsAppUrl } from './contact-config.js';
 
 /**
- * Validates the contact form fields
+ * Validates the contact form fields client-side
  * @param {Object} data - Collected form data
  * @returns {Object} { isValid: boolean, errors: Object }
  */
@@ -24,10 +21,10 @@ export function validateContactForm(data) {
 
   // 1. Full Name (Required, minimum 2 characters)
   if (!data.fullName || data.fullName.trim().length < 2) {
-    errors.fullName = 'Please enter your full name.';
+    errors.fullName = 'Please enter your full name (at least 2 characters).';
   }
 
-  // 2. Agency / Company Name (Required)
+  // 2. Agency / Company Name (Required, minimum 2 characters)
   if (!data.agencyName || data.agencyName.trim().length < 2) {
     errors.agencyName = 'Please enter your agency or company name.';
   }
@@ -55,35 +52,13 @@ export function validateContactForm(data) {
 }
 
 /**
- * Constructs the formatted WhatsApp message from validated form data
- * @param {Object} data - Collected form data
- * @returns {string} Formatted plain-text message
- */
-export function formatWhatsAppMessage(data) {
-  const phoneVal = (data.phone && data.phone.trim()) ? data.phone.trim() : 'Not provided';
-  
-  return [
-    `Hi CREWiiFY, I'd like to discuss a project.`,
-    ``,
-    `Name: ${data.fullName.trim()}`,
-    `Agency / Company: ${data.agencyName.trim()}`,
-    `Email: ${data.email.trim()}`,
-    `Phone / WhatsApp: ${phoneVal}`,
-    `Project Type: ${data.projectType.trim()}`,
-    ``,
-    `Project Details:`,
-    `${data.message.trim()}`
-  ].join('\n');
-}
-
-/**
  * Initializes the contact page form and event listeners
  */
 export function initContactForm() {
   const form = document.getElementById('contactPageForm');
   if (!form) return;
 
-  // Render configured direct contact details into UI elements if present
+  // Render configured direct contact details into UI elements
   const emailElem = document.getElementById('contactDirectEmail');
   const phoneElem = document.getElementById('contactDirectPhone');
   const responseElem = document.getElementById('contactDirectResponse');
@@ -100,7 +75,7 @@ export function initContactForm() {
     responseElem.textContent = CONTACT_CONFIG.RESPONSE_TIME;
   }
 
-  // Clear validation error on field input
+  // Clear validation error on field input / change
   form.querySelectorAll('input, select, textarea').forEach(field => {
     field.addEventListener('input', () => {
       clearFieldError(field);
@@ -113,7 +88,7 @@ export function initContactForm() {
   // Handle Form Submission
   let isSubmitting = false;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (isSubmitting) return;
@@ -125,18 +100,19 @@ export function initContactForm() {
       email: form.email?.value || '',
       phone: form.phone?.value || '',
       projectType: form.projectType?.value || '',
-      message: form.message?.value || ''
+      message: form.message?.value || '',
+      website_hp: form.website_hp?.value || '' // Honeypot
     };
 
-    // Clear all previous errors
+    // Clear previous errors & status
     clearAllErrors(form);
+    hideStatusMessage();
 
-    // Validate
+    // Client-side validation
     const { isValid, errors } = validateContactForm(formData);
 
     if (!isValid) {
       displayErrors(form, errors);
-      // Focus first invalid field
       const firstErrorField = form.querySelector('.is-invalid');
       if (firstErrorField) {
         firstErrorField.focus();
@@ -144,43 +120,61 @@ export function initContactForm() {
       return;
     }
 
-    // Lock submission to prevent rapid duplicates
+    // Lock submission & update button state
     isSubmitting = true;
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '';
+    const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Book a Free Consultation <span aria-hidden="true">→</span>';
 
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <span class="contact-form__spinner" aria-hidden="true"></span>
-        Opening WhatsApp...
+        Sending...
       `;
     }
 
-    // Build WhatsApp message
-    const formattedMessage = formatWhatsAppMessage(formData);
-    const whatsappUrl = getWhatsAppUrl(formattedMessage);
+    try {
+      const response = await fetch('api/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
-    // Show temporary banner / notice in the form explaining WhatsApp redirection
-    showRedirectNotice(form);
+      const result = await response.json().catch(() => null);
 
-    // Open WhatsApp in new window/tab
-    setTimeout(() => {
-      const opened = window.open(whatsappUrl, '_blank');
-      if (!opened || opened.closed || typeof opened.closed === 'undefined') {
-        // Pop-up blocked or mobile browser - fallback to direct redirect
-        window.location.href = whatsappUrl;
-      }
-
-      // Re-enable submit button after redirection attempt
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHTML;
+      if (response.ok && result && result.success) {
+        // Success
+        showStatusMessage(
+          result.message || "Thanks — we've received your enquiry. We'll get back to you shortly.",
+          'success'
+        );
+        form.reset();
+      } else {
+        // Validation or Server Error
+        if (result && result.errors) {
+          displayErrors(form, result.errors);
         }
-        isSubmitting = false;
-      }, 2500);
-    }, 400);
+        const errorMsg = (result && result.message)
+          ? result.message
+          : "Something went wrong while sending your enquiry. Please try again or contact us on WhatsApp.";
+        showStatusMessage(errorMsg, 'error');
+      }
+    } catch (error) {
+      console.error('Contact Form Submission Network Error:', error);
+      showStatusMessage(
+        "Something went wrong while sending your enquiry. Please try again or contact us on WhatsApp.",
+        'error'
+      );
+    } finally {
+      isSubmitting = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+      }
+    }
   });
 }
 
@@ -231,35 +225,37 @@ function clearAllErrors(form) {
 }
 
 /**
- * Show clean redirection feedback notice
+ * Display global status notice (success or error)
  */
-function showRedirectNotice(form) {
-  let notice = document.getElementById('contactRedirectNotice');
-  if (!notice) {
-    notice = document.createElement('div');
-    notice.id = 'contactRedirectNotice';
-    notice.className = 'contact-form__notice';
-    notice.setAttribute('role', 'status');
-    const submitBtnWrap = form.querySelector('.contact-form__action-wrap') || form.querySelector('button[type="submit"]')?.parentElement;
-    if (submitBtnWrap) {
-      submitBtnWrap.parentNode.insertBefore(notice, submitBtnWrap);
-    } else {
-      form.appendChild(notice);
-    }
-  }
+function showStatusMessage(message, type = 'success') {
+  const statusElem = document.getElementById('contactFormStatus');
+  if (!statusElem) return;
 
-  notice.innerHTML = `
-    <span class="contact-form__notice-icon">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-    </span>
-    <span>Connecting you to WhatsApp with your project details...</span>
+  statusElem.className = `contact-form__status is-${type}`;
+  
+  const iconSvg = type === 'success'
+    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
+    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+
+  statusElem.innerHTML = `
+    <span class="contact-form__status-icon" aria-hidden="true">${iconSvg}</span>
+    <span class="contact-form__status-text">${message}</span>
   `;
-  notice.style.display = 'flex';
+  statusElem.style.display = 'flex';
 }
 
-// Auto-initialize when DOM is ready
+/**
+ * Hide global status notice
+ */
+function hideStatusMessage() {
+  const statusElem = document.getElementById('contactFormStatus');
+  if (statusElem) {
+    statusElem.style.display = 'none';
+    statusElem.innerHTML = '';
+  }
+}
+
+// Auto-initialize if running directly
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initContactForm);
