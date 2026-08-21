@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Book a Free Consultation with CREWiiFY - Tell us about your digital project or agency scaling goals and connect directly with our senior delivery crew.">
+  <title>Contact &amp; Consultation | CREWiiFY - Let's Build Something Worth Shipping</title>
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap">
+
+  <!-- Modular CSS Files -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+  <!-- Header / Navigation (Global Reusable Component) -->
+  <header class="header animate-fade-down" id="header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Brand Group: Left -->
+        <a href="index.html" class="navbar__brand" aria-label="CREWIIFY Home">
+          <img src="assets/logos/c-logo-optimized.png" alt="CREWIIFY Logo" class="navbar__brand-logo-img" width="48"
+            height="48">
+          <span class="navbar__brand-text">CREW<span class="navbar__brand-small-i">ii</span>FY</span>
+        </a>
+
+        <!-- Desktop Navigation Menu (Center) -->
+        <ul class="navbar__menu" id="navMenu">
+          <!-- Dynamically populated from navbar.js based on NAV_CONFIG -->
+        </ul>
+
+        <!-- Right Side Desktop CTA -->
+        <div class="navbar__actions">
+          <a href="contact.html" class="btn btn--nav-cta">
+            Book a Discovery Call
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="navbar__toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false"
+          aria-controls="navMenu">
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Section 1: Compact Contact Hero -->
+    <section class="contact-hero" id="contactHero" aria-label="Contact Introduction">
+      <div class="contact-hero__glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="contact-hero__content">
+
+          <!-- Eyebrow Badge -->
+          <div class="contact-hero__eyebrow animate-fade-scale">
+            <span class="contact-hero__eyebrow-dot" aria-hidden="true"></span>
+            LET'S BUILD TOGETHER
+          </div>
+
+          <!-- Headline with Approved Purple Gradient -->
+          <h1 class="contact-hero__title animate-fade-up-1">
+            Let's build something <span class="contact-hero__gradient">worth shipping.</span>
+          </h1>
+
+          <!-- Supporting Description -->
+          <p class="contact-hero__desc animate-fade-up-2">
+            Tell us what you're working on, where you're stuck, or what you want to improve. We'll understand your requirements and get back to you with the right next step.
+          </p>
+
+          <!-- Micro Reassurance Pill -->
+          <div class="contact-hero__reassurance animate-fade-up-3">
+            <span class="contact-hero__reassurance-dot" aria-hidden="true"></span>
+            Typically replies within 1 business day.
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Contact & Consultation Form (2-Column Desktop Grid) -->
+    <section class="contact-section" id="enquiry" aria-label="Project Consultation Form">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- Left Column: Direct Reach Out Information -->
+          <div class="contact-direct animate-fade-up-2">
+            <div class="contact-direct__top">
+              <div class="contact-direct__badge">
+                DIRECT CHANNELS
+              </div>
+
+              <h2 class="contact-direct__title">
+                Prefer to reach us directly?
+              </h2>
+
+              <p class="contact-direct__text">
+                Have an urgent brief or prefer to speak with our senior team right away? Connect with us via our direct channels below.
+              </p>
+            </div>
+
+            <div class="contact-direct__list">
+              
+              <!-- Direct Email Card -->
+              <a href="mailto:hello@crewiify.com" class="contact-direct__card" id="contactDirectEmailLink">
+                <div class="contact-direct__icon-box" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div class="contact-direct__card-info">
+                  <span class="contact-direct__card-label">Email Us</span>
+                  <span class="contact-direct__card-value" id="contactDirectEmail">hello@crewiify.com</span>
+                </div>
+              </a>
+
+              <!-- Direct WhatsApp / Phone Card -->
+              <a href="#" class="contact-direct__card" id="contactDirectPhoneLink" target="_blank" rel="noopener noreferrer">
+                <div class="contact-direct__icon-box contact-direct__icon-box--green" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                </div>
+                <div class="contact-direct__card-info">
+                  <span class="contact-direct__card-label">WhatsApp / Phone</span>
+                  <span class="contact-direct__card-value" id="contactDirectPhone">+1 (555) 000-0000</span>
+                </div>
+              </a>
+
+              <!-- Response Guarantee Card -->
+              <div class="contact-direct__card">
+                <div class="contact-direct__icon-box" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="contact-direct__card-info">
+                  <span class="contact-direct__card-label">Response Time</span>
+                  <span class="contact-direct__card-value" id="contactDirectResponse">Typically within 1 business day.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Consultation Form -->
+          <div class="contact-form-card animate-fade-up-3">
+            <div class="contact-form-card__header">
+              <h2 class="contact-form-card__title">Tell us about your project</h2>
+              <p class="contact-form-card__desc">Share a few details and we'll take it from there.</p>
+            </div>
+
+            <form class="contact-form" id="contactPageForm" novalidate>
+              <div class="contact-form__grid">
+
+                <!-- 1. Full Name -->
+                <div class="contact-form__group">
+                  <label for="fullName" class="contact-form__label">
+                    Full Name <span class="contact-form__required" aria-hidden="true">*</span>
+                  </label>
+                  <input type="text" id="fullName" name="fullName" class="contact-form__input" placeholder="e.g. Alex Morgan" required autocomplete="name">
+                  <span class="contact-form__error-msg" id="fullNameError" role="alert"></span>
+                </div>
+
+                <!-- 2. Agency / Company Name -->
+                <div class="contact-form__group">
+                  <label for="agencyName" class="contact-form__label">
+                    Agency / Company Name <span class="contact-form__required" aria-hidden="true">*</span>
+                  </label>
+                  <input type="text" id="agencyName" name="agencyName" class="contact-form__input" placeholder="e.g. Apex Digital" required autocomplete="organization">
+                  <span class="contact-form__error-msg" id="agencyNameError" role="alert"></span>
+                </div>
+
+                <!-- 3. Work Email -->
+                <div class="contact-form__group">
+                  <label for="email" class="contact-form__label">
+                    Work Email <span class="contact-form__required" aria-hidden="true">*</span>
+                  </label>
+                  <input type="email" id="email" name="email" class="contact-form__input" placeholder="alex@apexdigital.com" required autocomplete="email">
+                  <span class="contact-form__error-msg" id="emailError" role="alert"></span>
+                </div>
+
+                <!-- 4. Phone / WhatsApp (Optional) -->
+                <div class="contact-form__group">
+                  <label for="phone" class="contact-form__label">
+                    Phone / WhatsApp <span class="contact-form__optional">(optional)</span>
+                  </label>
+                  <input type="tel" id="phone" name="phone" class="contact-form__input" placeholder="+1 (555) 000-0000" autocomplete="tel">
+                  <span class="contact-form__error-msg" id="phoneError" role="alert"></span>
+                </div>
+
+                <!-- 5. Project Type -->
+                <div class="contact-form__group contact-form__group--full">
+                  <label for="projectType" class="contact-form__label">
+                    Project Type <span class="contact-form__required" aria-hidden="true">*</span>
+                  </label>
+                  <select id="projectType" name="projectType" class="contact-form__select" required>
+                    <option value="" disabled selected>Select project type</option>
+                    <option value="Website Development">Website Development</option>
+                    <option value="SEO">SEO</option>
+                    <option value="Google Ads / PPC">Google Ads / PPC</option>
+                    <option value="WhatsApp Automation">WhatsApp Automation</option>
+                    <option value="WordPress">WordPress</option>
+                    <option value="Shopify">Shopify</option>
+                    <option value="Custom Development">Custom Development</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span class="contact-form__error-msg" id="projectTypeError" role="alert"></span>
+                </div>
+
+                <!-- 6. Project Message -->
+                <div class="contact-form__group contact-form__group--full">
+                  <label for="message" class="contact-form__label">
+                    Message <span class="contact-form__required" aria-hidden="true">*</span>
+                  </label>
+                  <textarea id="message" name="message" class="contact-form__textarea"
+                    placeholder="Tell us what you're trying to achieve, your current situation, timeline, or anything else that would help us understand the project."
+                    required></textarea>
+                  <span class="contact-form__error-msg" id="messageError" role="alert"></span>
+                </div>
+
+              </div>
+
+              <!-- Submit Action Button -->
+              <div class="contact-form__action-wrap">
+                <button type="submit" class="contact-form__submit-btn">
+                  Book a Free Consultation <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: What Happens Next -->
+    <section class="contact-next" id="whatHappensNext" aria-label="What Happens Next">
+      <div class="contact-next__glow" aria-hidden="true"></div>
+      <div class="container">
+        
+        <div class="contact-next__header animate-fade-up-1">
+          <div class="contact-next__eyebrow">
+            WHAT HAPPENS NEXT?
+          </div>
+          <h2 class="contact-next__title">
+            From enquiry to next step.
+          </h2>
+        </div>
+
+        <div class="contact-next__grid animate-fade-up-2">
+          
+          <!-- Step 01 -->
+          <div class="contact-next__step">
+            <span class="contact-next__number">01</span>
+            <h3 class="contact-next__step-title">Tell us what you need</h3>
+            <p class="contact-next__step-desc">
+              Share your project, challenge, or growth goal.
+            </p>
+          </div>
+
+          <!-- Step 02 -->
+          <div class="contact-next__step">
+            <span class="contact-next__number">02</span>
+            <h3 class="contact-next__step-title">We review your requirements</h3>
+            <p class="contact-next__step-desc">
+              We'll understand your needs and identify the right direction.
+            </p>
+          </div>
+
+          <!-- Step 03 -->
+          <div class="contact-next__step">
+            <span class="contact-next__number">03</span>
+            <h3 class="contact-next__step-title">We connect and discuss</h3>
+            <p class="contact-next__step-desc">
+              We'll talk through your requirements, priorities, and next steps.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 4: Final Reassurance -->
+    <section class="contact-reassurance" aria-label="Closing Reassurance">
+      <div class="container">
+        <p class="contact-reassurance__text animate-fade-up-3">
+          No pressure. Just a conversation about what's next.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer (Global Reusable Component) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <a href="index.html" class="footer__brand" aria-label="CREWIIFY Home">
+          <img src="assets/logos/c-logo-optimized.png" alt="CREWIIFY Logo" class="footer__brand-logo-img"
+            loading="lazy">
+        </a>
+        <p>© 2026 CREWIIFY. All rights reserved. White-Label Delivery Partner for Agencies.</p>
+        <ul class="footer__links">
+          <li><a href="services.html" class="footer__link">Services</a></li>
+          <li><a href="case-studies.html" class="footer__link">Case Studies</a></li>
+          <li><a href="contact.html" class="footer__link">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modular Vanilla JavaScript Files -->
+  <script src="js/navbar.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script type="module" src="js/contact.js"></script>
+  <script type="module" src="js/whatsapp-widget.js"></script>
+</body>
+
+</html>

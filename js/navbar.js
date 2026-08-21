@@ -20,6 +20,7 @@ const NAV_CONFIG = {
     { label: 'Home', url: 'index.html', id: 'home', enabled: true },
     { label: 'Services', url: 'services.html', id: 'services', enabled: true },
     { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies', enabled: true },
+    { label: 'Contact', url: 'contact.html', id: 'contact', enabled: true },
     { 
       label: 'White-Label', 
       id: 'white-label',
@@ -33,7 +34,7 @@ const NAV_CONFIG = {
   ],
   cta: {
     label: 'Book a Discovery Call',
-    url: 'index.html#contact',
+    url: 'contact.html',
     id: 'contact',
     enabled: true
   }
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }).join('');
 
-    const ctaTargetUrl = isHomePage ? '#contact' : NAV_CONFIG.cta.url;
+    const ctaTargetUrl = NAV_CONFIG.cta.url;
     const ctaHTML = NAV_CONFIG.cta.enabled ? `
       <li class="navbar__item navbar__mobile-cta">
         <a href="${ctaTargetUrl}" class="btn btn--primary" style="width: 100%;">${NAV_CONFIG.cta.label}</a>

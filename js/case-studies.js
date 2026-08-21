@@ -638,7 +638,7 @@ function createModalContentHTML(item) {
         <button type="button" class="btn btn--secondary cs-modal__back-btn" id="csModalBottomCloseBtn">
           ← Back to Case Studies
         </button>
-        <a href="index.html#contact" class="btn btn--primary cs-modal__contact-btn">
+        <a href="contact.html" class="btn btn--primary cs-modal__contact-btn">
           Book a Discovery Call <span aria-hidden="true">→</span>
         </a>
       </div>
