@@ -3,8 +3,8 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  padding-top: calc(var(--header-height) + var(--space-4xl));
-  padding-bottom: var(--space-4xl);
+  padding-top: calc(var(--header-height) + var(--space-2xl));
+  padding-bottom: 0;
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   display: flex;
@@ -349,8 +349,8 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  padding-top: var(--space-2xl);
-  padding-bottom: var(--space-3xl);
+  padding-top: clamp(24px, 2.5vw, 36px);
+  padding-bottom: clamp(28px, 3.2vw, 44px);
   background: transparent;
   display: flex;
   flex-direction: column;

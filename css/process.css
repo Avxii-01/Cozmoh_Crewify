@@ -2,7 +2,7 @@
 
 .process {
   position: relative;
-  padding: var(--space-4xl) 0;
+  padding: var(--section-padding-y, clamp(52px, 5.2vw, 80px)) 0;
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   overflow: hidden;

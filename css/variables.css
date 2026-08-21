@@ -76,6 +76,7 @@
   /* 80px */
   --space-4xl: 6rem;
   /* 96px */
+  --section-padding-y: clamp(52px, 5.2vw, 80px);
 
   /* Border Radius */
   --radius-sm: 6px;

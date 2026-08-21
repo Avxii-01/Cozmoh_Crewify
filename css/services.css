@@ -742,7 +742,7 @@
 
 .services {
   position: relative;
-  padding: var(--space-4xl) 0;
+  padding: var(--section-padding-y, clamp(52px, 5.2vw, 80px)) 0;
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   height: auto;
@@ -1145,7 +1145,7 @@
 
 .srv-overview {
   position: relative;
-  padding: 100px 0 60px 0;
+  padding: clamp(64px, 5.5vw, 84px) 0 clamp(40px, 4vw, 56px) 0;
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -1382,7 +1382,7 @@
 
 .srv-pricing {
   position: relative;
-  padding: 60px 0 110px 0;
+  padding: clamp(40px, 4vw, 56px) 0 clamp(72px, 6vw, 92px) 0;
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   overflow: hidden;
