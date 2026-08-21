@@ -4,9 +4,9 @@
 
 .srv-hero {
   position: relative;
-  min-height: calc(100vh - var(--header-height));
-  padding-top: calc(var(--header-height) + 54px);
-  padding-bottom: 80px;
+  min-height: clamp(660px, 72vh, 800px);
+  padding-top: calc(var(--header-height) + clamp(36px, 3.8vw, 54px));
+  padding-bottom: clamp(48px, 4.8vw, 72px);
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   display: flex;
@@ -469,6 +469,7 @@
 
 @media (max-width: 768px) {
   .srv-hero {
+    min-height: auto;
     padding-top: calc(72px + 16px);
     padding-bottom: 36px;
     overflow-x: clip;

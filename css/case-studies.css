@@ -6,9 +6,9 @@
 
 .cs-hero {
   position: relative;
-  min-height: 90vh;
-  padding-top: calc(var(--header-height) + var(--space-3xl));
-  padding-bottom: var(--space-3xl);
+  min-height: clamp(660px, 72vh, 800px);
+  padding-top: calc(var(--header-height) + clamp(36px, 3.8vw, 54px));
+  padding-bottom: clamp(48px, 4.8vw, 72px);
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   display: flex;
@@ -1589,6 +1589,7 @@ body.modal-open {
 /* Tablet (992px) */
 @media (max-width: 992px) {
   .cs-hero {
+    min-height: auto;
     padding-top: calc(var(--header-height) + var(--space-2xl));
   }
 
