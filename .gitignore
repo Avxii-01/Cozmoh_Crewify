@@ -3,6 +3,10 @@ config/mail.local.php
 .env
 .env.local
 *.log
+generate_pdfs.py
 
 # Composer dependencies (can be committed or installed via composer install)
 # vendor/
+
+
+

@@ -75,6 +75,24 @@ export function initContactForm() {
     responseElem.textContent = CONTACT_CONFIG.RESPONSE_TIME;
   }
 
+  // Handle URL Query Params (e.g. ?type=SEO or ?service=seo)
+  const urlParams = new URLSearchParams(window.location.search);
+  const typeParam = urlParams.get('type') || urlParams.get('service') || urlParams.get('subject');
+  if (typeParam && form.projectType) {
+    const cleanType = typeParam.trim().toLowerCase();
+    const options = Array.from(form.projectType.options);
+    const matchedOption = options.find(opt => {
+      const optVal = opt.value.toLowerCase();
+      return optVal === cleanType || 
+        (cleanType.includes('seo') && optVal === 'seo') ||
+        (cleanType.includes('ppc') && optVal === 'google ads / ppc') ||
+        (cleanType.includes('web') && optVal === 'website development');
+    });
+    if (matchedOption) {
+      form.projectType.value = matchedOption.value;
+    }
+  }
+
   // Clear validation error on field input / change
   form.querySelectorAll('input, select, textarea').forEach(field => {
     field.addEventListener('input', () => {

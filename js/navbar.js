@@ -20,6 +20,7 @@ const NAV_CONFIG = {
     { label: 'Home', url: 'index.html', id: 'home', enabled: true },
     { label: 'Services', url: 'services.html', id: 'services', enabled: true },
     { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies', enabled: true },
+    { label: 'Free Resources', url: 'free-resources.html', id: 'free-resources', enabled: true },
     { label: 'Contact', url: 'contact.html', id: 'contact', enabled: true },
     { 
       label: 'White-Label', 
@@ -29,8 +30,7 @@ const NAV_CONFIG = {
         { label: 'SEO', url: 'white-label/seo.html', id: 'seo', enabled: false },
         { label: 'Website Development', url: 'white-label/website-development.html', id: 'website-development', enabled: false }
       ]
-    },
-    { label: 'Free Resources', url: 'free-resources.html', id: 'free-resources', enabled: false }
+    }
   ],
   cta: {
     label: 'Book a Discovery Call',

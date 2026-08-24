@@ -102,10 +102,10 @@ class ParticleSystem {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Hero Particles — initialize immediately but pause when hero is off-screen
-  const heroCanvas = document.getElementById('heroCanvas') || document.getElementById('csHeroCanvas') || document.getElementById('srvHeroCanvas');
+  const heroCanvas = document.getElementById('heroCanvas') || document.getElementById('csHeroCanvas') || document.getElementById('srvHeroCanvas') || document.getElementById('frHeroCanvas');
   if (heroCanvas) {
     const heroSystem = new ParticleSystem(heroCanvas.id, 24);
-    const heroSection = document.getElementById('hero') || document.getElementById('case-studies-hero') || document.getElementById('services-hero');
+    const heroSection = document.getElementById('hero') || document.getElementById('case-studies-hero') || document.getElementById('services-hero') || document.getElementById('resources-hero');
 
     if (heroSystem.canvas && heroSection) {
       const heroObserver = new IntersectionObserver((entries) => {
