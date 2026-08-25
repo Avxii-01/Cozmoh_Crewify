@@ -194,131 +194,185 @@ $htmlBody = <<<HTML
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Consultation Request</title>
-  <style>
+  <style type="text/css">
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0c0a14;
-      color: #f3f3f3;
       margin: 0;
-      padding: 30px 15px;
+      padding: 0;
+      background-color: #07060B;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .email-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #141022;
-      border: 1px solid rgba(167, 139, 250, 0.25);
-      border-radius: 12px;
-      padding: 36px 30px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
-    }
-    .brand-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 18px;
-      margin-bottom: 24px;
-    }
-    .brand-logo {
-      font-size: 22px;
-      font-weight: 800;
-      color: #A78BFA;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .brand-tagline {
-      font-size: 14px;
-      color: #9A9A9A;
-      margin-top: 4px;
-    }
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #FFFFFF;
-      margin: 0 0 20px 0;
-    }
-    .data-table {
-      width: 100%;
+    table {
       border-collapse: collapse;
-      margin-bottom: 24px;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
     }
-    .data-table th, .data-table td {
-      padding: 11px 14px;
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    td {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
-    .data-table th {
-      width: 32%;
-      color: #C4B5FD;
-      font-weight: 600;
-      background: rgba(167, 139, 250, 0.06);
-    }
-    .data-table td {
-      color: #F5F5F5;
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .message-block {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 16px;
-      color: #ECECF1;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-      white-space: normal;
-    }
-    .footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 16px;
-      font-size: 12px;
-      color: #7A7A7A;
-      text-align: center;
+    @media only screen and (max-width: 620px) {
+      .email-wrapper {
+        width: 100% !important;
+        padding: 12px !important;
+      }
+      .email-card {
+        padding: 24px 18px !important;
+        border-radius: 12px !important;
+      }
+      .data-row-label {
+        display: block !important;
+        width: 100% !important;
+        padding-bottom: 4px !important;
+      }
+      .data-row-value {
+        display: block !important;
+        width: 100% !important;
+        padding-bottom: 14px !important;
+      }
     }
   </style>
 </head>
-<body>
-  <div class="email-container">
-    <div class="brand-header">
-      <div class="brand-logo">CREWiiFY</div>
-      <div class="brand-tagline">Consultation &amp; Project Request</div>
-    </div>
-    
-    <h2 class="section-title">New Consultation Request</h2>
-    
-    <table class="data-table">
-      <tr>
-        <th>Full Name</th>
-        <td>{$cleanName}</td>
-      </tr>
-      <tr>
-        <th>Agency / Company</th>
-        <td>{$cleanAgency}</td>
-      </tr>
-      <tr>
-        <th>Work Email</th>
-        <td><a href="mailto:{$cleanEmail}" style="color:#A78BFA; text-decoration:none;">{$cleanEmail}</a></td>
-      </tr>
-      <tr>
-        <th>Phone / WhatsApp</th>
-        <td>{$cleanPhone}</td>
-      </tr>
-      <tr>
-        <th>Project Type</th>
-        <td><strong style="color:#C4B5FD;">{$cleanProjectType}</strong></td>
-      </tr>
-    </table>
+<body style="margin: 0; padding: 0; background-color: #07060B; color: #ECECF1;">
+  <!-- Outer Background Container -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #07060B; width: 100%; margin: 0; padding: 32px 0;">
+    <tr>
+      <td align="center" style="padding: 0 12px;">
+        
+        <!-- Main Email Card (Max width 620px) -->
+        <table role="presentation" class="email-wrapper" width="620" cellpadding="0" cellspacing="0" border="0" style="max-width: 620px; width: 100%; margin: 0 auto; background-color: #120E20; border: 1px solid #2B2244; border-radius: 16px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);">
+          
+          <!-- Brand Header -->
+          <tr>
+            <td style="padding: 28px 32px 20px 32px; border-bottom: 1px solid #231B38;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <div style="font-size: 20px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: #FFFFFF;">
+                      CREW<span style="color: #A78BFA;">ii</span>FY
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: #9CA3AF; margin-top: 4px;">
+                      Consultation &amp; Project Request
+                    </div>
+                  </td>
+                  <td align="right" valign="middle">
+                    <span style="display: inline-block; background-color: rgba(139, 92, 246, 0.14); border: 1px solid rgba(167, 139, 250, 0.32); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #C4B5FD;">
+                      NEW LEAD
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <div style="font-size: 13px; font-weight: 600; color: #C4B5FD; text-transform: uppercase; margin-bottom: 8px;">
-      Project Details &amp; Message
-    </div>
-    <div class="message-block">
-      {$cleanMessage}
-    </div>
+          <!-- Email Content Body -->
+          <tr>
+            <td class="email-card" style="padding: 32px 32px 28px 32px;">
+              
+              <!-- Section Intro -->
+              <div style="margin-bottom: 24px;">
+                <h1 style="margin: 0 0 6px 0; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; line-height: 1.25;">
+                  New Consultation Request
+                </h1>
+                <p style="margin: 0; font-size: 14px; color: #9CA3AF; line-height: 1.5;">
+                  A new consultation request has been submitted through the CREWiiFY website.
+                </p>
+              </div>
 
-    <div class="footer">
-      Sent on {$timestamp} via CREWiiFY Website Contact Form
-    </div>
-  </div>
+              <!-- Information Card Table -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #17122A; border: 1px solid #2D234A; border-radius: 12px; overflow: hidden; margin-bottom: 24px;">
+                <!-- Full Name -->
+                <tr>
+                  <td class="data-row-label" width="34%" style="padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA; border-bottom: 1px solid #231B38;">
+                    Full Name
+                  </td>
+                  <td class="data-row-value" style="padding: 13px 18px; font-size: 14px; font-weight: 600; color: #FFFFFF; border-bottom: 1px solid #231B38;">
+                    {$cleanName}
+                  </td>
+                </tr>
+                <!-- Agency / Company -->
+                <tr>
+                  <td class="data-row-label" width="34%" style="padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA; border-bottom: 1px solid #231B38;">
+                    Agency / Company
+                  </td>
+                  <td class="data-row-value" style="padding: 13px 18px; font-size: 14px; color: #F3F4F6; border-bottom: 1px solid #231B38;">
+                    {$cleanAgency}
+                  </td>
+                </tr>
+                <!-- Work Email -->
+                <tr>
+                  <td class="data-row-label" width="34%" style="padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA; border-bottom: 1px solid #231B38;">
+                    Work Email
+                  </td>
+                  <td class="data-row-value" style="padding: 13px 18px; font-size: 14px; color: #FFFFFF; border-bottom: 1px solid #231B38;">
+                    <a href="mailto:{$cleanEmail}" style="color: #C4B5FD; text-decoration: none; font-weight: 600;">{$cleanEmail}</a>
+                  </td>
+                </tr>
+                <!-- Phone / WhatsApp -->
+                <tr>
+                  <td class="data-row-label" width="34%" style="padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA; border-bottom: 1px solid #231B38;">
+                    Phone / WhatsApp
+                  </td>
+                  <td class="data-row-value" style="padding: 13px 18px; font-size: 14px; color: #F3F4F6; border-bottom: 1px solid #231B38;">
+                    {$cleanPhone}
+                  </td>
+                </tr>
+                <!-- Project Type -->
+                <tr>
+                  <td class="data-row-label" width="34%" style="padding: 13px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA;">
+                    Project Type
+                  </td>
+                  <td class="data-row-value" style="padding: 13px 18px;">
+                    <span style="display: inline-block; background-color: rgba(139, 92, 246, 0.22); border: 1px solid rgba(167, 139, 250, 0.45); border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: #E9D5FF;">
+                      {$cleanProjectType}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message Section -->
+              <div style="margin-bottom: 26px;">
+                <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #A78BFA; margin-bottom: 8px;">
+                  Project Details &amp; Message
+                </div>
+                <div style="background-color: #17122A; border: 1px solid #2D234A; border-left: 3px solid #8B5CF6; border-radius: 10px; padding: 18px 20px; font-size: 14px; line-height: 1.65; color: #E5E7EB; word-break: break-word;">
+                  {$cleanMessage}
+                </div>
+              </div>
+
+              <!-- Primary Action CTA -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 8px;">
+                <tr>
+                  <td align="left">
+                    <a href="mailto:{$cleanEmail}?subject=Re:%20CREWiiFY%20Consultation%20Request" style="display: inline-block; background-color: #8B5CF6; background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: 0.02em; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);">
+                      Reply to Enquiry &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Subtle Footer -->
+          <tr>
+            <td style="padding: 18px 32px 24px 32px; border-top: 1px solid #231B38; text-align: center;">
+              <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #9CA3AF;">
+                CREW<span style="color: #A78BFA;">ii</span>FY &bull; Website Consultation Request
+              </p>
+              <p style="margin: 0; font-size: 11px; color: #6B7280; line-height: 1.4;">
+                This message was generated automatically by the CREWiiFY website contact form on {$timestamp}.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 HTML;
