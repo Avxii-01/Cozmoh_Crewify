@@ -7,13 +7,13 @@
 export const CONTACT_CONFIG = {
   // WhatsApp destination number (country code + number without symbols or spaces)
   // REPLACE THIS PLACEHOLDER WITH THE CLIENT'S CONFIRMED LIVE WHATSAPP NUMBER:
-  WHATSAPP_NUMBER: '919619082924',
+  WHATSAPP_NUMBER: '919765805364',
 
   // Formatted phone/WhatsApp number for visual display in UI
-  PHONE_DISPLAY: '+91 9619082924',
+  PHONE_DISPLAY: '+91 97658 05364',
 
   // Confirmed Client Email Address
-  EMAIL: 'hello@crewiify.com',
+  EMAIL: 'sociiofy@gmail.com',
 
   // Expected Response Time Window
   RESPONSE_TIME: 'Typically within 1 business day.',
