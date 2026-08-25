@@ -1,12 +1,11 @@
-# Secrets and Local Environment Configuration
+# Secrets and local environment configuration
 config/mail.local.php
 .env
 .env.local
 *.log
+
+# Local development / generation scripts
 generate_pdfs.py
 
-# Composer dependencies (can be committed or installed via composer install)
+# Composer dependencies
 # vendor/
-
-
-
