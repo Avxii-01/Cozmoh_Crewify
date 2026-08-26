@@ -20,7 +20,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Essential",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Up to 20 Target Keywords",
           "Comprehensive Technical SEO Audit",
@@ -40,7 +40,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Up to 50 Target Keywords",
           "Advanced Technical & Schema SEO",
@@ -62,7 +62,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Unlimited / 100+ Target Keywords",
           "Enterprise Programmatic SEO Architecture",
@@ -95,7 +95,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Starter",
         ctaText: "Start Building →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Custom 5-Page Responsive Website",
           "Mobile-First Clean Codebase",
@@ -115,7 +115,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Start Building →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Custom 10–15 Page Bespoke Architecture",
           "CMS Integration (WordPress / Next.js / Headless)",
@@ -137,7 +137,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Fully Custom Web Application / SaaS",
           "Full-Stack Database & Authentication",
@@ -170,7 +170,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Starter",
         ctaText: "Launch Campaigns →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Google Ads OR Meta Ads Management",
           "Up to $5,000 Monthly Ad Spend Scope",
@@ -190,7 +190,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Launch Campaigns →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Google Search, Performance Max & Meta Ads",
           "Up to $15,000 Monthly Ad Spend Scope",
@@ -212,7 +212,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Launch Campaigns →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Omnichannel (Google, Meta, LinkedIn, YouTube)",
           "Unlimited Ad Spend Management",
@@ -245,7 +245,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Essential",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Official WhatsApp Business API Setup",
           "Green Tick Verification Assistance",
@@ -265,7 +265,7 @@ export const servicesData = {
         isPopular: true,
         badge: "Most Popular",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Interactive Multi-Step Chatbot Workflows",
           "E-Commerce Cart Recovery & Order Updates",
@@ -287,7 +287,7 @@ export const servicesData = {
         isPopular: false,
         badge: "Enterprise",
         ctaText: "Get Started →",
-        ctaLink: "contact.html",
+        ctaLink: "/contact",
         features: [
           "Custom ChatGPT / Claude AI Agent Integration",
           "Complex Two-Way API & Database Sync",

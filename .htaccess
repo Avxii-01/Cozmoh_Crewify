@@ -1,0 +1,48 @@
+# CREWiiFY - Clean URL Routing & Hostinger (Apache) Configuration
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # ----------------------------------------------------------------------
+    # 1. 301 PERMANENT REDIRECTS (Explicit .html -> Clean URLs)
+    # Uses %{THE_REQUEST} to prevent redirect loops on internal rewrites
+    # ----------------------------------------------------------------------
+
+    # /index.html -> /
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html[?\s] [NC]
+    RewriteRule ^index\.html$ / [R=301,L,NE]
+
+    # /services.html -> /services
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /services\.html[?\s] [NC]
+    RewriteRule ^services\.html$ /services [R=301,L,NE,QSA]
+
+    # /case-studies.html -> /case-studies
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /case-studies\.html[?\s] [NC]
+    RewriteRule ^case-studies\.html$ /case-studies [R=301,L,NE,QSA]
+
+    # /contact.html -> /contact
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /contact\.html[?\s] [NC]
+    RewriteRule ^contact\.html$ /contact [R=301,L,NE,QSA]
+
+    # /free-resources.html -> /free-resources
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /free-resources\.html[?\s] [NC]
+    RewriteRule ^free-resources\.html$ /free-resources [R=301,L,NE,QSA]
+
+    # ----------------------------------------------------------------------
+    # 2. TRAILING SLASH HANDLING FOR THE FIVE ROUTES
+    # Redirects /route/ -> /route (without trailing slash)
+    # ----------------------------------------------------------------------
+    RewriteRule ^(services|case-studies|contact|free-resources)/$ /$1 [R=301,L,NE,QSA]
+
+    # ----------------------------------------------------------------------
+    # 3. INTERNAL REWRITES (Clean URLs -> Physical .html files)
+    # Maps clean URLs directly to their corresponding physical HTML files
+    # ----------------------------------------------------------------------
+    RewriteRule ^services$ services.html [L,QSA]
+    RewriteRule ^case-studies$ case-studies.html [L,QSA]
+    RewriteRule ^contact$ contact.html [L,QSA]
+    RewriteRule ^free-resources$ free-resources.html [L,QSA]
+</IfModule>
+
+DirectoryIndex index.html

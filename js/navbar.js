@@ -14,27 +14,27 @@ const NAV_CONFIG = {
   brand: {
     name: 'CREWIIFY',
     logo: 'assets/logos/c-logo-optimized.png',
-    homeUrl: 'index.html'
+    homeUrl: '/'
   },
   items: [
-    { label: 'Home', url: 'index.html', id: 'home', enabled: true },
-    { label: 'Services', url: 'services.html', id: 'services', enabled: true },
-    { label: 'Case Studies', url: 'case-studies.html', id: 'case-studies', enabled: true },
-    { label: 'Free Resources', url: 'free-resources.html', id: 'free-resources', enabled: true },
-    { label: 'Contact', url: 'contact.html', id: 'contact', enabled: true },
+    { label: 'Home', url: '/', id: 'home', enabled: true },
+    { label: 'Services', url: '/services', id: 'services', enabled: true },
+    { label: 'Case Studies', url: '/case-studies', id: 'case-studies', enabled: true },
+    { label: 'Free Resources', url: '/free-resources', id: 'free-resources', enabled: true },
+    { label: 'Contact', url: '/contact', id: 'contact', enabled: true },
     { 
       label: 'White-Label', 
       id: 'white-label',
       enabled: false,
       dropdown: [
-        { label: 'SEO', url: 'white-label/seo.html', id: 'seo', enabled: false },
-        { label: 'Website Development', url: 'white-label/website-development.html', id: 'website-development', enabled: false }
+        { label: 'SEO', url: '/white-label/seo', id: 'seo', enabled: false },
+        { label: 'Website Development', url: '/white-label/website-development', id: 'website-development', enabled: false }
       ]
     }
   ],
   cta: {
     label: 'Book a Discovery Call',
-    url: 'contact.html',
+    url: '/contact',
     id: 'contact',
     enabled: true
   }
@@ -47,13 +47,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const navbarActions = document.querySelector('.navbar__actions');
 
   // Determine if current view is homepage
-  const currentPath = window.location.pathname.toLowerCase();
-  const isHomePage = currentPath === '/' || 
-    currentPath.endsWith('/index.html') || 
-    currentPath.endsWith('/crewify/') || 
-    currentPath.endsWith('/crewify') ||
-    currentPath.split('/').filter(Boolean).pop() === 'index.html' ||
-    currentPath.split('/').filter(Boolean).pop() === '';
+  const rawPath = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+  const isHomePage = rawPath === '/' || 
+    rawPath.endsWith('/index.html') || 
+    rawPath.endsWith('/crewify') ||
+    rawPath.split('/').filter(Boolean).pop() === 'index.html' ||
+    rawPath.split('/').filter(Boolean).length === 0;
+
+  const cleanPath = rawPath.replace(/\/index\.html$/, '') || '/';
+  const pathLastSegment = cleanPath.split('/').filter(Boolean).pop() || '';
+
+  const isItemActive = (itemUrl, itemId) => {
+    if (itemUrl === '/' || itemId === 'home') {
+      return isHomePage;
+    }
+    if (isHomePage) return false;
+    const cleanItemUrl = itemUrl.toLowerCase().replace(/\/$/, '');
+    const itemSegment = cleanItemUrl.split('/').filter(Boolean).pop() || '';
+    return cleanPath === cleanItemUrl || 
+           cleanPath.endsWith(cleanItemUrl) || 
+           pathLastSegment === itemSegment ||
+           pathLastSegment === `${itemSegment}.html`;
+  };
 
   // 1. Dynamic Rendering & Filtering of Navigation Items based on NAV_CONFIG
   const renderNavMenu = () => {
@@ -66,9 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const enabledChildren = item.dropdown.filter(child => child.enabled);
           if (enabledChildren.length === 0) return ''; // Hide dropdown if no children are enabled
 
-          const isParentActive = enabledChildren.some(child => 
-            !isHomePage && (currentPath.endsWith(child.url) || currentPath.includes(child.url.replace('.html', '')))
-          );
+          const isParentActive = enabledChildren.some(child => isItemActive(child.url, child.id));
 
           return `
             <li class="navbar__item navbar__item--dropdown">
@@ -77,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </a>
               <ul class="navbar__dropdown" aria-label="${item.label} submenu">
                 ${enabledChildren.map(child => {
-                  const isChildActive = !isHomePage && (currentPath.endsWith(child.url) || currentPath.includes(child.url.replace('.html', '')));
+                  const isChildActive = isItemActive(child.url, child.id);
                   return `
                     <li class="navbar__dropdown-item">
                       <a href="${child.url}" class="navbar__dropdown-link ${isChildActive ? 'navbar__dropdown-link--active' : ''}">${child.label}</a>
@@ -89,8 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         }
 
-        const isCurrent = (item.url === 'index.html' && isHomePage) || 
-          (item.url !== 'index.html' && !isHomePage && (currentPath.endsWith(item.url) || currentPath.includes(item.url.replace('.html', ''))));
+        const isCurrent = isItemActive(item.url, item.id);
 
         return `
           <li class="navbar__item">
