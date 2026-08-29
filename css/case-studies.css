@@ -1280,7 +1280,7 @@
 }
 
 /* ==========================================================================
-   COMPACT CASE STUDY MODAL PREVIEW (MINI PREVIEW DIALOG)
+   EXPANDED CASE STUDY OVERLAY / IMMERSIVE MODAL PRESENTATION
    ========================================================================== */
 
 /* Background Scroll Locking */
@@ -1293,10 +1293,10 @@ body.modal-open {
 .cs-modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  background: rgba(6, 4, 12, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  z-index: var(--z-modal, 1000);
+  background: rgba(4, 3, 7, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1304,7 +1304,7 @@ body.modal-open {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 280ms ease, visibility 280ms ease;
+  transition: opacity 350ms cubic-bezier(0.16, 1, 0.3, 1), visibility 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cs-modal-backdrop.is-active {
@@ -1313,24 +1313,28 @@ body.modal-open {
   pointer-events: auto;
 }
 
-/* Centered Desktop Modal Container */
+/* Centered Desktop Modal Container (Art-Directed Canvas) */
 .cs-modal {
   position: relative;
-  width: 100%;
-  max-width: 680px;
-  max-height: calc(100vh - 48px);
+  width: min(92vw, 1320px);
+  height: 92vh;
+  max-height: 92vh;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: rgba(167, 139, 250, 0.3) transparent;
-  background: linear-gradient(165deg, rgba(20, 16, 32, 0.98) 0%, rgba(10, 8, 16, 0.99) 100%);
-  border: 1px solid rgba(167, 139, 250, 0.22);
-  border-radius: 24px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.16);
+  scrollbar-color: rgba(167, 139, 250, 0.3) rgba(8, 7, 13, 0.6);
+  background: #08070D;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(139, 92, 246, 0.06);
   opacity: 0;
-  transform: translateY(16px) scale(0.97);
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 280ms ease;
+  transform: translateY(20px) scale(0.985);
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), opacity 350ms ease;
   outline: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .cs-modal.is-active {
@@ -1343,36 +1347,100 @@ body.modal-open {
 }
 
 .cs-modal::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(8, 7, 13, 0.6);
 }
 
 .cs-modal::-webkit-scrollbar-thumb {
   background-color: rgba(167, 139, 250, 0.3);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-/* Top-Right Close Button */
+.cs-modal::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(167, 139, 250, 0.55);
+}
+
+/* Minimal Sticky Header Bar */
+.cs-modal__sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  background: rgba(8, 7, 13, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.cs-modal__sticky-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.cs-modal__sticky-index {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A1A1AA;
+  font-family: var(--font-mono, monospace);
+  white-space: nowrap;
+}
+
+.cs-modal__sticky-sep {
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 0.75rem;
+}
+
+.cs-modal__sticky-category {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C4B5FD;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.cs-modal__sticky-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sticky Header Close Button */
 .cs-modal__close-btn {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #EDE9FE;
+  color: #A1A1AA;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 200ms ease;
-  z-index: 10;
+  flex-shrink: 0;
 }
 
 .cs-modal__close-btn:hover {
-  background: rgba(139, 92, 246, 0.3);
-  border-color: rgba(167, 139, 250, 0.5);
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(167, 139, 250, 0.4);
   color: #FFFFFF;
   transform: scale(1.06);
 }
@@ -1384,242 +1452,842 @@ body.modal-open {
 
 /* Modal Body Content */
 .cs-modal__body {
-  padding: 26px 30px 22px 30px;
+  padding: 36px clamp(24px, 4.5vw, 64px) 60px;
+  flex: 1;
 }
 
-.cs-modal__content-wrap {
+/* Main Container Layout */
+.cs-exp {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 4.2vw, 56px);
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Fine Editorial Dividers */
+.cs-exp-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 0;
+}
+
+.cs-exp-meta-sep {
+  color: rgba(255, 255, 255, 0.16);
+  font-size: 0.72rem;
+}
+
+/* Editorial Section Markers — 01 RESULTS  02 CHALLENGE  03 OUR APPROACH
+   Number: CREWiiFY purple, monospaced, restrained size.
+   Label: muted white, highly tracked uppercase, same size.
+   No slash separator. */
+.cs-exp-marker {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.cs-exp-marker__num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #A78BFA;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* sep is removed from HTML; keep rule as no-op fallback */
+.cs-exp-marker__sep {
+  display: none;
+}
+
+.cs-exp-marker__title {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #71717A;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   1. IDENTITY / HERO (Asymmetric 2-Column Editorial Composition)
+   ========================================================================== */
+.cs-exp-hero {
+  position: relative;
+  width: 100%;
+}
+
+.cs-exp-hero__grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: center;
+  min-height: 380px;
+}
+
+.cs-exp-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-width: 0;
+}
+
+.cs-exp-hero__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.cs-exp-meta-tag {
+  color: #A78BFA;
+}
+
+.cs-exp-meta-industry {
+  color: #A1A1AA;
+  letter-spacing: 0.12em;
+}
+
+.cs-exp-meta-timeframe {
+  color: #71717A;
+  font-family: var(--font-mono, monospace);
+}
+
+/* Client name: Strong, bold, uppercase */
+.cs-exp-client-name {
+  font-size: clamp(2.2rem, 3.2vw, 3.1rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  word-break: normal;
+  max-width: 500px;
+}
+
+/* Secondary headline: Medium purple / lavender */
+.cs-exp-headline {
+  font-size: clamp(1.25rem, 1.6vw, 1.55rem);
+  font-weight: 600;
+  color: #A78BFA;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px 0;
+}
+
+/* Overview block */
+.cs-exp-overview-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-exp-overview-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #A78BFA;
+}
+
+.cs-exp-overview {
+  font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+  font-weight: 400;
+  color: #9A9A9A;
+  line-height: 1.65;
+  max-width: 480px;
+  margin: 0;
+}
+
+/* ============================================================
+   RIGHT COLUMN — ADAPTIVE MEDIA STAGE
+   The stage maintains a controlled envelope (fixed height).
+   The image adapts its size and alignment WITHIN the stage
+   based on its classified aspect ratio. No image is ever
+   cropped. The hero height stays consistent across all
+   case studies.
+   ============================================================ */
+
+.cs-exp-hero__visual-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* STAGE — fixed envelope, provides composition anchor */
+.cs-exp-hero__stage {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 400px;         /* Fixed envelope — hero height stays consistent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+/* Subtle purple ambient glow — behind the image */
+.cs-exp-hero__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.22) 0%,
+    rgba(109, 40, 217, 0.08) 48%,
+    transparent 72%
+  );
+  filter: blur(42px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Decorative editorial contour lines — behind the image */
+.cs-exp-hero__contours {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.75;
+}
+
+/* IMAGE BOX — base layer, no type applied yet (JS adds the type class) */
+.cs-exp-hero__image-box {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* No overflow:hidden here — each type sets it as needed */
+  /* No border-radius here — each type controls its own frame */
+}
+
+/* Base image defaults — always contain, never crop */
+.cs-exp-hero__img {
+  display: block;
+  object-fit: contain;
+  object-position: center center;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------------------
+   TYPE CLASSES — applied automatically by initHeroMediaDetector()
+   Each class controls the image-box dimensions within the fixed
+   stage envelope. object-fit:contain is the default for all.
+   ------------------------------------------------------------------ */
+
+/* LANDSCAPE — photographs, resort/cruise imagery, website screenshots
+   Wide presentation; fills most of the stage width. */
+.cs-exp-media--landscape {
+  width: 100%;
+  max-height: 320px;
+  background: #09080F;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.65);
+}
+
+.cs-exp-media--landscape .cs-exp-hero__img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+}
+
+/* PORTRAIT — doctor/person photography, vertical campaign creative
+   Narrower box; image retains natural portrait proportions. */
+.cs-exp-media--portrait {
+  width: auto;
+  max-width: 72%;
+  max-height: 380px;
+  background: #09080F;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.65);
+}
+
+.cs-exp-media--portrait .cs-exp-hero__img {
+  width: auto;
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+}
+
+/* SQUARE — social media artwork, campaign squares
+   Moderate box; sits naturally centered within stage. */
+.cs-exp-media--square {
+  width: auto;
+  max-width: 84%;
+  max-height: 350px;
+  background: #09080F;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.65);
+}
+
+.cs-exp-media--square .cs-exp-hero__img {
+  width: auto;
+  max-width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+}
+
+/* ARTWORK — tall stat graphics, infographics, very tall photographs
+   No artificial width cap; image fills the full stage height.
+   No border on very tall assets to avoid empty side-padding feeling. */
+.cs-exp-media--artwork {
+  width: auto;
+  max-width: 100%;
+  max-height: 395px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.cs-exp-media--artwork .cs-exp-hero__img {
+  width: auto;
+  max-width: 100%;
+  max-height: 395px;
+  object-fit: contain;
+  /* Subtle lift so the graphic feels intentional against the dark stage */
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7));
+}
+
+/* Glow intensity: tone down slightly for narrow (portrait/artwork) types
+   so the glow doesn't feel oversized relative to the image footprint.
+   Uses :has() to target the glow within a stage that contains that media type. */
+.cs-exp-hero__stage:has(.cs-exp-media--portrait) .cs-exp-hero__glow,
+.cs-exp-hero__stage:has(.cs-exp-media--artwork)  .cs-exp-hero__glow {
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   2. RESULTS (Primary Metric & Dynamic Secondary Columns)
+   ========================================================================== */
+.cs-exp-results {
+  position: relative;
+}
+
+/* Primary Metric — prominent but restrained (~64–72px range) */
+.cs-exp-primary-metric {
+  text-align: left;
+  padding: 4px 0 16px;
+}
+
+.cs-exp-primary-metric__val {
+  font-size: clamp(3.6rem, 4.6vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
+  margin-bottom: 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-exp-primary-metric__lbl {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #A1A1AA;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* Secondary Metrics — left-aligned, separated by 1px rule */
+.cs-exp-secondary-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 14px 0 6px;
+  width: 100%;
+  margin: 0;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cs-exp-secondary-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding-right: 40px;
+}
+
+.cs-exp-secondary-col:first-child {
+  padding-left: 0;
+}
+
+.cs-exp-secondary-sep {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.07);
+  margin-right: 40px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.cs-exp-secondary-val {
+  font-size: clamp(1.75rem, 2.1vw, 2.05rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-exp-secondary-lbl {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #71717A;
+}
+
+/* ==========================================================================
+   ANALYTICS PROOF (Large, readable evidence screenshots)
+   Visually quiet — label then images, no decorative treatment.
+   ========================================================================== */
+.cs-exp-proof {
+  position: relative;
+}
+
+.cs-exp-proof-label {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.cs-exp-proof-label__text {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #52525B;
+}
+
+.cs-exp-proof-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.cs-exp-proof-grid--count-1 {
+  grid-template-columns: 1fr;
+}
+
+.cs-exp-proof-grid--count-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-proof-grid--count-3 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-proof-grid--count-3 .cs-exp-proof-item:last-child {
+  grid-column: 1 / -1;
+}
+
+.cs-exp-proof-grid--count-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-proof-grid--count-5,
+.cs-exp-proof-grid--count-6,
+.cs-exp-proof-grid--count-7,
+.cs-exp-proof-grid--count-8 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.cs-exp-proof-item {
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* Eyebrow / Category Header */
-.cs-modal__eyebrow-row {
+.cs-exp-proof-item__frame {
+  background: #07060D;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.cs-modal__client {
-  font-size: 0.80rem;
-  font-weight: 500;
-  color: #8A8A8A;
-  letter-spacing: 0.02em;
-}
-
-/* Title & Subtitle */
-.cs-modal__title {
-  font-size: clamp(1.45rem, 2.2vw, 1.8rem);
-  font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
-  padding-right: 36px;
-}
-
-.cs-modal__subtitle {
-  font-size: 0.86rem;
-  color: #9A9A9A;
-  line-height: 1.4;
-  margin-bottom: 14px;
-}
-
-/* Wide Full-Width Horizontal Hero Image */
-.cs-modal__media {
-  position: relative;
+.cs-exp-proof-item__img {
   width: 100%;
-  aspect-ratio: 2.35 / 1;
-  max-height: 235px;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(12, 10, 18, 0.95);
-  margin-bottom: 14px;
-}
-
-.cs-modal__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
   display: block;
 }
 
-.cs-modal__media-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 100%, rgba(139, 92, 246, 0.1), transparent 75%);
-  pointer-events: none;
-}
-
-/* Description */
-.cs-modal__section {
-  margin-bottom: 14px;
-}
-
-.cs-modal__desc {
-  font-size: 0.88rem;
-  color: #D4D4D8;
-  line-height: 1.55;
-  margin: 0;
-}
-
-/* Key Result Highlight Box */
-.cs-modal__result-box {
-  background: linear-gradient(135deg, rgba(28, 22, 44, 0.65) 0%, rgba(16, 13, 26, 0.85) 100%);
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  border-radius: 14px;
-  padding: 12px 18px;
-  margin-bottom: 14px;
-}
-
-.cs-modal__result-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.cs-modal__result-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  box-shadow: 0 0 6px var(--color-primary);
-}
-
-.cs-modal__result-tag {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #C4B5FD;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.cs-modal__result-main {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.cs-modal__result-primary {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.cs-modal__result-val {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.cs-modal__result-lbl {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: #C4B5FD;
-}
-
-.cs-modal__submetrics {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.cs-modal__submetric {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  padding-left: 10px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.cs-modal__submetric-val {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #EDE9FE;
-}
-
-.cs-modal__submetric-lbl {
-  font-size: 0.70rem;
-  color: #8A8A8A;
-}
-
-/* Services Delivered */
-.cs-modal__services-section {
-  margin-bottom: 14px;
-  padding-top: 2px;
-}
-
-.cs-modal__services-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #8A8A8A;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.cs-modal__services-text {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #EDE9FE;
+.cs-exp-proof-item__caption {
+  font-size: 0.74rem;
+  color: #52525B;
+  margin-top: 8px;
+  text-align: left;
   line-height: 1.4;
 }
 
-/* Modal Actions Footer */
-.cs-modal__footer {
+/* ==========================================================================
+   CHALLENGE + APPROACH
+   One editorial two-column composition. Content breathes naturally —
+   no forced equal-height columns, no filler content.
+   ========================================================================== */
+.cs-exp-challenge-approach {
+  position: relative;
+}
+
+.cs-exp-ca-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0 40px;
+  align-items: start;
+}
+
+/* 1px vertical rule between challenge and approach */
+.cs-exp-ca-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  align-self: stretch;
+  margin-top: 20px;
+  min-height: 60px;
+}
+
+.cs-exp-ca-col {
+  min-width: 0;
+}
+
+/* Challenge summary: compact, editorial, muted */
+.cs-exp-challenge-summary {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #71717A;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+  max-width: 100%;
+}
+
+/* Challenge bullet list — single column default */
+.cs-exp-challenge-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Two-column layout for 5+ challenge points */
+.cs-exp-challenge-list--grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
+}
+
+.cs-exp-challenge-item {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #D4D4D8;
+  line-height: 1.5;
+}
+
+.cs-exp-challenge-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #6D28D9;
+  opacity: 0.7;
+}
+
+/* Approach list — 1-col default, 2-col for 5+ items */
+.cs-exp-approach-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cs-exp-approach-list--grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 24px;
+}
+
+/* Each approach item: thin bottom rule as separator */
+.cs-exp-approach-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cs-exp-approach-item:first-child {
+  padding-top: 0;
+}
+
+.cs-exp-approach-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* grid2 mode: last item in the list loses its separator line */
+.cs-exp-approach-list--grid2 .cs-exp-approach-item:last-child {
+  border-bottom: none;
+}
+
+.cs-exp-approach-num {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #6D28D9;
+  font-family: var(--font-mono, monospace);
+  flex-shrink: 0;
+  padding-top: 3px;
+  opacity: 0.9;
+}
+
+.cs-exp-approach-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Approach title — slightly stronger than description */
+.cs-exp-approach-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #F4F4F5;
+  line-height: 1.35;
+}
+
+/* Approach description — muted, supporting role */
+.cs-exp-approach-desc {
+  font-size: 0.80rem;
+  font-weight: 400;
+  color: #71717A;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   WORK / GALLERY (Adaptive Creative Portfolio Showcase)
+   ========================================================================== */
+.cs-exp-work {
+  position: relative;
+}
+
+.cs-exp-work__gallery {
+  display: grid;
+  gap: 16px;
+}
+
+.cs-exp-work__gallery--count-1 {
+  grid-template-columns: 1fr;
+}
+
+.cs-exp-work__gallery--count-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-work__gallery--count-3 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-work__gallery--count-3 .cs-exp-work-figure:first-child {
+  grid-column: 1 / -1;
+}
+
+.cs-exp-work__gallery--count-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-exp-work__gallery--count-5,
+.cs-exp-work__gallery--count-6,
+.cs-exp-work__gallery--count-7,
+.cs-exp-work__gallery--count-8 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.cs-exp-work-figure {
+  margin: 0;
+}
+
+.cs-exp-work-figure__frame {
+  background: #050408;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+
+.cs-exp-work-figure__img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+
+.cs-exp-work-figure__caption {
+  font-size: 0.76rem;
+  color: #71717A;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   MICRO CTA & NAVIGATION
+   Slim closing row — thin top divider, small headline, ghost button.
+   ========================================================================== */
+.cs-exp-footer {
+  position: relative;
+  margin-top: 0;
+}
+
+.cs-exp-closing-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 14px;
-  margin-top: 2px;
+  gap: 16px;
+  padding: 16px 0 12px;
+  flex-wrap: wrap;
 }
 
-.cs-modal__back-btn {
+.cs-exp-closing-row__headline {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #A1A1AA;
+  letter-spacing: 0.01em;
+}
+
+.cs-exp-cta-btn {
+  padding: 10px 24px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
+  transition: all 200ms ease;
+  text-decoration: none;
   cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 9px 18px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #EDE9FE;
-  transition: all 0.2s ease;
 }
 
-.cs-modal__back-btn:hover {
+.cs-exp-cta-btn:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: #A78BFA;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.35);
+}
+
+.cs-exp-btn-arrow {
+  transition: transform 200ms ease;
+}
+
+.cs-exp-cta-btn:hover .cs-exp-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Secondary Previous / Next Case Navigation */
+.cs-exp-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 8px;
+  gap: 16px;
+}
+
+.cs-exp-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: opacity 0.2s ease;
+  padding: 4px 0;
+}
+
+.cs-exp-nav-btn:hover {
+  opacity: 0.75;
+}
+
+.cs-exp-nav-btn--next {
+  text-align: right;
+}
+
+.cs-exp-nav-btn__dir {
+  font-size: 0.70rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8B5CF6;
+  font-family: var(--font-mono, monospace);
+}
+
+.cs-exp-nav-btn__title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.cs-exp-nav-sep {
+  width: 1px;
+  height: 32px;
   background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
 }
 
-.cs-modal__contact-btn {
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 9px 22px;
-  border-radius: 9999px;
-  background: #0E0B1A;
-  border: 1px solid rgba(167, 139, 250, 0.4);
-  color: #FFFFFF;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.15);
-  transition: all 0.2s ease;
-}
 
-.cs-modal__contact-btn:hover {
-  border-color: rgba(167, 139, 250, 0.7);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-  transform: translateY(-1px);
-}
 
 
 /* ==========================================================================
@@ -1893,70 +2561,184 @@ body.modal-open {
     gap: 18px;
   }
 
-  /* Mobile Bottom Sheet Modal */
+  /* Mobile Full-Screen Expanded Case Study Overlay */
   .cs-modal-backdrop {
     padding: 0;
-    align-items: flex-end;
+    align-items: stretch;
+    justify-content: stretch;
   }
 
   .cs-modal {
-    width: 100%;
-    max-width: 100%;
-    max-height: 90vh;
-    border-radius: 24px 24px 0 0;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    transform: translateY(100%);
+    width: 100vw;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+    transform: translateY(20px);
   }
 
   .cs-modal.is-active {
     transform: translateY(0);
   }
 
+  .cs-modal__sticky-header {
+    padding: 12px 16px;
+  }
+
   .cs-modal__body {
-    padding: 24px 20px 20px 20px;
+    padding: 24px 18px 48px;
   }
 
-  .cs-modal__title {
-    font-size: 1.45rem;
-    padding-right: 32px;
+  .cs-exp {
+    gap: 28px;
   }
 
-  .cs-modal__media {
-    aspect-ratio: 2 / 1;
-    max-height: 200px;
-    margin-bottom: 12px;
+  .cs-exp-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .cs-modal__img {
-    height: 100%;
+  /* On mobile the stage collapses to a controlled max-height,
+     still respecting the image's natural proportions inside */
+  .cs-exp-hero__stage {
+    height: auto;
+    max-height: 320px;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
   }
 
-  .cs-modal__result-main {
+  .cs-exp-hero__visual-wrap {
+    min-height: auto;
+    justify-content: center;
+  }
+
+  /* All type classes: let the image breathe on small screens */
+  .cs-exp-media--landscape,
+  .cs-exp-media--portrait,
+  .cs-exp-media--square,
+  .cs-exp-media--artwork {
+    max-width: 100%;
+  }
+
+  .cs-exp-media--portrait {
+    max-width: 80%;
+  }
+
+  .cs-exp-media--landscape .cs-exp-hero__img,
+  .cs-exp-media--square    .cs-exp-hero__img {
+    max-height: 280px;
+  }
+
+  .cs-exp-media--portrait .cs-exp-hero__img {
+    max-height: 300px;
+  }
+
+  .cs-exp-media--artwork .cs-exp-hero__img {
+    max-height: 310px;
+  }
+
+  .cs-exp-client-name {
+    font-size: clamp(1.65rem, 6.5vw, 2.1rem);
+    line-height: 1.12;
+  }
+
+  .cs-exp-headline {
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+  }
+
+  .cs-exp-overview {
+    font-size: 0.875rem;
+  }
+
+  .cs-exp-primary-metric__val {
+    font-size: clamp(2.8rem, 9.5vw, 3.4rem);
+  }
+
+  .cs-exp-secondary-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 16px;
+    padding: 12px 0;
   }
 
-  .cs-modal__submetrics {
-    gap: 12px;
-  }
-
-  .cs-modal__submetric {
-    border-left: none;
-    padding-left: 0;
-  }
-
-  .cs-modal__footer {
-    flex-direction: column-reverse;
-    gap: 10px;
-  }
-
-  .cs-modal__footer .btn {
+  .cs-exp-secondary-col {
+    padding-right: 0;
     width: 100%;
-    text-align: center;
+  }
+
+  .cs-exp-secondary-sep {
+    display: none;
+  }
+
+  .cs-exp-secondary-val {
+    font-size: 1.55rem;
+  }
+
+  .cs-exp-proof-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .cs-exp-proof-grid--count-3 .cs-exp-proof-item:last-child {
+    grid-column: auto;
+  }
+
+  /* Challenge + Approach: Stack to single column on mobile */
+  .cs-exp-ca-grid {
+    grid-template-columns: 1fr;
+    gap: 28px 0;
+  }
+
+  .cs-exp-ca-divider {
+    display: none;
+  }
+
+  /* Collapse both approach and challenge 2-col grids to 1 col on mobile */
+  .cs-exp-approach-list--grid2,
+  .cs-exp-challenge-list--grid2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .cs-exp-work__gallery {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .cs-exp-work__gallery--count-3 .cs-exp-work-figure:first-child {
+    grid-column: auto;
+  }
+
+  .cs-exp-closing-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0 10px;
+  }
+
+  .cs-exp-closing-row__headline {
+    font-size: 0.88rem;
+  }
+
+  .cs-exp-cta-btn {
+    width: 100%;
     justify-content: center;
+  }
+
+  .cs-exp-nav-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .cs-exp-nav-sep {
+    display: none;
+  }
+
+  .cs-exp-nav-btn--next {
+    text-align: left;
   }
 }
 

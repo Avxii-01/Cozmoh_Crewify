@@ -458,18 +458,28 @@
     </div>
   </footer>
 
-  <!-- Case Study Preview Modal Overlay (Compact Preview) -->
+  <!-- Expanded Case Study Overlay / Modal (Immersive Portfolio Experience) -->
   <div class="cs-modal-backdrop" id="csModalBackdrop" aria-hidden="true" role="presentation">
-    <div class="cs-modal" id="csModal" role="dialog" aria-modal="true" aria-labelledby="csModalTitle"
-      aria-describedby="csModalDesc" tabindex="-1">
-      <!-- Top Close Button -->
-      <button class="cs-modal__close-btn" id="csModalCloseBtn" aria-label="Close case study preview">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+    <div class="cs-modal" id="csModal" role="dialog" aria-modal="true" aria-labelledby="csModalStickyTitle"
+      tabindex="-1">
+      
+      <!-- Minimal Editorial Sticky Modal Header -->
+      <header class="cs-modal__sticky-header" id="csModalStickyHeader">
+        <div class="cs-modal__sticky-left">
+          <span class="cs-modal__sticky-index" id="csModalStickyIndex">CASE STUDY 01 / 06</span>
+          <span class="cs-modal__sticky-sep" aria-hidden="true">/</span>
+          <span class="cs-modal__sticky-category" id="csModalStickyCategory">LOCAL SEO</span>
+          <span class="cs-modal__sticky-sep" aria-hidden="true">/</span>
+          <span class="cs-modal__sticky-title" id="csModalStickyTitle">Paladium Janseva Hospital</span>
+        </div>
+        <button class="cs-modal__close-btn" id="csModalCloseBtn" aria-label="Close case study overlay">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
 
       <!-- Modal Content Body (Rendered dynamically) -->
       <div class="cs-modal__body" id="csModalBody">

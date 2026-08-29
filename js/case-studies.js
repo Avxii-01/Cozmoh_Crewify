@@ -510,7 +510,7 @@ function createCardHTML(item) {
 }
 
 /* ==========================================================================
-   4. COMPACT CASE STUDY MODAL PREVIEW SYSTEM
+   4. EXPANDED CASE STUDY OVERLAY & IMMERSIVE PORTFOLIO ENGINE
    ========================================================================== */
 
 let lastFocusedElement = null;
@@ -523,7 +523,7 @@ function initModalSystem() {
 
   if (!backdrop || !modal) return;
 
-  // Close via top-right close button
+  // Close via sticky top-right close button
   if (closeBtn) {
     closeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -547,33 +547,59 @@ function initModalSystem() {
 }
 
 /**
- * Open Modal with Case Study Data
+ * Open Expanded Case Study Modal with Dynamic Data
  */
 function openModal(caseStudyId, triggerElement) {
-  const item = caseStudiesData.find(cs => cs.id === caseStudyId);
-  if (!item) return;
+  const currentIndex = caseStudiesData.findIndex(cs => cs.id === caseStudyId);
+  if (currentIndex === -1) return;
+  const item = caseStudiesData[currentIndex];
+
+  const totalCases = caseStudiesData.length;
+  const prevIndex = (currentIndex - 1 + totalCases) % totalCases;
+  const nextIndex = (currentIndex + 1) % totalCases;
+  const prevItem = caseStudiesData[prevIndex];
+  const nextItem = caseStudiesData[nextIndex];
 
   const backdrop = document.getElementById('csModalBackdrop');
   const modal = document.getElementById('csModal');
   const modalBody = document.getElementById('csModalBody');
   const closeBtn = document.getElementById('csModalCloseBtn');
+  const stickyIndex = document.getElementById('csModalStickyIndex');
+  const stickyCategory = document.getElementById('csModalStickyCategory');
+  const stickyTitle = document.getElementById('csModalStickyTitle');
 
   if (!backdrop || !modal || !modalBody) return;
 
   // Save trigger element for accessible focus restoration
   lastFocusedElement = triggerElement || document.activeElement;
 
-  // Populate dynamic modal content
-  modalBody.innerHTML = createModalContentHTML(item);
+  // Update minimal editorial sticky header
+  const caseNumberStr = String(currentIndex + 1).padStart(2, '0');
+  const totalCasesStr = String(totalCases).padStart(2, '0');
+  const categoryLabel = item.hero?.eyebrow || item.category || 'CASE STUDY';
+  const clientTitle = item.client?.name || item.title;
+  
+  if (stickyIndex) stickyIndex.textContent = `CASE STUDY ${caseNumberStr} / ${totalCasesStr}`;
+  if (stickyCategory) stickyCategory.textContent = categoryLabel;
+  if (stickyTitle) stickyTitle.textContent = clientTitle;
 
-  // Bind the bottom "Back to Case Studies" button
-  const bottomCloseBtn = modalBody.querySelector('#csModalBottomCloseBtn');
-  if (bottomCloseBtn) {
-    bottomCloseBtn.addEventListener('click', (e) => {
+  // Populate dynamic modal content
+  modalBody.innerHTML = createModalContentHTML(item, prevItem, nextItem, currentIndex, totalCases);
+
+  // Bind Previous/Next navigation buttons
+  const navBtns = modalBody.querySelectorAll('.cs-exp-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      closeModal();
+      const targetId = btn.getAttribute('data-target-id');
+      if (targetId) {
+        openModal(targetId, lastFocusedElement);
+      }
     });
-  }
+  });
+
+  // Reset modal scroll position to top
+  modal.scrollTop = 0;
 
   // Lock background scroll without shifting content
   lockScroll();
@@ -584,6 +610,9 @@ function openModal(caseStudyId, triggerElement) {
   modal.classList.add('is-active');
   isModalOpen = true;
 
+  // Run adaptive media type detection on the hero image
+  initHeroMediaDetector(modalBody);
+
   // Set focus into modal close button
   setTimeout(() => {
     if (closeBtn) {
@@ -591,7 +620,7 @@ function openModal(caseStudyId, triggerElement) {
     } else {
       modal.focus();
     }
-  }, 50);
+  }, 60);
 }
 
 /**
@@ -621,95 +650,419 @@ function closeModal() {
 }
 
 /**
- * Generate Modal Internal Content HTML
- * Compact preview: Category -> Title -> Large Image -> Description -> Result -> Services -> CTA
+ * Adaptive Hero Media Type Detection
+ * Inspects naturalWidth/naturalHeight of the hero image after load and assigns
+ * one of four CSS modifier classes to the image-box container.
+ *
+ * Classification thresholds (aspect ratio = width / height):
+ *   artwork   ratio < 0.60   → extremely tall asset (infographic, stat graphic, very tall photo)
+ *   portrait  ratio 0.60–0.86 → taller-than-wide asset
+ *   square    ratio 0.87–1.15 → approximately square
+ *   landscape ratio > 1.15   → wider-than-tall asset
+ *
+ * If data.hero.imageMode is set (and not "auto" / "photo"), it takes priority:
+ *   Legacy values are mapped: cutout → artwork, photo → auto, screen → landscape, creative → artwork
  */
-function createModalContentHTML(item) {
-  const primaryMetric = (item.result && item.resultLabel)
-    ? { value: item.result, label: item.resultLabel }
-    : (item.metrics && item.metrics.length > 0 ? item.metrics[0] : null);
+function initHeroMediaDetector(modalBody) {
+  const imageBox = modalBody.querySelector('.cs-exp-hero__image-box');
+  const img      = modalBody.querySelector('.cs-exp-hero__img');
+  if (!imageBox || !img) return;
 
-  // Secondary metrics if present
-  const secondaryMetricsHTML = (item.metrics && item.metrics.length > 1)
-    ? `
-      <div class="cs-modal__submetrics">
-        ${item.metrics.slice(1, 3).map(m => `
-          <div class="cs-modal__submetric">
-            <span class="cs-modal__submetric-val">${m.value}</span>
-            <span class="cs-modal__submetric-lbl">${m.label}</span>
-          </div>
-        `).join('')}
-      </div>
-    `
-    : '';
+  // Map legacy imageMode values to the new type system
+  const LEGACY_MAP = {
+    cutout:   'artwork',
+    screen:   'landscape',
+    creative: 'artwork',
+    photo:    null,   // null = fall through to auto-detection
+    auto:     null
+  };
 
-  // Services delivered list
-  const servicesList = (item.services && item.services.length > 0)
-    ? item.services.join(' · ')
-    : (item.category || 'Digital Strategy');
+  const rawMode = (imageBox.dataset.imageMode || '').toLowerCase();
+
+  // If there is a valid manual override that maps to a real type, apply it immediately
+  if (rawMode && rawMode !== 'auto' && rawMode !== 'photo' && !LEGACY_MAP.hasOwnProperty(rawMode)) {
+    // Direct match — e.g. imageMode: "portrait" / "landscape" / "square" / "artwork"
+    applyHeroMediaClass(imageBox, rawMode);
+    return;
+  }
+
+  const legacyResolved = LEGACY_MAP[rawMode];
+  if (legacyResolved) {
+    // e.g. cutout → artwork
+    applyHeroMediaClass(imageBox, legacyResolved);
+    return;
+  }
+
+  // Auto-detection from naturalWidth / naturalHeight
+  function detectFromDimensions() {
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+    if (!w || !h) {
+      // Fallback: treat as landscape so the stage still looks intentional
+      applyHeroMediaClass(imageBox, 'landscape');
+      return;
+    }
+    const ratio = w / h;
+    let type;
+    if      (ratio < 0.60) type = 'artwork';   // Extremely tall — infographic, stat graphic, very tall photo
+    else if (ratio < 0.87) type = 'portrait';  // Taller than wide
+    else if (ratio <= 1.15) type = 'square';   // Approximately square
+    else                    type = 'landscape'; // Wider than tall
+    applyHeroMediaClass(imageBox, type);
+  }
+
+  if (img.complete && img.naturalWidth) {
+    detectFromDimensions();
+  } else {
+    img.addEventListener('load',  detectFromDimensions, { once: true });
+    img.addEventListener('error', () => applyHeroMediaClass(imageBox, 'landscape'), { once: true });
+  }
+}
+
+/**
+ * Apply a single media-type class to the hero image-box, removing any previous type.
+ */
+function applyHeroMediaClass(box, type) {
+  box.classList.remove(
+    'cs-exp-media--landscape',
+    'cs-exp-media--portrait',
+    'cs-exp-media--square',
+    'cs-exp-media--artwork'
+  );
+  box.classList.add(`cs-exp-media--${type}`);
+}
+
+/**
+ * Main Case Study Modal Content Dispatcher
+ */
+function createModalContentHTML(item, prevItem, nextItem, currentIndex, totalCases) {
+  if (item.type === 'creative') {
+    return createCreativeCaseStudyHTML(item, prevItem, nextItem);
+  }
+  return createResultCaseStudyHTML(item, prevItem, nextItem);
+}
+
+/**
+ * RESULT-BASED Case Study Renderer
+ * HERO → RESULTS → ANALYTICS PROOF → CHALLENGE + APPROACH → SMALL CTA → NAVIGATION
+ */
+function createResultCaseStudyHTML(item, prevItem, nextItem) {
+  return `
+    <div class="cs-exp">
+      ${renderHeroSection(item)}
+      ${renderResultsSection(item)}
+      ${renderProofSection(item)}
+      ${renderChallengeApproachSection(item, '02', '03')}
+      ${renderFooterSection(item, prevItem, nextItem)}
+    </div>
+  `;
+}
+
+/**
+ * CREATIVE-BASED Case Study Renderer
+ * HERO → WORK / GALLERY → CHALLENGE + APPROACH → SMALL CTA → NAVIGATION
+ */
+function createCreativeCaseStudyHTML(item, prevItem, nextItem) {
+  return `
+    <div class="cs-exp">
+      ${renderHeroSection(item)}
+      ${renderWorkSection(item, '01')}
+      ${renderChallengeApproachSection(item, '02', '03')}
+      ${renderFooterSection(item, prevItem, nextItem)}
+    </div>
+  `;
+}
+
+/**
+ * 1. HERO — Asymmetric Editorial 2-Column Composition
+ * Left: Metadata, Client Name, Secondary Headline, Overview
+ * Right: Integrated Visual Stage with Atmospheric Glow & Contour Texture
+ */
+function renderHeroSection(item) {
+  const eyebrow = item.hero?.eyebrow || item.category || 'CASE STUDY';
+  const industry = item.client?.industry || '';
+  const timeframe = item.hero?.timeframe || '';
+  const clientName = item.client?.name || item.title;
+  const headline = item.hero?.headline || item.subtitle || '';
+  const overview = item.hero?.overview || item.hero?.description || item.overview || '';
+  const coverImage = item.hero?.coverImage || item.image || '';
+  const coverImageAlt = item.hero?.coverImageAlt || `${clientName} Project Overview`;
+  const imageMode = item.hero?.imageMode || (coverImage.includes('cutout') || coverImage.includes('palladium') ? 'cutout' : 'photo');
+
+  // Build metadata items
+  const metaParts = [eyebrow];
+  if (industry) metaParts.push(industry.toUpperCase());
+  if (timeframe) metaParts.push(timeframe);
 
   return `
-    <div class="cs-modal__content-wrap">
-      
-      <!-- 1. Category Eyebrow Badge & Client -->
-      <div class="cs-modal__eyebrow-row">
-        <span class="cs-tag cs-tag--category">${item.category}</span>
-        ${item.client ? `<span class="cs-modal__client">${item.client}</span>` : ''}
-      </div>
-
-      <!-- 2. Project Title & Subtitle -->
-      <h2 class="cs-modal__title" id="csModalTitle">${item.title}</h2>
-      ${item.subtitle ? `<p class="cs-modal__subtitle">${item.subtitle}</p>` : ''}
-
-      <!-- 3. Wide Full-Width Horizontal Hero Image -->
-      <div class="cs-modal__media">
-        <img src="${item.heroImage || item.image}" alt="${item.title} Case Study Visual" class="cs-modal__img" style="object-position: ${item.imagePosition || 'center center'};" loading="lazy">
-        <div class="cs-modal__media-glow" aria-hidden="true"></div>
-      </div>
-
-      <!-- 4. Project Short Description / Narrative -->
-      <div class="cs-modal__section">
-        <p class="cs-modal__desc" id="csModalDesc">
-          ${item.overview || item.description}
-        </p>
-      </div>
-
-      <!-- 5. Key Results Highlight Panel -->
-      ${primaryMetric ? `
-        <div class="cs-modal__result-box">
-          <div class="cs-modal__result-header">
-            <span class="cs-modal__result-dot" aria-hidden="true"></span>
-            <span class="cs-modal__result-tag">KEY RESULT</span>
+    <section class="cs-exp-hero" aria-label="Project Overview">
+      <div class="cs-exp-hero__grid">
+        <!-- Left Column: Editorial Information -->
+        <div class="cs-exp-hero__content">
+          <div class="cs-exp-hero__meta">
+            ${metaParts.map((part, i) => `
+              ${i > 0 ? '<span class="cs-exp-meta-sep" aria-hidden="true">/</span>' : ''}
+              <span class="${i === 0 ? 'cs-exp-meta-tag' : (i === metaParts.length - 1 ? 'cs-exp-meta-timeframe' : 'cs-exp-meta-industry')}">${part}</span>
+            `).join('')}
           </div>
-          <div class="cs-modal__result-main">
-            <div class="cs-modal__result-primary">
-              <span class="cs-modal__result-val">${primaryMetric.value}</span>
-              <span class="cs-modal__result-lbl">${primaryMetric.label}</span>
+
+          <h1 class="cs-exp-client-name">${clientName}</h1>
+
+          ${headline ? `<p class="cs-exp-headline">${headline}</p>` : ''}
+
+          ${overview ? `
+            <div class="cs-exp-overview-block">
+              <span class="cs-exp-overview-label">OVERVIEW</span>
+              <p class="cs-exp-overview">${overview}</p>
             </div>
-            ${secondaryMetricsHTML}
+          ` : ''}
+        </div>
+
+        <!-- Right Column: Visual Presentation with Glow & Contour Waves -->
+        ${coverImage ? `
+          <div class="cs-exp-hero__visual-wrap">
+            <div class="cs-exp-hero__stage">
+              <div class="cs-exp-hero__glow" aria-hidden="true"></div>
+              <svg class="cs-exp-hero__contours" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M40 320C100 240 180 290 260 210C320 150 350 70 380 20" stroke="rgba(139, 92, 246, 0.18)" stroke-width="1.2"/>
+                <path d="M10 340C80 260 160 310 240 220C300 160 340 90 370 40" stroke="rgba(139, 92, 246, 0.14)" stroke-width="1"/>
+                <path d="M70 300C130 230 200 270 280 190C330 130 360 50 390 0" stroke="rgba(139, 92, 246, 0.1)" stroke-width="1"/>
+                <path d="M-20 360C60 280 140 330 220 240C280 180 330 110 360 60" stroke="rgba(139, 92, 246, 0.07)" stroke-width="1"/>
+              </svg>
+              <div class="cs-exp-hero__image-box" data-image-mode="${imageMode}">
+                <img src="${coverImage}" alt="${coverImageAlt}" class="cs-exp-hero__img" loading="eager">
+              </div>
+            </div>
           </div>
+        ` : ''}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * 2. RESULTS — Primary Metric & Dynamic Secondary Metric Columns
+ */
+function renderResultsSection(item) {
+  const results = item.results;
+  if (!results && (!item.metrics || item.metrics.length === 0)) return '';
+
+  const primaryMetric = results?.primary || ((item.result && item.resultLabel) ? { value: item.result, label: item.resultLabel } : (item.metrics && item.metrics[0] ? item.metrics[0] : null));
+  const secondaryMetrics = results?.secondary || (item.metrics && item.metrics.length > 1 ? item.metrics.slice(1) : []);
+
+  return `
+    <section class="cs-exp-results" aria-label="Key Outcomes">
+      <div class="cs-exp-divider" aria-hidden="true"></div>
+
+      <!-- Editorial Section Marker (01 / RESULTS) -->
+      <div class="cs-exp-marker">
+        <span class="cs-exp-marker__num">01</span>
+        <span class="cs-exp-marker__title">RESULTS</span>
+      </div>
+
+      <!-- Primary Metric Anchor -->
+      ${primaryMetric ? `
+        <div class="cs-exp-primary-metric">
+          <div class="cs-exp-primary-metric__val">${primaryMetric.value}</div>
+          <div class="cs-exp-primary-metric__lbl">${primaryMetric.label}</div>
         </div>
       ` : ''}
 
-      <!-- 6. Services Delivered -->
-      ${(item.services && item.services.length > 0) ? `
-        <div class="cs-modal__services-section">
-          <div class="cs-modal__services-label">SERVICES DELIVERED</div>
-          <div class="cs-modal__services-text">${servicesList}</div>
+      <!-- Dynamic Secondary Metrics Row with Vertical Separators -->
+      ${secondaryMetrics.length > 0 ? `
+        <div class="cs-exp-secondary-row">
+          ${secondaryMetrics.map((m, idx) => `
+            ${idx > 0 ? '<div class="cs-exp-secondary-sep" aria-hidden="true"></div>' : ''}
+            <div class="cs-exp-secondary-col">
+              <div class="cs-exp-secondary-val">${m.value}</div>
+              <div class="cs-exp-secondary-lbl">${m.label}</div>
+            </div>
+          `).join('')}
         </div>
       ` : ''}
+    </section>
+  `;
+}
 
-      <!-- 7. Action Footer -->
-      <div class="cs-modal__footer">
-        <button type="button" class="btn btn--secondary cs-modal__back-btn" id="csModalBottomCloseBtn">
-          ← Back to Case Studies
-        </button>
-        <a href="/contact" class="btn btn--primary cs-modal__contact-btn">
-          Book a Discovery Call <span aria-hidden="true">→</span>
+/**
+ * 3. ANALYTICS PROOF — Large, readable evidence panels
+ */
+function renderProofSection(item) {
+  const proofImages = item.results?.proofImages || [];
+  if (proofImages.length === 0) return '';
+
+  return `
+    <section class="cs-exp-proof" aria-label="Performance Evidence">
+      <div class="cs-exp-proof-label">
+        <span class="cs-exp-proof-label__text">PERFORMANCE EVIDENCE</span>
+      </div>
+
+      <div class="cs-exp-proof-grid cs-exp-proof-grid--count-${proofImages.length}">
+        ${proofImages.map(img => `
+          <figure class="cs-exp-proof-item">
+            <div class="cs-exp-proof-item__frame">
+              <img src="${img.src}" alt="${img.alt || 'Performance Analytics Evidence'}" class="cs-exp-proof-item__img" loading="lazy">
+            </div>
+            ${img.caption ? `<figcaption class="cs-exp-proof-item__caption">${img.caption}</figcaption>` : ''}
+          </figure>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * 4. CHALLENGE + APPROACH — Two-Column Layout with Adaptive Density
+ */
+function renderChallengeApproachSection(item, challengeNum = '02', approachNum = '03') {
+  const challenge = item.challenge || item.startingPoint || null;
+  const challengeSummary = item.challenge?.summary || '';
+  const challengePoints = challenge?.points || challenge?.items || [];
+  const approaches = item.approach || item.strategy || [];
+
+  // Hide entire section if neither challenge nor approach data is present
+  if (challengePoints.length === 0 && approaches.length === 0) return '';
+
+  // Adaptive Approach Grid: Switch to 2 columns if 5 or more items
+  const isMultiColApproach  = approaches.length >= 5;
+  // Adaptive Challenge Grid: Switch to 2 columns if 5 or more bullet points
+  const isMultiColChallenge = challengePoints.length >= 5;
+
+  return `
+    <section class="cs-exp-challenge-approach" aria-label="Challenge & Approach">
+      <div class="cs-exp-divider" aria-hidden="true"></div>
+
+      <div class="cs-exp-ca-grid">
+        <!-- Left Column: Challenge -->
+        ${challengePoints.length > 0 ? `
+          <div class="cs-exp-ca-col cs-exp-ca-col--challenge">
+            <div class="cs-exp-marker">
+              <span class="cs-exp-marker__num">${challengeNum}</span>
+              <span class="cs-exp-marker__title">CHALLENGE</span>
+            </div>
+
+            ${challengeSummary ? `
+              <p class="cs-exp-challenge-summary">${challengeSummary}</p>
+            ` : ''}
+
+            <ul class="cs-exp-challenge-list${isMultiColChallenge ? ' cs-exp-challenge-list--grid2' : ''}">
+              ${challengePoints.map(point => `
+                <li class="cs-exp-challenge-item">${point}</li>
+              `).join('')}
+            </ul>
+          </div>
+        ` : ''}
+
+        <!-- Vertical Divider (Desktop) -->
+        ${(challengePoints.length > 0 && approaches.length > 0) ? `
+          <div class="cs-exp-ca-divider" aria-hidden="true"></div>
+        ` : ''}
+
+        <!-- Right Column: Our Approach -->
+        ${approaches.length > 0 ? `
+          <div class="cs-exp-ca-col cs-exp-ca-col--approach">
+            <div class="cs-exp-marker">
+              <span class="cs-exp-marker__num">${approachNum}</span>
+              <span class="cs-exp-marker__title">OUR APPROACH</span>
+            </div>
+
+            <ol class="cs-exp-approach-list cs-exp-approach-list--${isMultiColApproach ? 'grid2' : 'col1'}">
+              ${approaches.map((item, idx) => {
+                const cleanTitle = (item.title || item).replace(/^0\d\s*(—|-|\/)\s*/, '');
+                const itemDesc = item.description || '';
+                const numStr = String(idx + 1).padStart(2, '0');
+                return `
+                  <li class="cs-exp-approach-item">
+                    <span class="cs-exp-approach-num">${numStr}</span>
+                    <div class="cs-exp-approach-content">
+                      <span class="cs-exp-approach-title">${cleanTitle}</span>
+                      ${itemDesc ? `<span class="cs-exp-approach-desc">${itemDesc}</span>` : ''}
+                    </div>
+                  </li>
+                `;
+              }).join('')}
+            </ol>
+          </div>
+        ` : ''}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * 5. WORK / GALLERY — Portfolio showcase (Creative template or supplementary visual)
+ */
+function renderWorkSection(item, markerNum = '01') {
+  const work = item.work;
+  const heading = work?.heading || 'WORK';
+  const cleanHeading = heading.replace(/^0\d\s*(\/|—|-)?\s*/, '').trim();
+  const gallery = Array.isArray(work) ? work : (work?.gallery || []);
+
+  if (gallery.length === 0) return '';
+
+  return `
+    <section class="cs-exp-work" aria-label="Creative Work Showcase">
+      <div class="cs-exp-divider" aria-hidden="true"></div>
+
+      <div class="cs-exp-marker">
+        <span class="cs-exp-marker__num">${markerNum}</span>
+        <span class="cs-exp-marker__title">${cleanHeading || 'WORK'}</span>
+      </div>
+
+      <div class="cs-exp-work__gallery cs-exp-work__gallery--count-${gallery.length}">
+        ${gallery.map(w => `
+          <figure class="cs-exp-work-figure">
+            <div class="cs-exp-work-figure__frame">
+              <img src="${w.src}" alt="${w.alt || 'Client Creative Work Visual'}" class="cs-exp-work-figure__img" loading="lazy">
+            </div>
+            ${w.caption ? `<figcaption class="cs-exp-work-figure__caption">${w.caption}</figcaption>` : ''}
+          </figure>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * 6. SMALL CTA & PREVIOUS / NEXT NAVIGATION
+ */
+function renderFooterSection(item, prevItem, nextItem) {
+  const cta = item.cta;
+  const headline = cta?.headline || 'Have a similar challenge?';
+  const primaryText = cta?.text || 'START A PROJECT';
+  const primaryLink = cta?.link || '/contact';
+
+  return `
+    <footer class="cs-exp-footer">
+      <div class="cs-exp-divider" aria-hidden="true"></div>
+
+      <!-- Small Editorial Closing Row -->
+      <div class="cs-exp-closing-row">
+        <span class="cs-exp-closing-row__headline">${headline}</span>
+        <a href="${primaryLink}" class="btn cs-exp-cta-btn">
+          ${primaryText} <span class="cs-exp-btn-arrow" aria-hidden="true">→</span>
         </a>
       </div>
 
-    </div>
+      <!-- Dynamic Dataset Previous / Next Navigation -->
+      ${(prevItem && nextItem) ? `
+        <div class="cs-exp-divider" aria-hidden="true"></div>
+
+        <nav class="cs-exp-nav-row" aria-label="Case Study Navigation">
+          <button type="button" class="cs-exp-nav-btn cs-exp-nav-btn--prev" data-target-id="${prevItem.id}" aria-label="View previous project: ${prevItem.client?.name || prevItem.title}">
+            <span class="cs-exp-nav-btn__dir">← PREVIOUS CASE</span>
+            <span class="cs-exp-nav-btn__title">${prevItem.client?.name || prevItem.title}</span>
+          </button>
+
+          <div class="cs-exp-nav-sep" aria-hidden="true"></div>
+
+          <button type="button" class="cs-exp-nav-btn cs-exp-nav-btn--next" data-target-id="${nextItem.id}" aria-label="View next project: ${nextItem.client?.name || nextItem.title}">
+            <span class="cs-exp-nav-btn__dir">NEXT CASE →</span>
+            <span class="cs-exp-nav-btn__title">${nextItem.client?.name || nextItem.title}</span>
+          </button>
+        </nav>
+      ` : ''}
+    </footer>
   `;
 }
 
