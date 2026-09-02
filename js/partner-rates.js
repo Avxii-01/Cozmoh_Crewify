@@ -24,6 +24,7 @@ function initPartnerRates() {
   }
 
   // 2. Render All 8 Categories & 22 Service Rows
+  // Column order: SERVICE | TYPICAL CLIENT BILL | OUR RATE | YOU KEEP
   container.innerHTML = partnerRatesData.map(cat => `
     <article class="rates-category-block" id="cat-${cat.id}" data-category="${cat.id}">
       <div class="rates-category-block__header">
@@ -32,12 +33,12 @@ function initPartnerRates() {
       </div>
 
       <div class="rates-table">
-        <!-- Desktop Table Header -->
+        <!-- Desktop Table Header (Order: SERVICE | TYPICAL CLIENT BILL | OUR RATE | YOU KEEP) -->
         <div class="rates-table__head" aria-hidden="true">
-          <div class="rates-table__head-col">SERVICE</div>
-          <div class="rates-table__head-col rates-table__head-col--right">OUR RATE</div>
-          <div class="rates-table__head-col rates-table__head-col--center">TYPICAL CLIENT BILL</div>
-          <div class="rates-table__head-col rates-table__head-col--right">YOU KEEP</div>
+          <div class="rates-table__head-col rates-table__head-col--service">SERVICE</div>
+          <div class="rates-table__head-col rates-table__head-col--right rates-table__head-col--client">TYPICAL CLIENT BILL</div>
+          <div class="rates-table__head-col rates-table__head-col--right rates-table__head-col--our">OUR RATE</div>
+          <div class="rates-table__head-col rates-table__head-col--right rates-table__head-col--keep">YOU KEEP</div>
         </div>
 
         <!-- Service Rows -->
@@ -51,29 +52,29 @@ function initPartnerRates() {
                 ${srv.note ? `<span class="rates-table__service-note">${srv.note}</span>` : ''}
               </div>
 
-              <!-- Desktop Price Columns (Hidden on mobile via CSS) -->
-              <div class="rates-table__col-price rates-table__col-price--desktop">
-                <span class="rates-table__price-value rates-table__price-value--our">${srv.ourRate}</span>
-              </div>
-              <div class="rates-table__col-price rates-table__col-price--desktop">
+              <!-- Desktop Price Columns (Order: CLIENT BILL | OUR RATE | YOU KEEP) -->
+              <div class="rates-table__col-price rates-table__col-price--client rates-table__col-price--desktop">
                 <span class="rates-table__price-value rates-table__price-value--client">${srv.clientBill}</span>
               </div>
-              <div class="rates-table__col-price rates-table__col-price--desktop">
+              <div class="rates-table__col-price rates-table__col-price--our rates-table__col-price--desktop">
+                <span class="rates-table__price-value rates-table__price-value--our">${srv.ourRate}</span>
+              </div>
+              <div class="rates-table__col-price rates-table__col-price--keep rates-table__col-price--desktop">
                 <span class="rates-table__price-value rates-table__price-value--keep">${srv.youKeep}</span>
               </div>
 
-              <!-- Mobile Stacked Metrics Bar (Visible only on mobile/tablet <= 768px via CSS) -->
+              <!-- Mobile Stacked Metrics Bar (Order: CLIENT BILL | OUR RATE | YOU KEEP) -->
               <div class="rates-table__mobile-metrics">
-                <div class="rates-table__metric-item">
-                  <span class="rates-table__metric-label">OUR RATE</span>
-                  <span class="rates-table__price-value rates-table__price-value--our">${srv.ourRate}</span>
-                </div>
-                <div class="rates-table__metric-item">
-                  <span class="rates-table__metric-label">CLIENT BILL</span>
+                <div class="rates-table__metric-item rates-table__metric-item--client">
+                  <span class="rates-table__metric-label rates-table__metric-label--client">CLIENT BILL</span>
                   <span class="rates-table__price-value rates-table__price-value--client">${srv.clientBill}</span>
                 </div>
-                <div class="rates-table__metric-item">
-                  <span class="rates-table__metric-label">YOU KEEP</span>
+                <div class="rates-table__metric-item rates-table__metric-item--our">
+                  <span class="rates-table__metric-label rates-table__metric-label--our">OUR RATE</span>
+                  <span class="rates-table__price-value rates-table__price-value--our">${srv.ourRate}</span>
+                </div>
+                <div class="rates-table__metric-item rates-table__metric-item--keep">
+                  <span class="rates-table__metric-label rates-table__metric-label--keep">YOU KEEP</span>
                   <span class="rates-table__price-value rates-table__price-value--keep">${srv.youKeep}</span>
                 </div>
               </div>

@@ -63,7 +63,8 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 800px;
+  max-width: 860px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -99,12 +100,15 @@
 }
 
 .rates-hero__title {
-  font-size: clamp(2.6rem, 4.4vw, 3.8rem);
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
   font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
   color: #FFFFFF;
   margin-bottom: var(--space-md);
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .rates-hero__title-line {
@@ -117,6 +121,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  padding-right: 8px;
 }
 
 .rates-hero__description {
@@ -380,28 +385,46 @@
   overflow: hidden;
 }
 
+/* Desktop Grid: SERVICE | TYPICAL CLIENT BILL | OUR RATE | YOU KEEP */
 .rates-table__head {
   display: grid;
-  grid-template-columns: 2.2fr 1.1fr 1.2fr 1.1fr;
+  grid-template-columns: 2.2fr 1.2fr 1.1fr 1.1fr;
   align-items: center;
   padding: 12px 22px;
   background: rgba(255, 255, 255, 0.02);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 0.7rem;
-  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #71717A;
 }
 
-.rates-table__head-col--center,
+.rates-table__head-col {
+  color: #71717A;
+  font-weight: 600;
+}
+
 .rates-table__head-col--right {
   text-align: right;
 }
 
+.rates-table__head-col--client {
+  color: #71717A;
+  font-weight: 600;
+}
+
+.rates-table__head-col--our {
+  color: #F4F4F5;
+  font-weight: 700;
+}
+
+.rates-table__head-col--keep {
+  color: #A78BFA;
+  font-weight: 700;
+}
+
 .rates-table__row {
   display: grid;
-  grid-template-columns: 2.2fr 1.1fr 1.2fr 1.1fr;
+  grid-template-columns: 2.2fr 1.2fr 1.1fr 1.1fr;
   align-items: center;
   padding: 18px 22px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -447,24 +470,29 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Pricing Values Hierarchy:
+   1. OUR RATE = Brightest / Primary
+   2. YOU KEEP = Subdued, darker purple
+   3. TYPICAL CLIENT BILL = Neutral muted grey */
+
 .rates-table__price-value--our {
-  font-size: 1.22rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: -0.02em;
 }
 
+.rates-table__price-value--keep {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #A78BFA;
+  letter-spacing: -0.015em;
+}
+
 .rates-table__price-value--client {
   font-size: 1.02rem;
   font-weight: 500;
-  color: #8E8E93;
-}
-
-.rates-table__price-value--keep {
-  font-size: 1.22rem;
-  font-weight: 800;
-  color: #C4B5FD;
-  letter-spacing: -0.015em;
+  color: #71717A;
 }
 
 .rates-table__mobile-metrics {
@@ -601,6 +629,10 @@
    ========================================================================== */
 
 @media (max-width: 1024px) {
+  .rates-hero__title {
+    font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+  }
+
   .rates-model__grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -610,12 +642,12 @@
   }
 
   .rates-table__head {
-    grid-template-columns: 2fr 1fr 1.1fr 1fr;
+    grid-template-columns: 2fr 1.1fr 1fr 1fr;
     padding: 12px 18px;
   }
 
   .rates-table__row {
-    grid-template-columns: 2fr 1fr 1.1fr 1fr;
+    grid-template-columns: 2fr 1.1fr 1fr 1fr;
     padding: 16px 18px;
   }
 }
@@ -628,7 +660,8 @@
   }
 
   .rates-hero__title {
-    font-size: 2.15rem;
+    font-size: clamp(2rem, 5.5vw, 2.4rem);
+    line-height: 1.18;
   }
 
   .rates-hero__description {
@@ -691,6 +724,7 @@
     display: none;
   }
 
+  /* Mobile Stacked Metrics Bar: CLIENT BILL | OUR RATE | YOU KEEP */
   .rates-table__mobile-metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -703,36 +737,58 @@
   .rates-table__metric-item {
     display: flex;
     flex-direction: column;
+  }
+
+  .rates-table__metric-item--client {
     text-align: left;
   }
 
-  .rates-table__metric-item:nth-child(2) {
+  .rates-table__metric-item--our {
     text-align: center;
   }
 
-  .rates-table__metric-item:nth-child(3) {
+  .rates-table__metric-item--keep {
     text-align: right;
   }
 
   .rates-table__metric-label {
     font-size: 0.65rem;
-    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #71717A;
     margin-bottom: 2px;
   }
 
+  .rates-table__metric-label--client {
+    color: #71717A;
+    font-weight: 600;
+  }
+
+  .rates-table__metric-label--our {
+    color: #E4E4E7;
+    font-weight: 700;
+  }
+
+  .rates-table__metric-label--keep {
+    color: #A78BFA;
+    font-weight: 700;
+  }
+
   .rates-table__price-value--our {
-    font-size: 1.12rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #FFFFFF;
   }
 
   .rates-table__price-value--client {
     font-size: 0.95rem;
+    font-weight: 500;
+    color: #71717A;
   }
 
   .rates-table__price-value--keep {
     font-size: 1.12rem;
+    font-weight: 700;
+    color: #A78BFA;
   }
 }
 
@@ -745,7 +801,10 @@
     font-size: 0.6rem;
   }
 
-  .rates-table__price-value--our,
+  .rates-table__price-value--our {
+    font-size: 1.06rem;
+  }
+
   .rates-table__price-value--keep {
     font-size: 1.02rem;
   }
