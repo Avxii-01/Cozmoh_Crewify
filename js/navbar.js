@@ -25,10 +25,9 @@ const NAV_CONFIG = {
     { 
       label: 'White-Label', 
       id: 'white-label',
-      enabled: false,
+      enabled: true,
       dropdown: [
-        { label: 'SEO', url: '/white-label/seo', id: 'seo', enabled: false },
-        { label: 'Website Development', url: '/white-label/website-development', id: 'website-development', enabled: false }
+        { label: 'Agency Rates', url: '/partner-rates', id: 'agency-rates', enabled: true }
       ]
     }
   ],
