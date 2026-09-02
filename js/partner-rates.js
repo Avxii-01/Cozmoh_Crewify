@@ -84,8 +84,26 @@ function initPartnerRates() {
     </article>
   `).join('');
 
-  // 3. Smooth Scroll to Target with Sticky Navbar Offset
+  // 3. Helper: Auto-scroll horizontal filter bar to center the active link
+  function centerActiveNavLink(link) {
+    if (!navContainer || !link) return;
+    if (navContainer.scrollWidth > navContainer.clientWidth) {
+      const containerRect = navContainer.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      const currentScroll = navContainer.scrollLeft;
+      const targetScroll = currentScroll + (linkRect.left - containerRect.left) - (navContainer.clientWidth / 2) + (link.offsetWidth / 2);
+
+      navContainer.scrollTo({
+        left: Math.max(0, targetScroll),
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  // 4. Smooth Scroll to Target with Sticky Navbar Offset
   const navLinks = document.querySelectorAll('.rates-nav__link');
+  let isClickScrolling = false;
+  let clickTimeout = null;
 
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -94,6 +112,12 @@ function initPartnerRates() {
       const targetEl = document.getElementById(targetId);
 
       if (targetEl) {
+        isClickScrolling = true;
+        clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => {
+          isClickScrolling = false;
+        }, 800);
+
         const header = document.querySelector('.header');
         const headerHeight = header ? header.offsetHeight : 84;
         const navWrapper = document.querySelector('.rates-nav-wrapper');
@@ -111,11 +135,14 @@ function initPartnerRates() {
         // Update active state immediately
         navLinks.forEach(l => l.classList.remove('is-active'));
         link.classList.add('is-active');
+
+        // Auto-center the selected filter item in the horizontal scroll bar
+        centerActiveNavLink(link);
       }
     });
   });
 
-  // 4. Scrollspy with IntersectionObserver to highlight active category on scroll
+  // 5. Scrollspy with IntersectionObserver to highlight & auto-center active category on scroll
   const categoryBlocks = document.querySelectorAll('.rates-category-block');
   if ('IntersectionObserver' in window && categoryBlocks.length > 0) {
     const observerOptions = {
@@ -125,12 +152,17 @@ function initPartnerRates() {
     };
 
     const observer = new IntersectionObserver((entries) => {
+      if (isClickScrolling) return;
+
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const categoryId = entry.target.getAttribute('data-category');
           navLinks.forEach(link => {
             const isMatch = link.getAttribute('data-cat') === categoryId;
             link.classList.toggle('is-active', isMatch);
+            if (isMatch) {
+              centerActiveNavLink(link);
+            }
           });
         }
       });
