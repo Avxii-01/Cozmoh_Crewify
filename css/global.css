@@ -25,6 +25,39 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ==========================================================================
+   SHARED TYPOGRAPHY & GRADIENT TEXT SYSTEM
+   Site-wide fix: Expands background-clip bounding box so descenders (g, y, p,
+   j, q) and rounded curves (G, S, etc.) are never clipped by the inline-block
+   box boundary while keeping baseline and flow completely unchanged.
+   ========================================================================== */
+.srv-hero__title-gradient,
+.cs-hero__title-gradient,
+.rates-hero__title-gradient,
+.fr-hero__title-gradient,
+.fr-audit-box__title-gradient,
+.contact-hero__gradient,
+.footer-cta__gradient,
+.hero__orange-accent,
+.hero__para-highlight,
+.srv-cta__title-gradient,
+.testimonials__title-highlight,
+.process__title-highlight,
+.portfolio__title-highlight,
+.cta-title-highlight,
+[class*="title-gradient"],
+[class$="__gradient"],
+.text-gradient {
+  display: inline-block;
+  padding-top: 0.15em;
+  padding-bottom: 0.25em;
+  padding-inline: 0.12em;
+  margin-top: -0.15em;
+  margin-bottom: -0.25em;
+  margin-inline: -0.12em;
+  vertical-align: baseline;
+}
+
 /* Container */
 .container {
   width: 100%;
