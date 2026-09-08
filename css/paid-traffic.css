@@ -725,6 +725,79 @@
 }
 
 /* --------------------------------------------------------------------------
+   SERVICES CAROUSEL SPECIFICATION & REFINED PROPORTIONS
+   Navigator placed underneath the cards, circular button style, restrained purple hover.
+   Desktop sensible max-width; Mobile comfortable card width.
+   -------------------------------------------------------------------------- */
+.services__carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.services__carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.services__track {
+  display: flex;
+  gap: clamp(20px, 2.5vw, 32px);
+  will-change: transform;
+}
+
+.services__card {
+  flex: 0 0 clamp(300px, 28vw, 380px);
+  max-width: 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Navigators Centered Beneath Cards */
+.services__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(24px, 3.2vw, 40px);
+  width: 100%;
+}
+
+.services__nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 11, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #E4E4E7;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.2s ease;
+  outline: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.services__nav-btn:hover:not(:disabled) {
+  border-color: rgba(167, 139, 250, 0.6);
+  color: #FFFFFF;
+  background: rgba(139, 92, 246, 0.16);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.services__nav-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
    7. SECTION 04 — OUR WORK SHOWCASE (Large Visual Tiles, Browser Frame, Comfortable Info)
    -------------------------------------------------------------------------- */
 .pt-work {
@@ -1477,6 +1550,38 @@
 }
 
 @media (max-width: 768px) {
+  /* Mobile Navbar Refinements (768px) */
+  :root {
+    --header-height: 70px;
+  }
+
+  .pt-header {
+    height: 70px;
+  }
+
+  .pt-header .pt-container {
+    padding-inline: 18px;
+  }
+
+  .pt-header__logo-img {
+    height: 38px;
+  }
+
+  .pt-header__brand {
+    gap: 10px;
+  }
+
+  .pt-header__brand-text {
+    font-size: 1.15rem;
+  }
+
+  .btn--nav-cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
   /* Complete removal of hero ghost watermark & light sweep on mobile */
   .pt-hero__watermark-layer,
   .hero__ghost-word-wrapper,
@@ -1501,6 +1606,26 @@
     border-radius: 50%;
     font-size: 1.05rem;
     flex-shrink: 0;
+  }
+
+  /* Refined Service Cards & Bottom Navigation on mobile */
+  .services__card {
+    flex: 0 0 clamp(280px, 80vw, 340px);
+    max-width: 340px;
+  }
+
+  .services__nav {
+    margin-top: 24px;
+    gap: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .services__nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
 
   .pt-work-tile {
@@ -1617,6 +1742,40 @@
 }
 
 @media (max-width: 480px) {
+  /* Mobile Navbar Refinements (480px / 390px) */
+  :root {
+    --header-height: 64px;
+  }
+
+  .pt-header {
+    height: 64px;
+  }
+
+  .pt-header .pt-container {
+    padding-inline: 14px;
+  }
+
+  .pt-header__logo-img {
+    height: 32px;
+  }
+
+  .pt-header__brand {
+    gap: 8px;
+  }
+
+  .pt-header__brand-text {
+    font-size: 1.05rem;
+  }
+
+  .btn--nav-cta {
+    padding: 0.44rem 0.85rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    gap: 5px;
+    white-space: nowrap;
+    min-height: 36px;
+  }
+
   .pt-hero__cta-group {
     flex-direction: column;
     width: 100%;
@@ -1649,6 +1808,40 @@
 
   .pt-rates-val--client {
     font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 375px) {
+  /* Targeted Fix for 375px Small Viewport Navbar */
+  :root {
+    --header-height: 60px;
+  }
+
+  .pt-header {
+    height: 60px;
+  }
+
+  .pt-header .pt-container {
+    padding-inline: 12px;
+  }
+
+  .pt-header__logo-img {
+    height: 28px;
+  }
+
+  .pt-header__brand {
+    gap: 6px;
+  }
+
+  .pt-header__brand-text {
+    font-size: 0.96rem;
+  }
+
+  .btn--nav-cta {
+    padding: 0.38rem 0.72rem;
+    font-size: 0.72rem;
+    gap: 4px;
+    min-height: 34px;
   }
 }
 

@@ -12,16 +12,28 @@ import { partnerRatesData } from './partner-rates-data.js';
  * Full 2-Column Agency Rates Dataset (All 22 Services Across 8 Categories)
  * Single Source of Truth: js/partner-rates-data.js
  * 
- * Column 1: Search, Local SEO & Web Development (10 Services)
- * Column 2: Content, Social, Video, Paid Media & Reporting (12 Services)
+ * Rebalanced for identical visual height and content distribution:
+ * Column 1: Organic Growth, Local, Web & Reporting (4 Categories, 11 Services)
+ *   - Search Engine Optimization (3 services)
+ *   - Local SEO & Google Business Profile (3 services)
+ *   - Website & Landing Page Development (4 services)
+ *   - White-Label Reporting (1 service)
+ * 
+ * Column 2: Content, Social, Video & Paid Campaigns (4 Categories, 11 Services)
+ *   - Content Writing (3 services)
+ *   - Social Media Design (2 services)
+ *   - Video Editing & Production (3 services)
+ *   - Paid Media Management (3 services)
  */
-export const agencyRatesCol1 = partnerRatesData.filter(cat =>
-  ['seo', 'local-seo', 'web-dev'].includes(cat.id)
-);
+const col1CategoryIds = ['seo', 'local-seo', 'web-dev', 'white-label-reporting'];
+export const agencyRatesCol1 = col1CategoryIds
+  .map(id => partnerRatesData.find(cat => cat.id === id))
+  .filter(Boolean);
 
-export const agencyRatesCol2 = partnerRatesData.filter(cat =>
-  ['content-writing', 'social-media-design', 'video-editing', 'paid-media', 'white-label-reporting'].includes(cat.id)
-);
+const col2CategoryIds = ['content-writing', 'social-media-design', 'video-editing', 'paid-media'];
+export const agencyRatesCol2 = col2CategoryIds
+  .map(id => partnerRatesData.find(cat => cat.id === id))
+  .filter(Boolean);
 
 /**
  * Global Proof Metrics Configuration
