@@ -452,8 +452,13 @@
 }
 
 @keyframes ptMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Editorial Proof Row: Pure Typography on Page Canvas (No Cards / No Widgets) */
@@ -503,23 +508,79 @@
 }
 
 /* --------------------------------------------------------------------------
-   6. SECTION 03 — CASE STUDIES / RESULTS (Combined Cards + Side Navigation)
+   6. SECTION 03 — CASE STUDIES / RESULTS (Combined Cards + Bottom Navigation)
    -------------------------------------------------------------------------- */
 .pt-case-studies {
+  --pt-cs-gap: 24px;
   position: relative;
   overflow: hidden;
 }
 
-/* Carousel Container with Arrows on Left and Right of Cards */
+/* Carousel Container with Cards and Bottom Navigation */
 .pt-cs-carousel-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 1.8vw, 24px);
   position: relative;
   width: 100%;
 }
 
-/* Refined Circular Side Navigation Controls */
+/* Horizontal Track Viewport for Case Studies */
+.pt-cs-carousel-wrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pt-cs-track {
+  display: flex;
+  gap: var(--pt-cs-gap);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pt-cs-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Combined Editorial Case Study Card: Work + Description + Verified Results */
+/* Desktop (>1024px): Exactly 3 complete cards visible */
+.pt-cs-card {
+  flex: 0 0 calc((100% - (2 * var(--pt-cs-gap))) / 3);
+  width: calc((100% - (2 * var(--pt-cs-gap))) / 3);
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  background: rgba(14, 11, 22, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  transition: all var(--transition-normal, 0.3s ease);
+}
+
+.pt-cs-card:hover {
+  border-color: rgba(167, 139, 250, 0.32);
+  transform: translateY(-3px);
+}
+
+/* Refined Circular Navigation Controls Centered Underneath Cards */
+.pt-cs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(24px, 3vw, 36px);
+  width: 100%;
+}
+
 .pt-carousel-btn {
   width: 44px;
   height: 44px;
@@ -549,49 +610,6 @@
 .pt-carousel-btn:disabled {
   opacity: 0.2;
   cursor: not-allowed;
-}
-
-/* Horizontal Track for Case Studies */
-.pt-cs-carousel-wrap {
-  flex: 1;
-  min-width: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.pt-cs-track {
-  display: flex;
-  gap: clamp(20px, 2.5vw, 32px);
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding-bottom: 6px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.pt-cs-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* Combined Editorial Case Study Card: Work + Description + Verified Results */
-.pt-cs-card {
-  flex: 0 0 clamp(320px, 30vw, 380px);
-  max-width: 380px;
-  scroll-snap-align: start;
-  background: rgba(14, 11, 22, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  outline: none;
-  transition: all var(--transition-normal, 0.3s ease);
-}
-
-.pt-cs-card:hover {
-  border-color: rgba(167, 139, 250, 0.32);
-  transform: translateY(-3px);
 }
 
 /* Card Media (~40–45% visual weight) */
@@ -935,8 +953,13 @@
 }
 
 @keyframes ptWorkMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1227,8 +1250,15 @@
 }
 
 @keyframes ptFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pt-survey-question {
@@ -1544,12 +1574,20 @@
     gap: clamp(24px, 3vw, 32px);
   }
 
+  /* Tablet (>= 768px and <= 1024px): Exactly 2 complete cards visible */
+  .pt-case-studies {
+    --pt-cs-gap: 20px;
+  }
+
   .pt-cs-card {
-    flex: 0 0 clamp(300px, 42vw, 360px);
+    flex: 0 0 calc((100% - var(--pt-cs-gap)) / 2);
+    width: calc((100% - var(--pt-cs-gap)) / 2);
+    max-width: none;
   }
 }
 
 @media (max-width: 768px) {
+
   /* Mobile Navbar Refinements (768px) */
   :root {
     --header-height: 70px;
@@ -1587,25 +1625,6 @@
   .hero__ghost-word-wrapper,
   .hero__ghost-word {
     display: none !important;
-  }
-
-  /* Refined, comfortable case study cards on mobile (no over-stretched blocks) */
-  .pt-cs-carousel-container {
-    gap: clamp(8px, 1.8vw, 14px);
-  }
-
-  .pt-cs-card {
-    flex: 0 0 clamp(280px, 80vw, 340px);
-    max-width: 340px;
-  }
-
-  /* Refined circular controls on mobile */
-  .pt-carousel-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.05rem;
-    flex-shrink: 0;
   }
 
   /* Refined Service Cards & Bottom Navigation on mobile */
@@ -1725,6 +1744,34 @@
   }
 }
 
+/* Mobile (< 768px): Exactly 1 complete case-study card visible with intentional horizontal padding */
+@media (max-width: 767.98px) {
+  .pt-case-studies .pt-container {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+
+  .pt-case-studies {
+    --pt-cs-gap: 16px;
+  }
+
+  .pt-cs-card {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .pt-cs-nav {
+    margin-top: 24px;
+    gap: 14px;
+  }
+
+  .pt-carousel-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
+  }
+}
+
 @media (max-width: 600px) {
   .pt-editorial-proof {
     grid-template-columns: 1fr;
@@ -1742,6 +1789,7 @@
 }
 
 @media (max-width: 480px) {
+
   /* Mobile Navbar Refinements (480px / 390px) */
   :root {
     --header-height: 64px;
@@ -1812,6 +1860,7 @@
 }
 
 @media (max-width: 375px) {
+
   /* Targeted Fix for 375px Small Viewport Navbar */
   :root {
     --header-height: 60px;
@@ -1847,6 +1896,7 @@
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

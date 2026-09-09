@@ -210,14 +210,8 @@
           </p>
         </div>
 
-        <!-- Carousel with Navigation Controls Beside the Cards -->
+        <!-- Carousel Container with Track and Bottom Navigation Controls -->
         <div class="pt-cs-carousel-container">
-          <!-- Previous Arrow on Left of Carousel -->
-          <button type="button" class="pt-carousel-btn pt-carousel-btn--prev" id="ptCsPrevBtn"
-            aria-label="Previous case study">
-            &larr;
-          </button>
-
           <!-- Horizontal Carousel Track of Combined Case Study Cards -->
           <div class="pt-cs-carousel-wrap">
             <div class="pt-cs-track" id="ptCsTrack">
@@ -225,11 +219,17 @@
             </div>
           </div>
 
-          <!-- Next Arrow on Right of Carousel -->
-          <button type="button" class="pt-carousel-btn pt-carousel-btn--next" id="ptCsNextBtn"
-            aria-label="Next case study">
-            &rarr;
-          </button>
+          <!-- Bottom Navigation Controls Centered Underneath the Cards -->
+          <div class="pt-cs-nav" aria-label="Case studies navigation">
+            <button type="button" class="pt-carousel-btn pt-carousel-btn--prev" id="ptCsPrevBtn"
+              aria-label="Previous case study">
+              &larr;
+            </button>
+            <button type="button" class="pt-carousel-btn pt-carousel-btn--next" id="ptCsNextBtn"
+              aria-label="Next case study">
+              &rarr;
+            </button>
+          </div>
         </div>
       </div>
     </section>

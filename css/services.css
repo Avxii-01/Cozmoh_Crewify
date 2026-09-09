@@ -231,6 +231,7 @@
     opacity: 0.8;
     transform: translate(-50%, -50%) scale(0.96);
   }
+
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.04);
@@ -298,8 +299,8 @@
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 14px rgba(139, 92, 246, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 260ms ease,
-              box-shadow 260ms ease;
+    border-color 260ms ease,
+    box-shadow 260ms ease;
   cursor: default;
   user-select: none;
 }
@@ -643,7 +644,7 @@
   }
 
   /* Asymmetric Mobile Editorial Positioning & Layered Opacity */
-  
+
   /* Web Development (Upper-Left — Slightly more translucent near shoulder) */
   .srv-cutout-label--web {
     top: 14px;
@@ -1226,9 +1227,9 @@
   cursor: pointer;
   outline: none;
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 280ms ease,
-              box-shadow 280ms ease,
-              background 280ms ease;
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    background 280ms ease;
   overflow: hidden;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -1510,8 +1511,8 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 280ms ease,
-              box-shadow 280ms ease;
+    border-color 280ms ease,
+    box-shadow 280ms ease;
 }
 
 .srv-pkg:hover {

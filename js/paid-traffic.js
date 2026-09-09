@@ -296,13 +296,15 @@ function initCaseStudiesCarousel() {
     nextBtn.disabled = track.scrollLeft >= maxScroll - 5;
   }
 
-  // Side arrow navigation: scroll left / right by one card step
+  // Navigation: scroll left / right by one card step
   function scrollCard(direction) {
     const card = track.querySelector('.pt-cs-card');
     if (!card) return;
-    const cardWidth = card.offsetWidth;
-    const gap = 20;
-    track.scrollBy({ left: direction * (cardWidth + gap), behavior: 'smooth' });
+    const cardRect = card.getBoundingClientRect();
+    const style = window.getComputedStyle(track);
+    const gap = parseFloat(style.columnGap || style.gap) || 24;
+    const step = cardRect.width + gap;
+    track.scrollBy({ left: direction * step, behavior: 'smooth' });
   }
 
   if (prevBtn) {
@@ -313,8 +315,12 @@ function initCaseStudiesCarousel() {
     nextBtn.addEventListener('click', () => scrollCard(1));
   }
 
-  // Update button states on scroll
+  // Update button states on scroll and resize
   track.addEventListener('scroll', () => {
+    updateNavButtons();
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
     updateNavButtons();
   }, { passive: true });
 
