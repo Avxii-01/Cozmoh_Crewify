@@ -24,7 +24,7 @@ import {
 // The client will provide the real Calendly URL later.
 // When provided, insert the actual Calendly URL here (e.g., 'https://calendly.com/your-org/discovery-call')
 // ============================================================================
-const CALENDLY_URL = '';
+const CALENDLY_URL = 'https://calendly.com/sociiofy/30min';
 
 // Store collected lead data for future Calendly prefill integration
 let currentBookingLead = null;
@@ -401,48 +401,82 @@ function getAttributionData() {
 }
 
 /**
- * Initialize Calendly Embed or Fallback Placeholder
- * @param {Object} bookingData - Collected lead data { fullName, agencyName, email, website, phone, outsourceNeeds }
+ * Load Calendly official popup widget script and stylesheet (ensures single load)
+ * @param {Function} callback - Executed when Calendly widget is ready
  */
-function initCalendlyEmbed(bookingData = {}) {
-  const container = document.getElementById('ptCalendlyEmbedContainer');
-  if (!container) return;
-
-  if (CALENDLY_URL && CALENDLY_URL.trim().length > 0) {
-    // Real Calendly URL configured: render official Calendly inline widget
-    const params = new URLSearchParams();
-    if (bookingData.fullName) params.set('name', bookingData.fullName);
-    if (bookingData.email) params.set('email', bookingData.email);
-
-    // UTM Attribution
-    const attribution = getAttributionData();
-    if (attribution.utm_source) params.set('utm_source', attribution.utm_source);
-    if (attribution.utm_medium) params.set('utm_medium', attribution.utm_medium);
-    if (attribution.utm_campaign) params.set('utm_campaign', attribution.utm_campaign);
-    if (attribution.utm_content) params.set('utm_content', attribution.utm_content);
-    if (attribution.utm_term) params.set('utm_term', attribution.utm_term);
-
-    const queryStr = params.toString();
-    const finalCalendlyUrl = queryStr ? `${CALENDLY_URL}?${queryStr}` : CALENDLY_URL;
-
-    container.innerHTML = `
-      <div class="calendly-inline-widget" data-url="${finalCalendlyUrl}" style="min-width:320px;height:700px;"></div>
-    `;
-
-    // Ensure Calendly widget script is loaded
-    if (!document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  } else {
-    // No real URL configured yet: show polished temporary placeholder
-    const placeholder = document.getElementById('ptCalendlyPlaceholder');
-    if (placeholder) {
-      placeholder.style.display = 'flex';
-    }
+function loadCalendlyAssets(callback) {
+  // Ensure Calendly widget stylesheet is loaded
+  if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    document.head.appendChild(link);
   }
+
+  // If Calendly is already loaded and ready, execute callback
+  if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
+    if (typeof callback === 'function') callback();
+    return;
+  }
+
+  // Ensure Calendly widget script is loaded only once
+  let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
+  if (!script) {
+    script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = () => {
+      if (typeof callback === 'function') callback();
+    };
+    document.head.appendChild(script);
+  } else {
+    script.addEventListener('load', () => {
+      if (typeof callback === 'function') callback();
+    }, { once: true });
+  }
+}
+
+/**
+ * Open Calendly Official Popup Widget with Prefill Data
+ * @param {Object} leadData - { fullName, email, agencyName, phone, outsourceNeeds }
+ */
+function openCalendlyPopup(leadData = {}) {
+  if (!CALENDLY_URL || CALENDLY_URL.trim().length === 0) return;
+
+  const attribution = getAttributionData();
+
+  loadCalendlyAssets(() => {
+    if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
+      window.Calendly.initPopupWidget({
+        url: CALENDLY_URL,
+        prefill: {
+          name: leadData.fullName || '',
+          email: leadData.email || ''
+        },
+        utm: {
+          utmSource: attribution.utm_source || undefined,
+          utmMedium: attribution.utm_medium || undefined,
+          utmCampaign: attribution.utm_campaign || undefined,
+          utmContent: attribution.utm_content || undefined,
+          utmTerm: attribution.utm_term || undefined
+        }
+      });
+    }
+  });
+}
+
+/**
+ * Listen for Calendly Events from Popup
+ */
+function initCalendlyListener() {
+  window.addEventListener('message', (e) => {
+    if (e.origin && e.origin.includes('calendly.com') && e.data && e.data.event === 'calendly.event_scheduled') {
+      dispatchTrackingEvent('booking_confirmed', {
+        ...(currentBookingLead || {}),
+        calendlyEventUri: e.data?.payload?.event?.uri || ''
+      });
+    }
+  });
 }
 
 /**
@@ -450,9 +484,6 @@ function initCalendlyEmbed(bookingData = {}) {
  */
 function initBookingFlow() {
   const form = document.getElementById('ptBookingForm');
-  const formCard = document.getElementById('ptBookingFormCard');
-  const calendlyArea = document.getElementById('ptCalendlyArea');
-
   if (!form) return;
 
   function markFieldError(fieldName, message) {
@@ -556,16 +587,8 @@ function initBookingFlow() {
       timestamp: new Date().toISOString()
     };
 
-    // Transition from form to Calendly stage
-    if (formCard) {
-      formCard.style.display = 'none';
-    }
-
-    if (calendlyArea) {
-      calendlyArea.style.display = 'block';
-      initCalendlyEmbed(currentBookingLead);
-      calendlyArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    // Open Calendly official popup widget
+    openCalendlyPopup(currentBookingLead);
 
     // Dispatch tracking event
     dispatchTrackingEvent('booking_step_complete', {
@@ -620,5 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCaseStudiesCarousel();
   initWorkShowcaseReel();
   initBookingFlow();
+  initCalendlyListener();
+  loadCalendlyAssets();
   initSmoothScroll();
 });
