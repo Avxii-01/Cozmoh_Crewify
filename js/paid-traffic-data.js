@@ -145,13 +145,13 @@ export const workShowcaseItems = [
     url: "https://arealestatemedia.com/",
     category: "WEBSITE DEVELOPMENT"
   },
-  {
-    id: "work-krishna-sportz",
-    name: "Krishna Sportz",
-    url: "https://krishnasportz.com/",
-    category: "E-COMMERCE / WEBSITE DEVELOPMENT",
-    embedBlocked: true // Enforces X-Frame-Options: DENY and frame-ancestors 'none'
-  },
+  // {
+  //   id: "work-krishna-sportz",
+  //   name: "Krishna Sportz",
+  //   url: "https://krishnasportz.com/",
+  //   category: "E-COMMERCE / WEBSITE DEVELOPMENT",
+  //   embedBlocked: true // Enforces X-Frame-Options: DENY and frame-ancestors 'none'
+  // },
   {
     id: "work-wearwulf",
     name: "WearWulf",

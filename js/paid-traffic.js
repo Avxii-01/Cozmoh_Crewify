@@ -21,13 +21,9 @@ import {
 
 // ============================================================================
 // CALENDLY CONFIGURATION
-// The client will provide the real Calendly URL later.
-// When provided, insert the actual Calendly URL here (e.g., 'https://calendly.com/your-org/discovery-call')
 // ============================================================================
 const CALENDLY_URL = 'https://calendly.com/sociiofy/30min';
 
-// Store collected lead data for future Calendly prefill integration
-let currentBookingLead = null;
 let activeCaseStudyIndex = 0;
 
 /**
@@ -542,199 +538,29 @@ function getAttributionData() {
 }
 
 /**
- * Load Calendly official popup widget script and stylesheet (ensures single load)
- * @param {Function} callback - Executed when Calendly widget is ready
+ * Direct-to-Calendly CTA Navigation
  */
-function loadCalendlyAssets(callback) {
-  // Ensure Calendly widget stylesheet is loaded
-  if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://assets.calendly.com/assets/external/widget.css';
-    document.head.appendChild(link);
-  }
+function initDirectCalendlyCta() {
+  const ctaBtn = document.getElementById('ptDirectCalendlyBtn');
+  if (!ctaBtn || !CALENDLY_URL) return;
 
-  // If Calendly is already loaded and ready, execute callback
-  if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
-    if (typeof callback === 'function') callback();
-    return;
-  }
+  ctaBtn.href = CALENDLY_URL;
 
-  // Ensure Calendly widget script is loaded only once
-  let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
-  if (!script) {
-    script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    script.onload = () => {
-      if (typeof callback === 'function') callback();
-    };
-    document.head.appendChild(script);
-  } else {
-    script.addEventListener('load', () => {
-      if (typeof callback === 'function') callback();
-    }, { once: true });
-  }
-}
+  ctaBtn.addEventListener('click', () => {
+    const attribution = getAttributionData();
+    try {
+      const url = new URL(CALENDLY_URL);
+      if (attribution.utm_source) url.searchParams.set('utm_source', attribution.utm_source);
+      if (attribution.utm_medium) url.searchParams.set('utm_medium', attribution.utm_medium);
+      if (attribution.utm_campaign) url.searchParams.set('utm_campaign', attribution.utm_campaign);
+      if (attribution.utm_content) url.searchParams.set('utm_content', attribution.utm_content);
+      if (attribution.utm_term) url.searchParams.set('utm_term', attribution.utm_term);
+      ctaBtn.href = url.toString();
+    } catch (_) {}
 
-/**
- * Open Calendly Official Popup Widget with Prefill Data
- * @param {Object} leadData - { fullName, email, agencyName, phone, outsourceNeeds }
- */
-function openCalendlyPopup(leadData = {}) {
-  if (!CALENDLY_URL || CALENDLY_URL.trim().length === 0) return;
-
-  const attribution = getAttributionData();
-
-  loadCalendlyAssets(() => {
-    if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
-      window.Calendly.initPopupWidget({
-        url: CALENDLY_URL,
-        prefill: {
-          name: leadData.fullName || '',
-          email: leadData.email || ''
-        },
-        utm: {
-          utmSource: attribution.utm_source || undefined,
-          utmMedium: attribution.utm_medium || undefined,
-          utmCampaign: attribution.utm_campaign || undefined,
-          utmContent: attribution.utm_content || undefined,
-          utmTerm: attribution.utm_term || undefined
-        }
-      });
-    }
-  });
-}
-
-/**
- * Listen for Calendly Events from Popup
- */
-function initCalendlyListener() {
-  window.addEventListener('message', (e) => {
-    if (e.origin && e.origin.includes('calendly.com') && e.data && e.data.event === 'calendly.event_scheduled') {
-      dispatchTrackingEvent('booking_confirmed', {
-        ...(currentBookingLead || {}),
-        calendlyEventUri: e.data?.payload?.event?.uri || ''
-      });
-    }
-  });
-}
-
-/**
- * Basic Details Form Submission & Direct Booking Flow Handler
- */
-function initBookingFlow() {
-  const form = document.getElementById('ptBookingForm');
-  if (!form) return;
-
-  function markFieldError(fieldName, message) {
-    const input = form[fieldName];
-    if (input) {
-      input.classList.add('is-invalid');
-      const fieldWrap = input.closest('.pt-conversion-field');
-      if (fieldWrap) {
-        fieldWrap.classList.add('has-error');
-        const errSpan = fieldWrap.querySelector('.pt-conversion-error');
-        if (errSpan) errSpan.textContent = message;
-      }
-    }
-  }
-
-  function clearFieldError(input) {
-    input.classList.remove('is-invalid');
-    const fieldWrap = input.closest('.pt-conversion-field');
-    if (fieldWrap) fieldWrap.classList.remove('has-error');
-  }
-
-  // Clear errors on input correction
-  form.querySelectorAll('.pt-conversion-input, .pt-conversion-textarea').forEach(input => {
-    input.addEventListener('input', () => clearFieldError(input));
-  });
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // Reset error states
-    form.querySelectorAll('.pt-conversion-field').forEach(f => f.classList.remove('has-error'));
-    form.querySelectorAll('.pt-conversion-input, .pt-conversion-textarea').forEach(i => i.classList.remove('is-invalid'));
-
-    const fullName = form.fullName?.value.trim() || '';
-    const agencyName = form.agencyName?.value.trim() || '';
-    const email = form.email?.value.trim() || '';
-    const website = form.website?.value.trim() || '';
-    const phone = form.phone?.value.trim() || '';
-    const outsourceNeeds = form.outsourceNeeds?.value.trim() || '';
-    const websiteHp = form.website_hp?.value.trim() || '';
-
-    // Anti-spam check
-    if (websiteHp.length > 0) return;
-
-    let hasError = false;
-
-    // 1. Full Name: min 2 characters
-    if (fullName.length < 2) {
-      markFieldError('fullName', 'Please enter your full name (minimum 2 characters).');
-      hasError = true;
-    }
-
-    // 2. Agency Name: min 2 characters
-    if (agencyName.length < 2) {
-      markFieldError('agencyName', 'Please enter your agency name (minimum 2 characters).');
-      hasError = true;
-    }
-
-    // 3. Work Email: valid email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      markFieldError('email', 'Please enter a valid work email address.');
-      hasError = true;
-    }
-
-    // 4. Website: optional, validate if provided
-    if (website.length > 0) {
-      try {
-        const urlObj = new URL(website.startsWith('http://') || website.startsWith('https://') ? website : `https://${website}`);
-        if (!urlObj.hostname || !urlObj.hostname.includes('.')) {
-          markFieldError('website', 'Please enter a valid website URL.');
-          hasError = true;
-        }
-      } catch (_) {
-        markFieldError('website', 'Please enter a valid website URL.');
-        hasError = true;
-      }
-    }
-
-    // 5. Phone / WhatsApp: min 6 characters / digits
-    const phoneDigits = phone.replace(/\D/g, '');
-    if (phone.length < 6 || phoneDigits.length < 6) {
-      markFieldError('phone', 'Please enter a valid phone or WhatsApp number (minimum 6 digits).');
-      hasError = true;
-    }
-
-    if (hasError) {
-      const firstInvalid = form.querySelector('.is-invalid');
-      if (firstInvalid) firstInvalid.focus();
-      return;
-    }
-
-    // Validation succeeded: preserve collected values in a clean object
-    currentBookingLead = {
-      fullName,
-      agencyName,
-      email,
-      website,
-      phone,
-      outsourceNeeds,
-      timestamp: new Date().toISOString()
-    };
-
-    // Open Calendly official popup widget
-    openCalendlyPopup(currentBookingLead);
-
-    // Dispatch tracking event
-    dispatchTrackingEvent('booking_step_complete', {
-      agencyName: currentBookingLead.agencyName,
-      leadSource: 'Paid Traffic Landing Page'
+    dispatchTrackingEvent('calendly_cta_click', {
+      source: 'Direct Conversion Section',
+      calendlyUrl: CALENDLY_URL
     });
   });
 }
@@ -783,8 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initRatesPreview();
   initCaseStudiesCarousel();
   initWorkShowcaseReel();
-  initBookingFlow();
-  initCalendlyListener();
-  loadCalendlyAssets();
+  initDirectCalendlyCta();
   initSmoothScroll();
 });
