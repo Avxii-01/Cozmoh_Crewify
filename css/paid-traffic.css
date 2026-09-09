@@ -175,6 +175,14 @@
   transform: translateY(-1px);
 }
 
+.btn--nav-cta-text--desktop {
+  display: inline;
+}
+
+.btn--nav-cta-text--mobile {
+  display: none;
+}
+
 /* --------------------------------------------------------------------------
    3. GLOBAL SECTION SPACING, TYPOGRAPHY & CONTINUOUS FLOW
    -------------------------------------------------------------------------- */
@@ -1590,34 +1598,48 @@
 
   /* Mobile Navbar Refinements (768px) */
   :root {
-    --header-height: 70px;
+    --header-height: 64px;
   }
 
   .pt-header {
-    height: 70px;
+    height: 64px;
   }
 
   .pt-header .pt-container {
-    padding-inline: 18px;
+    padding-inline: 20px;
   }
 
   .pt-header__logo-img {
-    height: 38px;
+    height: 30px;
   }
 
   .pt-header__brand {
-    gap: 10px;
+    gap: 8px;
   }
 
   .pt-header__brand-text {
-    font-size: 1.15rem;
+    font-size: 1.08rem;
   }
 
   .btn--nav-cta {
-    padding: 0.5rem 1rem;
-    font-size: 0.82rem;
+    height: 38px;
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 0.76rem;
+    font-weight: 600;
     gap: 6px;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn--nav-cta-text--desktop {
+    display: none;
+  }
+
+  .btn--nav-cta-text--mobile {
+    display: inline;
   }
 
   /* Complete removal of hero ghost watermark & light sweep on mobile */
@@ -1790,38 +1812,46 @@
 
 @media (max-width: 480px) {
 
-  /* Mobile Navbar Refinements (480px / 390px) */
+  /* Mobile Navbar Refinements (480px / 430px / 390px) */
   :root {
-    --header-height: 64px;
+    --header-height: 58px;
   }
 
   .pt-header {
-    height: 64px;
+    height: 58px;
   }
 
   .pt-header .pt-container {
-    padding-inline: 14px;
+    padding-inline: 16px;
   }
 
   .pt-header__logo-img {
-    height: 32px;
+    height: 27px;
   }
 
   .pt-header__brand {
-    gap: 8px;
+    gap: 6px;
   }
 
   .pt-header__brand-text {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
+    letter-spacing: -0.01em;
   }
 
   .btn--nav-cta {
-    padding: 0.44rem 0.85rem;
-    font-size: 0.76rem;
-    font-weight: 700;
-    gap: 5px;
+    height: 35px;
+    min-height: 35px;
+    padding: 0 15px;
+    font-size: 0.70rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    gap: 4px;
     white-space: nowrap;
-    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(167, 139, 250, 0.45);
+    box-shadow: none;
   }
 
   .pt-hero__cta-group {
@@ -1861,21 +1891,21 @@
 
 @media (max-width: 375px) {
 
-  /* Targeted Fix for 375px Small Viewport Navbar */
+  /* Targeted Refinement for 375px Small Viewport Navbar */
   :root {
-    --header-height: 60px;
+    --header-height: 56px;
   }
 
   .pt-header {
-    height: 60px;
+    height: 56px;
   }
 
   .pt-header .pt-container {
-    padding-inline: 12px;
+    padding-inline: 16px;
   }
 
   .pt-header__logo-img {
-    height: 28px;
+    height: 26px;
   }
 
   .pt-header__brand {
@@ -1884,13 +1914,23 @@
 
   .pt-header__brand-text {
     font-size: 0.96rem;
+    letter-spacing: -0.01em;
   }
 
   .btn--nav-cta {
-    padding: 0.38rem 0.72rem;
-    font-size: 0.72rem;
-    gap: 4px;
+    height: 34px;
     min-height: 34px;
+    padding: 0 8px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    gap: 3px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(167, 139, 250, 0.45);
+    box-shadow: none;
   }
 }
 
