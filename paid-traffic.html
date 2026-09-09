@@ -93,9 +93,8 @@
 
         <!-- Supporting Copy -->
         <p class="pt-hero__description">
-          CREWiiFY handles the delivery behind the scenes &mdash; from SEO and websites to content, social, video and
-          paid
-          media &mdash; so you can take on more work without building a bigger team.
+          CREWiiFY handles the delivery behind the scenes, from SEO and websites to content, social, video and paid
+          media, so you can take on more work without building a bigger team.
         </p>
 
         <!-- CTA Hierarchy -->
@@ -104,7 +103,7 @@
             See What CREWiiFY Delivers &darr;
           </a>
           <a href="#conversion" class="btn btn--secondary" id="heroSecondaryCta">
-            Your First Project On Us
+            Your First is Project On Us
           </a>
         </div>
       </div>
@@ -206,7 +205,7 @@
         <!-- Centered Editorial Header -->
         <div class="pt-section-header">
           <span class="pt-section-label">SELECTED WORK</span>
-          <h2 class="pt-section-title">See What We Deliver.</h2>
+          <h2 class="pt-section-title">See Our Work.</h2>
           <p class="pt-section-desc">
             Real projects. Real outcomes. A closer look at what CREWiiFY has delivered behind the scenes.
           </p>
@@ -232,6 +231,13 @@
               &rarr;
             </button>
           </div>
+        </div>
+
+        <!-- Centered Discovery Call CTA Following Selected Work -->
+        <div class="pt-cs-cta-wrap">
+          <a href="#conversion" class="btn btn--primary pt-cs-discovery-cta" id="ptSelectedWorkCta">
+            BOOK A DISCOVERY CALL &rarr;
+          </a>
         </div>
       </div>
     </section>
@@ -316,118 +322,116 @@
           </div>
         </div>
 
-        <!-- Seamless Natural Transition into Survey -->
-        <div class="pt-conversion-survey-flow">
-          <div class="pt-conversion-survey-intro">
-            <h3 class="pt-conversion-survey-heading">
-              Let's Talk About What Your Agency Needs.
-            </h3>
-            <p class="pt-conversion-survey-sub">
-              Tell us a little about your agency and what you're looking to outsource. It only takes a minute.
+        <!-- Direct Booking Conversion Flow -->
+        <div class="pt-conversion-flow-wrap">
+          <!-- Booking Introduction -->
+          <div class="pt-conversion-intro">
+            <h3 class="pt-conversion-heading">Let's Talk About What Your Agency Needs.</h3>
+            <p class="pt-conversion-sub">
+              Tell us a little about your agency and what you're looking to outsource, then choose a time that works for you.
             </p>
           </div>
 
-          <!-- Survey Canvas (Directly on Canvas, No Outer Box / No Dashboard Card) -->
-          <div class="pt-survey-container" id="ptSurveyCard">
-            <!-- Minimal Hairline Progress Indicator -->
-            <div class="pt-survey-progress-wrap">
-              <span class="pt-survey-step-indicator" id="ptSurveyStepIndicator">Step 01 / 05</span>
-              <div class="pt-survey-progress-bar">
-                <div class="pt-survey-progress-fill" id="ptSurveyProgressFill"></div>
+          <!-- Basic Details Form Container -->
+          <div class="pt-conversion-form-card" id="ptBookingFormCard">
+            <form id="ptBookingForm" class="pt-conversion-form" novalidate>
+              <!-- Anti-Spam Honeypot -->
+              <input type="text" name="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off"
+                aria-hidden="true">
+
+              <div class="pt-conversion-grid">
+                <!-- 1. Full Name (Required, min 2 chars) -->
+                <div class="pt-conversion-field">
+                  <label for="ptFullName" class="pt-conversion-label">Full Name</label>
+                  <input type="text" id="ptFullName" name="fullName" class="pt-conversion-input"
+                    placeholder="e.g. Alex Morgan" required autocomplete="name">
+                  <span class="pt-conversion-error" id="ptFullNameError">Please enter your full name (minimum 2 characters).</span>
+                </div>
+
+                <!-- 2. Agency Name (Required, min 2 chars) -->
+                <div class="pt-conversion-field">
+                  <label for="ptAgencyName" class="pt-conversion-label">Agency Name</label>
+                  <input type="text" id="ptAgencyName" name="agencyName" class="pt-conversion-input"
+                    placeholder="e.g. Nova Media" required autocomplete="organization">
+                  <span class="pt-conversion-error" id="ptAgencyNameError">Please enter your agency name (minimum 2 characters).</span>
+                </div>
+
+                <!-- 3. Work Email (Required, valid email) -->
+                <div class="pt-conversion-field">
+                  <label for="ptEmail" class="pt-conversion-label">Work Email</label>
+                  <input type="email" id="ptEmail" name="email" class="pt-conversion-input"
+                    placeholder="alex@novamedia.com" required autocomplete="email">
+                  <span class="pt-conversion-error" id="ptEmailError">Please enter a valid work email address.</span>
+                </div>
+
+                <!-- 4. Website (Optional, url) -->
+                <div class="pt-conversion-field">
+                  <label for="ptWebsite" class="pt-conversion-label">
+                    Website <span class="pt-conversion-optional">Optional</span>
+                  </label>
+                  <input type="url" id="ptWebsite" name="website" class="pt-conversion-input"
+                    placeholder="https://novamedia.com" autocomplete="url">
+                  <span class="pt-conversion-error" id="ptWebsiteError">Please enter a valid website URL.</span>
+                </div>
+
+                <!-- 5. Phone / WhatsApp (Required, min 6 chars) -->
+                <div class="pt-conversion-field pt-conversion-field--full">
+                  <label for="ptPhone" class="pt-conversion-label">Phone / WhatsApp</label>
+                  <input type="tel" id="ptPhone" name="phone" class="pt-conversion-input"
+                    placeholder="+1 (555) 000-0000" required autocomplete="tel">
+                  <span class="pt-conversion-error" id="ptPhoneError">Please enter a valid phone or WhatsApp number (minimum 6 digits).</span>
+                </div>
+
+                <!-- 6. What are you looking to outsource? (Optional) -->
+                <div class="pt-conversion-field pt-conversion-field--full">
+                  <label for="ptOutsource" class="pt-conversion-label">
+                    What are you looking to outsource? <span class="pt-conversion-optional">Optional</span>
+                  </label>
+                  <textarea id="ptOutsource" name="outsourceNeeds" class="pt-conversion-textarea" rows="4"
+                    placeholder="Briefly describe what services or deliverables your agency needs help with (e.g. SEO, Web Dev, Paid Ads, Video, etc.)..."></textarea>
+                </div>
+              </div>
+
+              <!-- Form CTA -->
+              <div class="pt-conversion-cta-wrap">
+                <button type="submit" class="btn btn--primary pt-conversion-submit-btn" id="ptContinueToCalendlyBtn">
+                  CONTINUE TO CALENDLY &rarr;
+                </button>
+                <p class="pt-conversion-reassurance">No commitment. Just a conversation about what you need.</p>
+              </div>
+            </form>
+          </div>
+
+          <!-- Calendly Area (Initially Hidden Until Form Validates) -->
+          <div class="pt-calendly-area" id="ptCalendlyArea" style="display: none;" role="region" aria-label="Appointment Scheduling">
+            <div class="pt-calendly-header">
+              <span class="pt-calendly-eyebrow">CHOOSE A TIME</span>
+              <h3 class="pt-calendly-title">Choose a time that works for you.</h3>
+            </div>
+
+            <!-- Calendly Embed Container -->
+            <div class="pt-calendly-embed-container" id="ptCalendlyEmbedContainer">
+              <!-- Temporary UI Placeholder (Replaced when CALENDLY_URL is provided) -->
+              <div class="pt-calendly-placeholder" id="ptCalendlyPlaceholder">
+                <div class="pt-calendly-placeholder__icon" aria-hidden="true">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <circle cx="12" cy="15" r="1.5"></circle>
+                  </svg>
+                </div>
+                <div class="pt-calendly-placeholder__badge">CALENDLY BOOKING WILL APPEAR HERE</div>
+                <p class="pt-calendly-placeholder__desc">
+                  Our scheduler will load here once connected. Your agency details have been recorded and our team is ready to meet.
+                </p>
+                <div class="pt-calendly-placeholder__indicator" aria-hidden="true">
+                  <span class="pt-calendly-placeholder__pulse"></span>
+                  <code>Ready for: CALENDLY_URL</code>
+                </div>
               </div>
             </div>
-
-            <!-- Steps 1 to 5 rendered by JS -->
-            <div id="ptSurveyStepsContainer"></div>
-
-            <!-- Step 6: Contact Details -->
-            <div class="pt-survey-step" id="ptContactStep">
-              <h4 class="pt-survey-question">Where Can We Reach You?</h4>
-              <p class="pt-survey-subtext">We'll review your agency requirements and get in touch shortly.</p>
-
-              <form id="ptContactForm" novalidate>
-                <!-- Anti-Spam Honeypot -->
-                <input type="text" name="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off"
-                  aria-hidden="true">
-
-                <div class="pt-contact-grid">
-                  <div class="pt-form-group">
-                    <label for="ptFullName" class="pt-label">Full Name</label>
-                    <input type="text" id="ptFullName" name="fullName" class="pt-input" placeholder="e.g. Alex Morgan"
-                      required>
-                    <span class="pt-error-text">Please enter your full name.</span>
-                  </div>
-
-                  <div class="pt-form-group">
-                    <label for="ptAgencyName" class="pt-label">Agency Name</label>
-                    <input type="text" id="ptAgencyName" name="agencyName" class="pt-input"
-                      placeholder="e.g. Nova Media" required>
-                    <span class="pt-error-text">Please enter your agency name.</span>
-                  </div>
-
-                  <div class="pt-form-group">
-                    <label for="ptEmail" class="pt-label">Work Email</label>
-                    <input type="email" id="ptEmail" name="email" class="pt-input" placeholder="alex@novamedia.com"
-                      required>
-                    <span class="pt-error-text">Please enter a valid work email.</span>
-                  </div>
-
-                  <div class="pt-form-group">
-                    <label for="ptWebsite" class="pt-label">
-                      Website <span class="pt-label-optional">(Optional)</span>
-                    </label>
-                    <input type="url" id="ptWebsite" name="website" class="pt-input"
-                      placeholder="https://novamedia.com">
-                  </div>
-
-                  <div class="pt-form-group pt-form-group--full">
-                    <label for="ptPhone" class="pt-label">Phone / WhatsApp</label>
-                    <input type="tel" id="ptPhone" name="phone" class="pt-input" placeholder="+1 (555) 000-0000">
-                    <span class="pt-error-text">Please enter a valid phone or WhatsApp number.</span>
-                  </div>
-
-                  <div class="pt-form-group pt-form-group--full">
-                    <label for="ptMessage" class="pt-label">
-                      Optional Requirement Message <span class="pt-label-optional">(Optional)</span>
-                    </label>
-                    <textarea id="ptMessage" name="message" class="pt-textarea"
-                      placeholder="Briefly describe your current bottlenecks, target deliverables, or timeline..."></textarea>
-                  </div>
-                </div>
-
-                <!-- Submit Action -->
-                <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
-                  <button type="submit" class="btn btn--primary" id="ptSubmitBtn">
-                    Submit &rarr;
-                  </button>
-                </div>
-
-                <div class="pt-form-status" id="ptFormStatus" role="alert"></div>
-              </form>
-            </div>
-
-            <!-- Inline Error Notice -->
-            <div id="ptSurveyError"
-              style="display:none; color: #F87171; font-size: 0.82rem; margin-top: 12px; font-weight: 600;"></div>
-
-            <!-- Survey Bottom Nav Controls -->
-            <div class="pt-survey-nav">
-              <button type="button" class="pt-btn-back" id="ptSurveyBackBtn" disabled>
-                &larr; Back
-              </button>
-              <button type="button" class="btn btn--primary" id="ptSurveyNextBtn">
-                Continue &rarr;
-              </button>
-            </div>
-          </div>
-
-          <!-- Post-Submission Final Confirmation -->
-          <div class="pt-confirmation-card" id="ptConfirmationCard" role="region" aria-live="polite">
-            <div class="pt-confirm-icon">&#10003;</div>
-            <h3 class="pt-confirm-title">Thanks &mdash; we've got it.</h3>
-            <p class="pt-confirm-sub">
-              Your details are with the CREWiiFY team. We'll be in touch shortly.
-            </p>
           </div>
         </div>
       </div>

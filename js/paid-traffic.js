@@ -16,21 +16,18 @@ import {
   landingCaseStudies,
   workShowcaseItems,
   agencyRatesCol1,
-  agencyRatesCol2,
-  landingSurveyQuestions
+  agencyRatesCol2
 } from './paid-traffic-data.js';
 
-// Central Survey State
-const surveyState = {
-  agencyType: '',
-  activeClients: '',
-  servicesNeeded: [],
-  outsourcingReason: '',
-  startTimeline: ''
-};
+// ============================================================================
+// CALENDLY CONFIGURATION
+// The client will provide the real Calendly URL later.
+// When provided, insert the actual Calendly URL here (e.g., 'https://calendly.com/your-org/discovery-call')
+// ============================================================================
+const CALENDLY_URL = '';
 
-let currentStepIndex = 1; // 1 to 5 for survey questions, 6 for contact details
-const totalSurveySteps = landingSurveyQuestions.length; // 5
+// Store collected lead data for future Calendly prefill integration
+let currentBookingLead = null;
 let activeCaseStudyIndex = 0;
 
 /**
@@ -387,184 +384,7 @@ function initWorkShowcaseReel() {
   }, { passive: true });
 }
 
-/**
- * Render Multi-Step Survey Steps inside Seamless Conversion Canvas
- */
-function initSurveySteps() {
-  const stepsContainer = document.getElementById('ptSurveyStepsContainer');
-  if (!stepsContainer) return;
 
-  const stepsHtml = landingSurveyQuestions.map((q, idx) => {
-    const isFirst = idx === 0;
-    return `
-      <div class="pt-survey-step ${isFirst ? 'is-active' : ''}" data-step="${q.step}" id="ptSurveyStep${q.step}">
-        <h3 class="pt-survey-question">${q.question}</h3>
-        <p class="pt-survey-subtext">${q.description}</p>
-        <div class="pt-survey-options ${q.isMulti ? 'pt-survey-options--multi' : ''}">
-          ${q.options.map(opt => `
-            <div class="pt-survey-option ${q.isMulti ? 'pt-survey-option--multi' : ''}" data-question-id="${q.id}" data-value="${opt.value}" role="button" tabindex="0">
-              <span class="pt-survey-option__radio" aria-hidden="true"></span>
-              <span class="pt-survey-option__label">${opt.label}</span>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  stepsContainer.innerHTML = stepsHtml;
-
-  // Bind option selection listeners
-  stepsContainer.querySelectorAll('.pt-survey-option').forEach(optionEl => {
-    optionEl.addEventListener('click', () => {
-      handleOptionSelect(optionEl);
-    });
-    optionEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleOptionSelect(optionEl);
-      }
-    });
-  });
-
-  updateSurveyUI();
-}
-
-/**
- * Handle Option Selection
- */
-function handleOptionSelect(optionEl) {
-  const questionId = optionEl.getAttribute('data-question-id');
-  const value = optionEl.getAttribute('data-value');
-  const currentQ = landingSurveyQuestions.find(q => q.id === questionId);
-
-  if (!currentQ) return;
-
-  if (currentQ.isMulti) {
-    optionEl.classList.toggle('is-selected');
-    if (surveyState[questionId].includes(value)) {
-      surveyState[questionId] = surveyState[questionId].filter(item => item !== value);
-    } else {
-      surveyState[questionId].push(value);
-    }
-  } else {
-    const siblings = optionEl.parentElement.querySelectorAll('.pt-survey-option');
-    siblings.forEach(sib => sib.classList.remove('is-selected'));
-    optionEl.classList.add('is-selected');
-    surveyState[questionId] = value;
-  }
-
-  const errorEl = document.getElementById('ptSurveyError');
-  if (errorEl) errorEl.style.display = 'none';
-}
-
-/**
- * Update Survey UI State
- */
-function updateSurveyUI() {
-  const stepIndicator = document.getElementById('ptSurveyStepIndicator');
-  const progressFill = document.getElementById('ptSurveyProgressFill');
-  const backBtn = document.getElementById('ptSurveyBackBtn');
-  const nextBtn = document.getElementById('ptSurveyNextBtn');
-  const contactStep = document.getElementById('ptContactStep');
-
-  if (currentStepIndex <= totalSurveySteps) {
-    // Questions 1 to 5
-    if (stepIndicator) stepIndicator.textContent = `Step 0${currentStepIndex} / 05`;
-    if (progressFill) progressFill.style.width = `${(currentStepIndex / 5) * 100}%`;
-
-    for (let i = 1; i <= totalSurveySteps; i++) {
-      const stepEl = document.getElementById(`ptSurveyStep${i}`);
-      if (stepEl) {
-        stepEl.classList.toggle('is-active', i === currentStepIndex);
-      }
-    }
-
-    if (contactStep) contactStep.classList.remove('is-active');
-
-    if (backBtn) backBtn.disabled = currentStepIndex === 1;
-    if (nextBtn) {
-      nextBtn.style.display = 'inline-flex';
-      nextBtn.innerHTML = currentStepIndex === totalSurveySteps
-        ? 'Continue to Contact Details →'
-        : 'Continue →';
-    }
-  } else {
-    // Step 6: Contact details step
-    if (stepIndicator) stepIndicator.textContent = 'Step 05 / 05 • Complete';
-    if (progressFill) progressFill.style.width = '100%';
-
-    for (let i = 1; i <= totalSurveySteps; i++) {
-      const stepEl = document.getElementById(`ptSurveyStep${i}`);
-      if (stepEl) stepEl.classList.remove('is-active');
-    }
-
-    if (contactStep) contactStep.classList.add('is-active');
-    if (backBtn) backBtn.disabled = false;
-    if (nextBtn) nextBtn.style.display = 'none';
-  }
-}
-
-/**
- * Validate Current Step Before Continuing
- */
-function validateCurrentStep() {
-  if (currentStepIndex > totalSurveySteps) return true;
-
-  const currentQ = landingSurveyQuestions[currentStepIndex - 1];
-  const answer = surveyState[currentQ.id];
-
-  const isValid = currentQ.isMulti
-    ? Array.isArray(answer) && answer.length > 0
-    : Boolean(answer && answer.trim().length > 0);
-
-  const errorEl = document.getElementById('ptSurveyError');
-  if (!isValid) {
-    if (errorEl) {
-      errorEl.textContent = 'Please make a selection to continue.';
-      errorEl.style.display = 'block';
-    }
-    return false;
-  }
-
-  if (errorEl) errorEl.style.display = 'none';
-  return true;
-}
-
-/**
- * Setup Survey Navigation
- */
-function initSurveyNav() {
-  const nextBtn = document.getElementById('ptSurveyNextBtn');
-  const backBtn = document.getElementById('ptSurveyBackBtn');
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      if (!validateCurrentStep()) return;
-
-      dispatchTrackingEvent('survey_step_complete', {
-        step: currentStepIndex,
-        answer: surveyState[landingSurveyQuestions[currentStepIndex - 1].id]
-      });
-
-      currentStepIndex++;
-      updateSurveyUI();
-
-      if (currentStepIndex === totalSurveySteps + 1) {
-        dispatchTrackingEvent('survey_complete', surveyState);
-      }
-    });
-  }
-
-  if (backBtn) {
-    backBtn.addEventListener('click', () => {
-      if (currentStepIndex > 1) {
-        currentStepIndex--;
-        updateSurveyUI();
-      }
-    });
-  }
-}
 
 /**
  * Extract UTM Attribution Parameters from URL
@@ -581,50 +401,141 @@ function getAttributionData() {
 }
 
 /**
- * Contact Details Form Submission Handler
+ * Initialize Calendly Embed or Fallback Placeholder
+ * @param {Object} bookingData - Collected lead data { fullName, agencyName, email, website, phone, outsourceNeeds }
  */
-function initContactSubmission() {
-  const form = document.getElementById('ptContactForm');
+function initCalendlyEmbed(bookingData = {}) {
+  const container = document.getElementById('ptCalendlyEmbedContainer');
+  if (!container) return;
+
+  if (CALENDLY_URL && CALENDLY_URL.trim().length > 0) {
+    // Real Calendly URL configured: render official Calendly inline widget
+    const params = new URLSearchParams();
+    if (bookingData.fullName) params.set('name', bookingData.fullName);
+    if (bookingData.email) params.set('email', bookingData.email);
+
+    // UTM Attribution
+    const attribution = getAttributionData();
+    if (attribution.utm_source) params.set('utm_source', attribution.utm_source);
+    if (attribution.utm_medium) params.set('utm_medium', attribution.utm_medium);
+    if (attribution.utm_campaign) params.set('utm_campaign', attribution.utm_campaign);
+    if (attribution.utm_content) params.set('utm_content', attribution.utm_content);
+    if (attribution.utm_term) params.set('utm_term', attribution.utm_term);
+
+    const queryStr = params.toString();
+    const finalCalendlyUrl = queryStr ? `${CALENDLY_URL}?${queryStr}` : CALENDLY_URL;
+
+    container.innerHTML = `
+      <div class="calendly-inline-widget" data-url="${finalCalendlyUrl}" style="min-width:320px;height:700px;"></div>
+    `;
+
+    // Ensure Calendly widget script is loaded
+    if (!document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  } else {
+    // No real URL configured yet: show polished temporary placeholder
+    const placeholder = document.getElementById('ptCalendlyPlaceholder');
+    if (placeholder) {
+      placeholder.style.display = 'flex';
+    }
+  }
+}
+
+/**
+ * Basic Details Form Submission & Direct Booking Flow Handler
+ */
+function initBookingFlow() {
+  const form = document.getElementById('ptBookingForm');
+  const formCard = document.getElementById('ptBookingFormCard');
+  const calendlyArea = document.getElementById('ptCalendlyArea');
+
   if (!form) return;
 
-  const submitBtn = document.getElementById('ptSubmitBtn');
-  const statusEl = document.getElementById('ptFormStatus');
-  const confirmCard = document.getElementById('ptConfirmationCard');
-  const surveyCard = document.getElementById('ptSurveyCard');
+  function markFieldError(fieldName, message) {
+    const input = form[fieldName];
+    if (input) {
+      input.classList.add('is-invalid');
+      const fieldWrap = input.closest('.pt-conversion-field');
+      if (fieldWrap) {
+        fieldWrap.classList.add('has-error');
+        const errSpan = fieldWrap.querySelector('.pt-conversion-error');
+        if (errSpan) errSpan.textContent = message;
+      }
+    }
+  }
 
-  form.addEventListener('submit', async (e) => {
+  function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+    const fieldWrap = input.closest('.pt-conversion-field');
+    if (fieldWrap) fieldWrap.classList.remove('has-error');
+  }
+
+  // Clear errors on input correction
+  form.querySelectorAll('.pt-conversion-input, .pt-conversion-textarea').forEach(input => {
+    input.addEventListener('input', () => clearFieldError(input));
+  });
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    form.querySelectorAll('.pt-form-group').forEach(fg => fg.classList.remove('has-error'));
-    form.querySelectorAll('.pt-input, .pt-textarea').forEach(inp => inp.classList.remove('is-invalid'));
-    if (statusEl) {
-      statusEl.className = 'pt-form-status';
-      statusEl.textContent = '';
-    }
+    // Reset error states
+    form.querySelectorAll('.pt-conversion-field').forEach(f => f.classList.remove('has-error'));
+    form.querySelectorAll('.pt-conversion-input, .pt-conversion-textarea').forEach(i => i.classList.remove('is-invalid'));
 
     const fullName = form.fullName?.value.trim() || '';
     const agencyName = form.agencyName?.value.trim() || '';
     const email = form.email?.value.trim() || '';
     const website = form.website?.value.trim() || '';
     const phone = form.phone?.value.trim() || '';
-    const message = form.message?.value.trim() || '';
+    const outsourceNeeds = form.outsourceNeeds?.value.trim() || '';
     const websiteHp = form.website_hp?.value.trim() || '';
+
+    // Anti-spam check
+    if (websiteHp.length > 0) return;
 
     let hasError = false;
 
+    // 1. Full Name: min 2 characters
     if (fullName.length < 2) {
-      markFieldError('fullName', 'Please enter your full name.');
+      markFieldError('fullName', 'Please enter your full name (minimum 2 characters).');
       hasError = true;
     }
 
+    // 2. Agency Name: min 2 characters
     if (agencyName.length < 2) {
-      markFieldError('agencyName', 'Please enter your agency name.');
+      markFieldError('agencyName', 'Please enter your agency name (minimum 2 characters).');
       hasError = true;
     }
 
+    // 3. Work Email: valid email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       markFieldError('email', 'Please enter a valid work email address.');
+      hasError = true;
+    }
+
+    // 4. Website: optional, validate if provided
+    if (website.length > 0) {
+      try {
+        const urlObj = new URL(website.startsWith('http://') || website.startsWith('https://') ? website : `https://${website}`);
+        if (!urlObj.hostname || !urlObj.hostname.includes('.')) {
+          markFieldError('website', 'Please enter a valid website URL.');
+          hasError = true;
+        }
+      } catch (_) {
+        markFieldError('website', 'Please enter a valid website URL.');
+        hasError = true;
+      }
+    }
+
+    // 5. Phone / WhatsApp: min 6 characters / digits
+    const phoneDigits = phone.replace(/\D/g, '');
+    if (phone.length < 6 || phoneDigits.length < 6) {
+      markFieldError('phone', 'Please enter a valid phone or WhatsApp number (minimum 6 digits).');
       hasError = true;
     }
 
@@ -634,94 +545,32 @@ function initContactSubmission() {
       return;
     }
 
-    const attribution = getAttributionData();
-    const payload = {
-      leadSource: 'Paid Traffic Landing Page',
+    // Validation succeeded: preserve collected values in a clean object
+    currentBookingLead = {
       fullName,
       agencyName,
       email,
       website,
       phone,
-      message,
-      website_hp: websiteHp,
-      agencyType: surveyState.agencyType,
-      activeClients: surveyState.activeClients,
-      servicesNeeded: surveyState.servicesNeeded,
-      outsourcingReason: surveyState.outsourcingReason,
-      startTimeline: surveyState.startTimeline,
-      ...attribution
+      outsourceNeeds,
+      timestamp: new Date().toISOString()
     };
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `
-        <span style="display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 8px;"></span>
-        Submitting...
-      `;
+    // Transition from form to Calendly stage
+    if (formCard) {
+      formCard.style.display = 'none';
     }
 
-    try {
-      const response = await fetch('api/contact.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json().catch(() => null);
-
-      if (response.ok && result && result.success) {
-        dispatchTrackingEvent('contact_submit', {
-          agencyName,
-          services: surveyState.servicesNeeded
-        });
-
-        // Hide survey/contact form and reveal clean final confirmation
-        if (surveyCard) surveyCard.style.display = 'none';
-        if (confirmCard) confirmCard.classList.add('is-visible');
-      } else {
-        const errorMsg = (result && result.message)
-          ? result.message
-          : 'Something went wrong while submitting. Please check your entries and try again.';
-        if (statusEl) {
-          statusEl.textContent = errorMsg;
-          statusEl.classList.add('is-visible', 'pt-form-status--error');
-        }
-      }
-    } catch (err) {
-      console.error('Lead submission fetch error:', err);
-      if (statusEl) {
-        statusEl.textContent = 'Network error while submitting. Please check your connection and retry.';
-        statusEl.classList.add('is-visible', 'pt-form-status--error');
-      }
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit &rarr;';
-      }
+    if (calendlyArea) {
+      calendlyArea.style.display = 'block';
+      initCalendlyEmbed(currentBookingLead);
+      calendlyArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  });
 
-  function markFieldError(fieldName, message) {
-    const input = form[fieldName];
-    if (input) {
-      input.classList.add('is-invalid');
-      const parent = input.closest('.pt-form-group');
-      if (parent) {
-        parent.classList.add('has-error');
-        const errSpan = parent.querySelector('.pt-error-text');
-        if (errSpan) errSpan.textContent = message;
-      }
-    }
-  }
-
-  form.querySelectorAll('.pt-input, .pt-textarea').forEach(input => {
-    input.addEventListener('input', () => {
-      input.classList.remove('is-invalid');
-      const parent = input.closest('.pt-form-group');
-      if (parent) parent.classList.remove('has-error');
+    // Dispatch tracking event
+    dispatchTrackingEvent('booking_step_complete', {
+      agencyName: currentBookingLead.agencyName,
+      leadSource: 'Paid Traffic Landing Page'
     });
   });
 }
@@ -770,8 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initRatesPreview();
   initCaseStudiesCarousel();
   initWorkShowcaseReel();
-  initSurveySteps();
-  initSurveyNav();
-  initContactSubmission();
+  initBookingFlow();
   initSmoothScroll();
 });
