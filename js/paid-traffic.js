@@ -326,33 +326,90 @@ function initCaseStudiesCarousel() {
 }
 
 /**
+ * Helper to get clean hostname without www for browser bar
+ */
+function getCleanDomain(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname.replace(/^www\./, '');
+  } catch (e) {
+    return url;
+  }
+}
+
+/**
  * Render & Manage Continuous Auto-Scrolling Work Showcase Reel
- * Large visual media tiles in subtle browser frame with comfortable description below.
+ * Live website preview cards in restrained dark browser windows with interactive pausing & security fallbacks.
  */
 function initWorkShowcaseReel() {
   const reelTrack = document.getElementById('ptWorkReelTrack');
   const showcaseSection = document.getElementById('work');
   if (!reelTrack || !workShowcaseItems.length) return;
 
-  const renderPanels = (items) => items.map(work => `
-    <article class="pt-work-tile" id="${work.id}">
-      <div class="pt-work-tile__frame">
-        <div class="pt-work-tile__frame-bar" aria-hidden="true">
-          <span class="pt-work-tile__dot"></span>
-          <span class="pt-work-tile__dot"></span>
-          <span class="pt-work-tile__dot"></span>
+  const renderCard = (work) => {
+    const domain = getCleanDomain(work.url);
+    const hasBlockedEmbed = Boolean(work.embedBlocked);
+
+    return `
+      <div class="pt-work-card" id="${work.id}">
+        <div class="pt-work-browser">
+          <div class="pt-work-browser-bar">
+            <div class="pt-work-browser-dots" aria-hidden="true">
+              <span class="pt-work-browser-dot"></span>
+              <span class="pt-work-browser-dot"></span>
+              <span class="pt-work-browser-dot"></span>
+            </div>
+            <a href="${work.url}" target="_blank" rel="noopener noreferrer" class="pt-work-browser-address" title="Open ${work.name} in new tab">
+              <span class="pt-work-browser-domain">${domain}</span>
+              <svg class="pt-work-browser-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="pt-work-preview">
+            ${hasBlockedEmbed ? `
+              <a href="${work.url}" target="_blank" rel="noopener noreferrer" class="pt-work-fallback" aria-label="Open ${work.name} in new tab">
+                <div class="pt-work-fallback-content">
+                  <span class="pt-work-fallback-domain">${domain}</span>
+                  <span class="pt-work-fallback-btn">View live website →</span>
+                </div>
+              </a>
+            ` : `
+              <iframe
+                src="${work.url}"
+                title="${work.name}"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin">
+              </iframe>
+              <a href="${work.url}" target="_blank" rel="noopener noreferrer" class="pt-work-fallback pt-work-fallback--hidden" aria-label="Open ${work.name} in new tab">
+                <div class="pt-work-fallback-content">
+                  <span class="pt-work-fallback-domain">${domain}</span>
+                  <span class="pt-work-fallback-btn">View live website →</span>
+                </div>
+              </a>
+            `}
+          </div>
         </div>
-        <div class="pt-work-tile__media">
-          <img src="${work.image}" alt="${work.title}" class="pt-work-tile__img" loading="lazy">
+
+        <div class="pt-work-meta">
+          <div class="pt-work-meta-header">
+            <span class="pt-work-category">${work.category}</span>
+            ${work.status ? `<span class="pt-work-status">${work.status}</span>` : ''}
+          </div>
+          <h3 class="pt-work-title">
+            <a href="${work.url}" target="_blank" rel="noopener noreferrer" class="pt-work-title-link">
+              ${work.name} <span class="pt-work-arrow" aria-hidden="true">↗</span>
+            </a>
+          </h3>
         </div>
       </div>
-      <div class="pt-work-tile__info">
-        <span class="pt-work-tile__category">${work.type}</span>
-        <h3 class="pt-work-tile__title">${work.title}</h3>
-        <p class="pt-work-tile__client">${work.client}</p>
-      </div>
-    </article>
-  `).join('');
+    `;
+  };
+
+  const renderPanels = (items) => items.map(renderCard).join('');
 
   // Render original + duplicate for continuous seamless marquee
   reelTrack.innerHTML = `
@@ -360,28 +417,112 @@ function initWorkShowcaseReel() {
     <div class="pt-work-reel__set" aria-hidden="true">${renderPanels(workShowcaseItems)}</div>
   `;
 
+  // Attach error listeners to iframes for genuine detectable failures only (no timers)
+  const iframes = reelTrack.querySelectorAll('.pt-work-preview iframe');
+  iframes.forEach(iframe => {
+    iframe.addEventListener('error', () => {
+      iframe.classList.add('pt-work-iframe--hidden');
+      const fallback = iframe.parentElement ? iframe.parentElement.querySelector('.pt-work-fallback') : null;
+      if (fallback) fallback.classList.remove('pt-work-fallback--hidden');
+    });
+  });
+
+  // State flags for pausing movement
+  let isHovered = false;
+  let isTouching = false;
+  let isIframeFocused = false;
+  let isVisible = true;
+
+  const updatePauseState = () => {
+    if (!isVisible || isHovered || isTouching || isIframeFocused) {
+      reelTrack.classList.add('is-paused');
+    } else {
+      reelTrack.classList.remove('is-paused');
+    }
+  };
+
+  // Hover handling (cursor entering/leaving reelTrack)
+  reelTrack.addEventListener('mouseenter', () => {
+    isHovered = true;
+    updatePauseState();
+  });
+
+  reelTrack.addEventListener('mouseleave', (e) => {
+    // If pointer crossed into an iframe within reelTrack, preserve paused state
+    const rect = reelTrack.getBoundingClientRect();
+    const isInside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+    if (isInside) {
+      return;
+    }
+    isHovered = false;
+    updatePauseState();
+  });
+
+  // Global mousemove check to resume if cursor moves out of the showcase area
+  document.addEventListener('mousemove', (e) => {
+    if (isHovered) {
+      const rect = reelTrack.getBoundingClientRect();
+      const isInside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      if (!isInside) {
+        isHovered = false;
+        updatePauseState();
+      }
+    }
+  }, { passive: true });
+
+  // Touch handling
+  reelTrack.addEventListener('touchstart', () => {
+    isTouching = true;
+    updatePauseState();
+  }, { passive: true });
+
+  reelTrack.addEventListener('touchend', () => {
+    isTouching = false;
+    setTimeout(updatePauseState, 1200);
+  }, { passive: true });
+
+  // Pause when an iframe inside the showcase receives focus (e.g. click/scroll inside preview)
+  window.addEventListener('blur', () => {
+    if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+      const parentPreview = document.activeElement.closest('.pt-work-preview');
+      if (parentPreview) {
+        isIframeFocused = true;
+        updatePauseState();
+      }
+    }
+  });
+
+  // Resume when user returns to page or clicks outside iframe
+  window.addEventListener('focus', () => {
+    isIframeFocused = false;
+    updatePauseState();
+  });
+
+  document.addEventListener('click', () => {
+    if (isIframeFocused) {
+      isIframeFocused = false;
+      updatePauseState();
+    }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      isIframeFocused = false;
+      updatePauseState();
+    }
+  });
+
   // Pause when not visible in viewport
   if ('IntersectionObserver' in window && showcaseSection) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          reelTrack.classList.remove('is-paused');
-        } else {
-          reelTrack.classList.add('is-paused');
-        }
+        isVisible = entry.isIntersecting;
+        updatePauseState();
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
 
     observer.observe(showcaseSection);
   }
-
-  // Pause on pointer / touch interaction
-  reelTrack.addEventListener('mouseenter', () => reelTrack.classList.add('is-paused'));
-  reelTrack.addEventListener('mouseleave', () => reelTrack.classList.remove('is-paused'));
-  reelTrack.addEventListener('touchstart', () => reelTrack.classList.add('is-paused'), { passive: true });
-  reelTrack.addEventListener('touchend', () => {
-    setTimeout(() => reelTrack.classList.remove('is-paused'), 1500);
-  }, { passive: true });
 }
 
 

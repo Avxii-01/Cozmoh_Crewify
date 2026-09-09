@@ -121,46 +121,90 @@ export const landingCaseStudies = candidateIds.map(id => {
  */
 export const workShowcaseItems = [
   {
-    id: "work-web-dev",
-    type: "WEBSITE BUILD",
-    title: "High-Performance Agency Client Portal",
-    client: "Custom Responsive Architecture",
-    image: "assets/images/web-development-service.png"
+    id: "work-cozmoh-trust",
+    name: "Cozmoh Shree Bhatiawadi Trust",
+    url: "https://avxii-01.github.io/Cozmoh-Shree-Bhatiawadi-trust-/",
+    category: "WEBSITE DEVELOPMENT",
+    status: "UNDER DEVELOPMENT"
   },
   {
-    id: "work-performance",
-    type: "PERFORMANCE VISUALS",
-    title: "Healthcare Digital Portal & GMB Growth",
-    client: "Paladium Janseva Hospital",
-    image: "assets/case-studies/palladium/work1.png"
+    id: "work-crewiify",
+    name: "CREWiiFY",
+    url: "https://www.crewiify.com/",
+    category: "WEBSITE DEVELOPMENT"
   },
   {
-    id: "work-ppc-creative",
-    type: "CAMPAIGN CREATIVE",
-    title: "High-Yield PPC Ads & Landing Page",
-    client: "Luxury Cruise & Travel Brand",
-    image: "assets/images/ppc-management-service.png"
+    id: "work-palladium-janseva",
+    name: "Palladium Janseva",
+    url: "https://palladiumjanseva.com/",
+    category: "WEBSITE DEVELOPMENT"
   },
   {
-    id: "work-seo-content",
-    type: "SEARCH & CONTENT",
-    title: "Search Intent Architecture & Technical SEO",
-    client: "Multi-Specialist Medical Practice",
-    image: "assets/images/seo-service.png"
+    id: "work-a-real-estate-media",
+    name: "A Real Estate Media",
+    url: "https://arealestatemedia.com/",
+    category: "WEBSITE DEVELOPMENT"
   },
   {
-    id: "work-automation",
-    type: "AUTOMATION & FUNNELS",
-    title: "Inbound Pipeline & Messaging Automation",
-    client: "Enterprise Lead Generation",
-    image: "assets/images/whatsapp-automation-service.png"
+    id: "work-krishna-sportz",
+    name: "Krishna Sportz",
+    url: "https://krishnasportz.com/",
+    category: "E-COMMERCE / WEBSITE DEVELOPMENT",
+    embedBlocked: true // Enforces X-Frame-Options: DENY and frame-ancestors 'none'
   },
   {
-    id: "work-creative-suite",
-    type: "BRAND & DIGITAL EXPERIENCE",
-    title: "Clinical Excellence & Brand Overhaul",
-    client: "Healthcare & Regional Facilities",
-    image: "assets/case-studies/palladium/coverimage.jpeg"
+    id: "work-wearwulf",
+    name: "WearWulf",
+    url: "https://wearwulf.in/",
+    category: "E-COMMERCE / WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-falcon-tourism",
+    name: "Falcon Tourism",
+    url: "https://falcontourism.ae/en/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-cozmoh",
+    name: "Cozmoh",
+    url: "https://cozmoh.com/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-joy-water-purifier",
+    name: "Joy Water Purifier",
+    url: "https://joywaterpurifier.com/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-acktiv-ortho",
+    name: "Acktiv Ortho",
+    url: "https://acktivortho.com/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-glowtech-power",
+    name: "Glowtech Power",
+    url: "https://glowtechpower.in/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-healthcare-jeevan",
+    name: "Healthcare Jeevan",
+    url: "https://healthcarejeevan.in/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-greenwich-afri",
+    name: "Greenwich Afri",
+    url: "https://greenwichafri.com/",
+    category: "WEBSITE DEVELOPMENT"
+  },
+  {
+    id: "work-skyline-hostels",
+    name: "Skyline Hostels",
+    url: "https://skylinehostels.in/",
+    category: "WEBSITE DEVELOPMENT"
   }
 ];
 
