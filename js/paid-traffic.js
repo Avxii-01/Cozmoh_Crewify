@@ -116,127 +116,6 @@ function initRatesPreview() {
   renderRateTableColumn('ptRatesTableCol2', agencyRatesCol2);
 }
 
-/**
- * Hero Watermark Dual Metallic Light Sweep & 20% Local Interaction Radius
- * Reusing exact homepage animation and physics.
- */
-function initHeroLightSweep() {
-  const heroSection = document.getElementById('hero');
-  const ghostWrapper = document.getElementById('heroGhostWrapper');
-
-  if (!heroSection || !ghostWrapper) return;
-
-  let scanProgress = 0;
-  const scanSpeed = 0.0015; // ~9s base cycle duration
-  let isHoveringWatermark = false;
-  let rafScanId = null;
-  let isHeroVisible = true;
-
-  function cursorPercentToScanProgress(cursorXPercent) {
-    const clampedX = Math.max(-15, Math.min(115, cursorXPercent));
-    const easeProgress = (clampedX + 15) / 130;
-    const cosValue = Math.max(-1, Math.min(1, 1 - 2 * easeProgress));
-    return Math.acos(cosValue) / Math.PI;
-  }
-
-  function updateScanCssVariables(ease) {
-    const primaryX = -15 + ease * 130;
-    const primaryY = 115 - ease * 130;
-
-    const trailProgress = Math.max(0, ease - 0.14);
-    const trailX = -15 + trailProgress * 130;
-    const trailY = 115 - trailProgress * 130;
-
-    ghostWrapper.style.setProperty('--scan-x', `${primaryX.toFixed(1)}%`);
-    ghostWrapper.style.setProperty('--scan-y', `${primaryY.toFixed(1)}%`);
-    ghostWrapper.style.setProperty('--trail-x', `${trailX.toFixed(1)}%`);
-    ghostWrapper.style.setProperty('--trail-y', `${trailY.toFixed(1)}%`);
-  }
-
-  function animateTravellingLight() {
-    if (!isHeroVisible) return;
-    if (window.innerWidth <= 768) {
-      rafScanId = requestAnimationFrame(animateTravellingLight);
-      return;
-    }
-
-    if (!isHoveringWatermark) {
-      let currentStep = scanSpeed;
-      if (scanProgress > 0.35 && scanProgress < 0.65) {
-        currentStep *= 0.75;
-      }
-
-      scanProgress += currentStep;
-      if (scanProgress > 1) {
-        scanProgress = 0;
-      }
-
-      const easeProgress = 0.5 - Math.cos(scanProgress * Math.PI) / 2;
-      updateScanCssVariables(easeProgress);
-    }
-
-    rafScanId = requestAnimationFrame(animateTravellingLight);
-  }
-
-  rafScanId = requestAnimationFrame(animateTravellingLight);
-
-  const heroVisibilityObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (!isHeroVisible) {
-          isHeroVisible = true;
-          rafScanId = requestAnimationFrame(animateTravellingLight);
-        }
-      } else {
-        isHeroVisible = false;
-        if (rafScanId) {
-          cancelAnimationFrame(rafScanId);
-          rafScanId = null;
-        }
-      }
-    });
-  }, { rootMargin: '100px' });
-
-  heroVisibilityObserver.observe(heroSection);
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isHeroVisible || window.innerWidth <= 768) return;
-
-    const rect = ghostWrapper.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return;
-
-    const wrapperCenterX = rect.left + rect.width / 2;
-    const wrapperCenterY = rect.top + rect.height / 2;
-    const paddingX = rect.width * 0.70;
-    const paddingY = rect.height * 0.75;
-
-    const isInsideLocalZone =
-      Math.abs(e.clientX - wrapperCenterX) < paddingX &&
-      Math.abs(e.clientY - wrapperCenterY) < paddingY;
-
-    if (isInsideLocalZone) {
-      if (!isHoveringWatermark) {
-        isHoveringWatermark = true;
-        ghostWrapper.classList.add('is-cursor-active');
-      }
-
-      const relX = e.clientX - rect.left;
-      const relY = e.clientY - rect.top;
-
-      ghostWrapper.style.setProperty('--mouse-x', `${relX.toFixed(1)}px`);
-      ghostWrapper.style.setProperty('--mouse-y', `${relY.toFixed(1)}px`);
-
-      const cursorPercentX = (relX / rect.width) * 100;
-      scanProgress = cursorPercentToScanProgress(cursorPercentX);
-      const easeProgress = 0.5 - Math.cos(scanProgress * Math.PI) / 2;
-      updateScanCssVariables(easeProgress);
-
-    } else if (isHoveringWatermark) {
-      isHoveringWatermark = false;
-      ghostWrapper.classList.remove('is-cursor-active');
-    }
-  }, { passive: true });
-}
 
 /**
  * Render & Manage Case Studies Carousel
@@ -603,7 +482,6 @@ function initSmoothScroll() {
  * Main Initialization
  */
 document.addEventListener('DOMContentLoaded', () => {
-  initHeroLightSweep();
   initHeaderScroll();
   initProofMetrics();
   initRatesPreview();

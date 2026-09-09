@@ -245,7 +245,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   4. SECTION 01 — HERO (Homepage-Matching Watermark & Light Sweep Animation)
+   4. SECTION 01 — HERO (Clean Background & Balanced Layout)
    -------------------------------------------------------------------------- */
 .pt-hero {
   position: relative;
@@ -257,78 +257,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-.pt-hero__watermark-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* Oversized Background Outline Watermark (Reusing Homepage 3-Layer Architecture) */
-.hero__ghost-word-wrapper {
-  position: absolute;
-  top: 49%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.hero__ghost-word {
-  font-size: clamp(140px, 17vw, 240px);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: 0.12em;
-  color: transparent;
-  white-space: nowrap;
-}
-
-/* Layer 1: Permanent base outline (2px stroke, subtle purple hue) */
-.hero__ghost-word--base {
-  -webkit-text-stroke: 1.8px rgba(139, 92, 246, 0.35);
-  opacity: 0.16;
-}
-
-/* Layer 2: Primary Warm Purple Light Sweep */
-.hero__ghost-word--reveal {
-  position: absolute;
-  inset: 0;
-  -webkit-text-stroke: 2px rgba(167, 139, 250, 0.85);
-  opacity: 0.45;
-  filter: drop-shadow(0 0 28px rgba(139, 92, 246, 0.5)) drop-shadow(0 0 6px rgba(196, 181, 253, 0.55));
-  mask-image: radial-gradient(ellipse 320px 180px at var(--scan-x, -500px) var(--scan-y, -500px), black 0%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 320px 180px at var(--scan-x, -500px) var(--scan-y, -500px), black 0%, transparent 80%);
-  z-index: 3;
-  transition: opacity 300ms ease;
-}
-
-/* Layer 3: Secondary Coordinated Purple Reflection Trail Layer */
-.hero__ghost-word--trail {
-  position: absolute;
-  inset: 0;
-  -webkit-text-stroke: 1.8px rgba(139, 92, 246, 0.65);
-  opacity: 0.4;
-  filter: drop-shadow(0 0 16px rgba(109, 40, 217, 0.3));
-  mask-image: radial-gradient(ellipse 260px 140px at var(--trail-x, -500px) var(--trail-y, -500px), black 0%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 260px 140px at var(--trail-x, -500px) var(--trail-y, -500px), black 0%, transparent 80%);
-  z-index: 2;
-  transition: opacity 600ms ease;
-}
-
-/* Cursor-follow reveal state when mouse is inside 20% local interaction zone */
-.hero__ghost-word-wrapper.is-cursor-active .hero__ghost-word--reveal {
-  mask-image: radial-gradient(circle 160px at var(--mouse-x, -500px) var(--mouse-y, -500px), black 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(circle 160px at var(--mouse-x, -500px) var(--mouse-y, -500px), black 0%, transparent 75%);
-  opacity: 1;
-}
-
-.hero__ghost-word-wrapper.is-cursor-active .hero__ghost-word--trail {
-  opacity: 0;
 }
 
 .pt-hero__content {
@@ -1528,12 +1456,6 @@
     display: inline;
   }
 
-  /* Complete removal of hero ghost watermark & light sweep on mobile */
-  .pt-hero__watermark-layer,
-  .hero__ghost-word-wrapper,
-  .hero__ghost-word {
-    display: none !important;
-  }
 
   /* Refined Service Cards & Bottom Navigation on mobile */
   .services__card {
