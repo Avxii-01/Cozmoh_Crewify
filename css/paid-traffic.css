@@ -242,6 +242,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+  vertical-align: baseline;
 }
 
 /* --------------------------------------------------------------------------
@@ -273,8 +276,9 @@
   font-size: clamp(2.4rem, 5.4vw, 4.6rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.12;
+  line-height: 1.2;
   color: #FFFFFF;
+  padding-bottom: 0.08em;
   margin-bottom: clamp(16px, 2vw, 22px);
   overflow-wrap: break-word;
 }
@@ -856,6 +860,21 @@
   -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
 
+/* Navigation Controls for Manual Carousel (Tablet & Mobile) */
+.pt-work-nav {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(24px, 3.5vw, 36px);
+  width: 100%;
+}
+
+/* Hide start clone set on desktop to maintain exact 2-set marquee loop */
+.pt-work-reel__set--clone-start {
+  display: none !important;
+}
+
 .pt-work-reel-track {
   display: flex;
   width: max-content;
@@ -1431,10 +1450,48 @@
   /* Tablet Work Showcase Previews */
   .pt-work-card {
     width: clamp(420px, 52vw, 500px);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   .pt-work-preview {
     height: 380px;
+  }
+
+  /* Work Showcase Manual Circular Carousel (Tablet & Mobile) */
+  .pt-work-nav {
+    display: flex;
+  }
+
+  .pt-work-reel-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: none;
+    -webkit-mask-image: none;
+    padding-block: 8px;
+  }
+
+  .pt-work-reel-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pt-work-reel-track {
+    animation: none !important;
+    transform: none !important;
+    width: max-content;
+    gap: 24px;
+  }
+
+  .pt-work-reel__set--clone-start,
+  .pt-work-reel__set--main,
+  .pt-work-reel__set--clone-end {
+    display: flex !important;
+    padding-inline: 0 !important;
+    gap: 24px;
   }
 }
 
@@ -1508,16 +1565,22 @@
   }
 
   .pt-work-card {
-    width: min(calc(100vw - 40px), 440px);
+    width: min(calc(100vw - 36px), 440px);
+    scroll-snap-align: center;
   }
 
   .pt-work-preview {
     height: 340px;
   }
 
-  .pt-work-reel__set {
+  .pt-work-reel-track {
     gap: 16px;
-    padding-inline: 16px;
+  }
+
+  .pt-work-reel__set--clone-start,
+  .pt-work-reel__set--main,
+  .pt-work-reel__set--clone-end {
+    gap: 16px;
   }
 
   /* Rates Table Mobile Transformation */

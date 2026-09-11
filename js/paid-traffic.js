@@ -286,10 +286,12 @@ function initWorkShowcaseReel() {
 
   const renderPanels = (items) => items.map(renderCard).join('');
 
-  // Render original + duplicate for continuous seamless marquee
+  // Render clone-start + main + clone-end for seamless infinite manual loop on mobile/tablet
+  // and 2-set continuous marquee on desktop (clone-start hidden via CSS on desktop)
   reelTrack.innerHTML = `
-    <div class="pt-work-reel__set">${renderPanels(workShowcaseItems)}</div>
-    <div class="pt-work-reel__set" aria-hidden="true">${renderPanels(workShowcaseItems)}</div>
+    <div class="pt-work-reel__set pt-work-reel__set--clone-start" aria-hidden="true">${renderPanels(workShowcaseItems)}</div>
+    <div class="pt-work-reel__set pt-work-reel__set--main">${renderPanels(workShowcaseItems)}</div>
+    <div class="pt-work-reel__set pt-work-reel__set--clone-end" aria-hidden="true">${renderPanels(workShowcaseItems)}</div>
   `;
 
   // Attach error listeners to iframes for genuine detectable failures only (no timers)
@@ -302,13 +304,17 @@ function initWorkShowcaseReel() {
     });
   });
 
-  // State flags for pausing movement
+  // Tablet and mobile breakpoint check (manual carousel on tablet & mobile)
+  const isTouchOrManualDevice = () => window.innerWidth <= 1024;
+
+  // State flags for pausing movement (Desktop autoplay reel only)
   let isHovered = false;
   let isTouching = false;
   let isIframeFocused = false;
   let isVisible = true;
 
   const updatePauseState = () => {
+    if (isTouchOrManualDevice()) return;
     if (!isVisible || isHovered || isTouching || isIframeFocused) {
       reelTrack.classList.add('is-paused');
     } else {
@@ -316,13 +322,15 @@ function initWorkShowcaseReel() {
     }
   };
 
-  // Hover handling (cursor entering/leaving reelTrack)
+  // Hover handling (cursor entering/leaving reelTrack) - Desktop only
   reelTrack.addEventListener('mouseenter', () => {
+    if (isTouchOrManualDevice()) return;
     isHovered = true;
     updatePauseState();
   });
 
   reelTrack.addEventListener('mouseleave', (e) => {
+    if (isTouchOrManualDevice()) return;
     // If pointer crossed into an iframe within reelTrack, preserve paused state
     const rect = reelTrack.getBoundingClientRect();
     const isInside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
@@ -333,8 +341,9 @@ function initWorkShowcaseReel() {
     updatePauseState();
   });
 
-  // Global mousemove check to resume if cursor moves out of the showcase area
+  // Global mousemove check to resume if cursor moves out of the showcase area - Desktop only
   document.addEventListener('mousemove', (e) => {
+    if (isTouchOrManualDevice()) return;
     if (isHovered) {
       const rect = reelTrack.getBoundingClientRect();
       const isInside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
@@ -345,19 +354,22 @@ function initWorkShowcaseReel() {
     }
   }, { passive: true });
 
-  // Touch handling
+  // Touch handling - Desktop touchscreen laptops only, no-op on tablet/mobile manual carousel
   reelTrack.addEventListener('touchstart', () => {
+    if (isTouchOrManualDevice()) return;
     isTouching = true;
     updatePauseState();
   }, { passive: true });
 
   reelTrack.addEventListener('touchend', () => {
+    if (isTouchOrManualDevice()) return;
     isTouching = false;
     setTimeout(updatePauseState, 1200);
   }, { passive: true });
 
-  // Pause when an iframe inside the showcase receives focus (e.g. click/scroll inside preview)
+  // Pause when an iframe inside the showcase receives focus - Desktop only
   window.addEventListener('blur', () => {
+    if (isTouchOrManualDevice()) return;
     if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
       const parentPreview = document.activeElement.closest('.pt-work-preview');
       if (parentPreview) {
@@ -367,13 +379,15 @@ function initWorkShowcaseReel() {
     }
   });
 
-  // Resume when user returns to page or clicks outside iframe
+  // Resume when user returns to page or clicks outside iframe - Desktop only
   window.addEventListener('focus', () => {
+    if (isTouchOrManualDevice()) return;
     isIframeFocused = false;
     updatePauseState();
   });
 
   document.addEventListener('click', () => {
+    if (isTouchOrManualDevice()) return;
     if (isIframeFocused) {
       isIframeFocused = false;
       updatePauseState();
@@ -381,13 +395,14 @@ function initWorkShowcaseReel() {
   });
 
   document.addEventListener('visibilitychange', () => {
+    if (isTouchOrManualDevice()) return;
     if (!document.hidden) {
       isIframeFocused = false;
       updatePauseState();
     }
   });
 
-  // Pause when not visible in viewport
+  // Pause when not visible in viewport - Desktop only
   if ('IntersectionObserver' in window && showcaseSection) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -398,6 +413,151 @@ function initWorkShowcaseReel() {
 
     observer.observe(showcaseSection);
   }
+
+  // --------------------------------------------------------------------------
+  // Circular Infinite Manual Navigation Controls (Tablet & Mobile)
+  // --------------------------------------------------------------------------
+  const reelWrap = document.querySelector('.pt-work-reel-wrap');
+  const prevBtn = document.getElementById('ptWorkPrevBtn');
+  const nextBtn = document.getElementById('ptWorkNextBtn');
+  const N = workShowcaseItems.length;
+
+  let currentProjectIndex = 0; // 0 to N-1 (Project 1 to Project 14)
+  let isNavigating = false;
+  let normalizeTimer = null;
+
+  function getCards() {
+    return Array.from(reelTrack.querySelectorAll('.pt-work-card'));
+  }
+
+  function getCardCenterScrollLeft(card) {
+    if (!card || !reelWrap) return 0;
+    return card.offsetLeft - (reelWrap.clientWidth - card.offsetWidth) / 2;
+  }
+
+  function initializeManualCarouselPosition() {
+    if (!isTouchOrManualDevice() || !reelWrap) return;
+    const cards = getCards();
+    if (cards.length < 3 * N) return;
+
+    const initialCard = cards[N + currentProjectIndex];
+    if (initialCard) {
+      reelWrap.style.scrollBehavior = 'auto';
+      reelWrap.scrollLeft = getCardCenterScrollLeft(initialCard);
+      reelWrap.style.scrollBehavior = 'smooth';
+    }
+
+    if (prevBtn) prevBtn.disabled = false;
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function normalizeScrollPosition() {
+    if (!isTouchOrManualDevice() || !reelWrap) return;
+    const cards = getCards();
+    if (cards.length < 3 * N) return;
+
+    const set0Card0 = cards[0];
+    const set1Card0 = cards[N];
+    if (!set0Card0 || !set1Card0) return;
+
+    const setWidth = set1Card0.offsetLeft - set0Card0.offsetLeft;
+    if (setWidth <= 0) return;
+
+    const wrapCenter = reelWrap.scrollLeft + reelWrap.clientWidth / 2;
+
+    // Find card whose horizontal center is closest to reelWrap's center
+    let closestIdx = N;
+    let minDiff = Infinity;
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const diff = Math.abs(wrapCenter - cardCenter);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestIdx = idx;
+      }
+    });
+
+    if (closestIdx < N) {
+      // Swiped or scrolled into Set 0 (Clone start): silently wrap into Set 1
+      reelWrap.style.scrollBehavior = 'auto';
+      reelWrap.scrollLeft += setWidth;
+      reelWrap.style.scrollBehavior = 'smooth';
+      currentProjectIndex = closestIdx;
+    } else if (closestIdx >= 2 * N) {
+      // Swiped or scrolled into Set 2 (Clone end): silently wrap into Set 1
+      reelWrap.style.scrollBehavior = 'auto';
+      reelWrap.scrollLeft -= setWidth;
+      reelWrap.style.scrollBehavior = 'smooth';
+      currentProjectIndex = closestIdx - 2 * N;
+    } else {
+      currentProjectIndex = closestIdx - N;
+    }
+
+    isNavigating = false;
+    if (prevBtn) prevBtn.disabled = false;
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function scheduleNormalize() {
+    if (normalizeTimer) clearTimeout(normalizeTimer);
+    normalizeTimer = setTimeout(normalizeScrollPosition, 380);
+  }
+
+  function scrollWorkCard(direction) {
+    if (!reelWrap) return;
+    const cards = getCards();
+    if (cards.length < 3 * N) return;
+
+    isNavigating = true;
+    currentProjectIndex += direction;
+    const targetCardIndex = N + currentProjectIndex;
+
+    const targetCard = cards[targetCardIndex];
+    if (targetCard) {
+      const targetScroll = getCardCenterScrollLeft(targetCard);
+      reelWrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    }
+
+    scheduleNormalize();
+  }
+
+  if (prevBtn) {
+    prevBtn.disabled = false;
+    prevBtn.addEventListener('click', () => scrollWorkCard(-1));
+  }
+
+  if (nextBtn) {
+    nextBtn.disabled = false;
+    nextBtn.addEventListener('click', () => scrollWorkCard(1));
+  }
+
+  if (reelWrap) {
+    reelWrap.addEventListener('scroll', () => {
+      if (!isTouchOrManualDevice()) return;
+      if (!isNavigating) {
+        scheduleNormalize();
+      }
+    }, { passive: true });
+
+    reelWrap.addEventListener('scrollend', () => {
+      if (!isTouchOrManualDevice()) return;
+      normalizeScrollPosition();
+    }, { passive: true });
+  }
+
+  window.addEventListener('resize', () => {
+    if (isTouchOrManualDevice()) {
+      initializeManualCarouselPosition();
+    } else {
+      if (reelWrap) reelWrap.scrollLeft = 0;
+      updatePauseState();
+    }
+  }, { passive: true });
+
+  // Initial manual positioning if loaded directly on tablet/mobile
+  requestAnimationFrame(() => {
+    initializeManualCarouselPosition();
+  });
 }
 
 
