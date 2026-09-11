@@ -1588,6 +1588,14 @@
     display: none;
   }
 
+  .pt-rates-category-group {
+    margin-bottom: 20px;
+  }
+
+  .pt-rates-category-header {
+    padding: 10px 4px 8px 4px;
+  }
+
   .pt-rates-table-wrap {
     display: flex;
     flex-direction: column;
@@ -1601,45 +1609,61 @@
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 10px;
-    padding: 18px 16px;
-    gap: 14px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .pt-rates-col-service {
+    width: 100%;
+  }
+
+  .pt-rates-service-title {
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+
+  .pt-rates-service-scope {
+    font-size: 0.78rem;
+    color: #71717A;
+    line-height: 1.4;
   }
 
   .pt-rates-col--desktop {
     display: none;
   }
 
+  /* 3-Column Equal Width Pricing Grid */
   .pt-rates-mobile-metrics {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     padding-top: 12px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    gap: 8px;
+    gap: 10px;
+    box-sizing: border-box;
   }
 
   .pt-rates-m-item {
     display: flex;
     flex-direction: column;
-  }
-
-  .pt-rates-m-item--client {
+    align-items: flex-start;
     text-align: left;
-  }
-
-  .pt-rates-m-item--our {
-    text-align: center;
-  }
-
-  .pt-rates-m-item--keep {
-    text-align: right;
+    min-width: 0;
   }
 
   .pt-rates-m-lbl {
     font-size: 0.65rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
+    text-align: left;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .pt-rates-m-lbl--client {
@@ -1655,6 +1679,33 @@
   .pt-rates-m-lbl--keep {
     color: #A78BFA;
     font-weight: 700;
+  }
+
+  .pt-rates-mobile-metrics .pt-rates-val {
+    text-align: left;
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .pt-rates-mobile-metrics .pt-rates-val--client {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #71717A;
+  }
+
+  .pt-rates-mobile-metrics .pt-rates-val--our {
+    font-size: 1.12rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+
+  .pt-rates-mobile-metrics .pt-rates-val--keep {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A78BFA;
   }
 
 
