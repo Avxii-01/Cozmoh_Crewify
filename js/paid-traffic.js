@@ -420,26 +420,43 @@ function getAttributionData() {
  * Direct-to-Calendly CTA Navigation
  */
 function initDirectCalendlyCta() {
-  const ctaBtn = document.getElementById('ptDirectCalendlyBtn');
-  if (!ctaBtn || !CALENDLY_URL) return;
+  if (!CALENDLY_URL) return;
 
-  ctaBtn.href = CALENDLY_URL;
-
-  ctaBtn.addEventListener('click', () => {
-    const attribution = getAttributionData();
+  const buildCalendlyUrl = () => {
     try {
+      const attribution = getAttributionData();
       const url = new URL(CALENDLY_URL);
       if (attribution.utm_source) url.searchParams.set('utm_source', attribution.utm_source);
       if (attribution.utm_medium) url.searchParams.set('utm_medium', attribution.utm_medium);
       if (attribution.utm_campaign) url.searchParams.set('utm_campaign', attribution.utm_campaign);
       if (attribution.utm_content) url.searchParams.set('utm_content', attribution.utm_content);
       if (attribution.utm_term) url.searchParams.set('utm_term', attribution.utm_term);
-      ctaBtn.href = url.toString();
-    } catch (_) {}
+      return url.toString();
+    } catch (_) {
+      return CALENDLY_URL;
+    }
+  };
 
-    dispatchTrackingEvent('calendly_cta_click', {
-      source: 'Direct Conversion Section',
-      calendlyUrl: CALENDLY_URL
+  const bookingCtas = [
+    { id: 'headerCta', source: 'Header CTA' },
+    { id: 'heroSecondaryCta', source: 'Hero First Project Free CTA' },
+    { id: 'ptSelectedWorkCta', source: 'Selected Work Section' },
+    { id: 'ptDirectCalendlyBtn', source: 'Direct Conversion Section' }
+  ];
+
+  bookingCtas.forEach(({ id, source }) => {
+    const ctaBtn = document.getElementById(id);
+    if (!ctaBtn) return;
+
+    ctaBtn.href = buildCalendlyUrl();
+
+    ctaBtn.addEventListener('click', () => {
+      ctaBtn.href = buildCalendlyUrl();
+
+      dispatchTrackingEvent('calendly_cta_click', {
+        source,
+        calendlyUrl: CALENDLY_URL
+      });
     });
   });
 }

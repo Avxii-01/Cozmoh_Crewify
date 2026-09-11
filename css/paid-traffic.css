@@ -303,6 +303,55 @@
   flex-wrap: wrap;
 }
 
+/* Hero Offer CTA ("Your First Project Is Free") - Refined Primary Offer Styling */
+#heroSecondaryCta {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.26) 0%, rgba(109, 40, 217, 0.18) 45%, rgba(16, 12, 24, 0.94) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.65);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.90rem;
+  letter-spacing: 0.015em;
+  padding: 0.80rem 1.85rem;
+  box-shadow: 0 2px 18px rgba(139, 92, 246, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease, color 220ms ease;
+  position: relative;
+  cursor: pointer;
+}
+
+#heroSecondaryCta::after {
+  content: "→";
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.95em;
+  line-height: 1;
+  color: #C4B5FD;
+  transition: transform 220ms ease, color 220ms ease;
+}
+
+#heroSecondaryCta:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.38) 0%, rgba(124, 58, 237, 0.28) 45%, rgba(22, 16, 36, 0.96) 100%);
+  border-color: #A78BFA;
+  color: #FFFFFF;
+  box-shadow: 0 4px 26px rgba(139, 92, 246, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+#heroSecondaryCta:hover::after {
+  transform: translateX(3px);
+  color: #FFFFFF;
+}
+
+#heroSecondaryCta:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.30) 0%, rgba(16, 12, 24, 0.96) 100%);
+  box-shadow: 0 1px 10px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+#heroSecondaryCta:focus-visible {
+  outline: 2px solid #C4B5FD;
+  outline-offset: 3px;
+}
+
 /* --------------------------------------------------------------------------
    5. SECTION 02 — TRUSTED BRANDS + PROOF (Enlarged Presence, Zero Horizontal Slices)
    -------------------------------------------------------------------------- */
@@ -1231,25 +1280,6 @@
   display: none;
 }
 
-.pt-rates-footnote {
-  text-align: center;
-  margin-top: 32px;
-}
-
-.pt-rates-secondary-link {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: #8E8E93;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.pt-rates-secondary-link:hover {
-  color: #FFFFFF;
-}
 
 /* --------------------------------------------------------------------------
    9. SECTION 06 — DIRECT CONVERSION CLIMAX (Ready To Get Started / Calendly)
@@ -1668,6 +1698,12 @@
   .pt-hero__cta-group .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  #heroSecondaryCta {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.86rem;
+    min-height: 48px;
   }
 
   .pt-conversion-cta-btn {
