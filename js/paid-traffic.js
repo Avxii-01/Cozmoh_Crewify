@@ -598,13 +598,13 @@ function initDirectCalendlyCta() {
   };
 
   const bookingCtas = [
-    { id: 'headerCta', source: 'Header CTA' },
-    { id: 'heroSecondaryCta', source: 'Hero First Project Free CTA' },
-    { id: 'ptSelectedWorkCta', source: 'Selected Work Section' },
-    { id: 'ptDirectCalendlyBtn', source: 'Direct Conversion Section' }
+    { id: 'headerCta', source: 'Header CTA', ctaName: 'header' },
+    { id: 'heroSecondaryCta', source: 'Hero First Project Free CTA', ctaName: 'hero_first_project' },
+    { id: 'ptSelectedWorkCta', source: 'Selected Work Section', ctaName: 'booking_discovery_call' },
+    { id: 'ptDirectCalendlyBtn', source: 'Direct Conversion Section', ctaName: 'booking_discovery_call' }
   ];
 
-  bookingCtas.forEach(({ id, source }) => {
+  bookingCtas.forEach(({ id, source, ctaName }) => {
     const ctaBtn = document.getElementById(id);
     if (!ctaBtn) return;
 
@@ -612,6 +612,19 @@ function initDirectCalendlyCta() {
 
     ctaBtn.addEventListener('click', () => {
       ctaBtn.href = buildCalendlyUrl();
+
+      // Meta Pixel CTA_Click tracking (uses existing fbq instance)
+      if (typeof fbq === 'function') {
+        let resolvedCtaName = ctaName;
+        // Distinguish desktop vs mobile for header CTA based on visible span
+        if (id === 'headerCta') {
+          const mobileSpan = ctaBtn.querySelector('.btn--nav-cta-text--mobile');
+          resolvedCtaName = (mobileSpan && mobileSpan.offsetParent !== null)
+            ? 'header_mobile'
+            : 'header_desktop';
+        }
+        fbq('trackCustom', 'CTA_Click', { cta_name: resolvedCtaName });
+      }
 
       dispatchTrackingEvent('calendly_cta_click', {
         source,
