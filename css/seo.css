@@ -1,0 +1,872 @@
+/* ==========================================================================
+   seo.css - CREWiiFY Dedicated White-Label SEO Landing Page Stylesheet
+   Architecture: Mobile-First Responsive Design
+   Visual Language: Deep Black Background, Editorial Typography,
+                    Restrained Purple/Lavender Accents, Zero Horizontal Overflow.
+   Strict Isolation: All classes scoped to .seo-page and .seo-* namespace.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. DESIGN SYSTEM TOKENS (Scoped Fallbacks & Explicit Variables)
+   -------------------------------------------------------------------------- */
+:root {
+  --seo-color-bg: #050505;
+  --seo-color-bg-card: rgba(14, 14, 18, 0.7);
+  --seo-color-bg-card-hover: rgba(22, 22, 28, 0.85);
+
+  --seo-color-text-main: #F5F5F5;
+  --seo-color-text-muted: #9E9EA8;
+  --seo-color-text-subtle: #71717A;
+
+  --seo-color-primary: #8B5CF6;
+  --seo-color-primary-hover: #A78BFA;
+  --seo-color-primary-dark: #6D28D9;
+  --seo-color-primary-glow: rgba(139, 92, 246, 0.18);
+
+  --seo-color-border: rgba(255, 255, 255, 0.08);
+  --seo-color-border-hover: rgba(167, 139, 250, 0.4);
+  --seo-color-purple-border: rgba(167, 139, 250, 0.3);
+
+  --seo-gradient-text: linear-gradient(135deg, #FFFFFF 0%, #E9D5FF 35%, #C084FC 70%, #A855F7 100%);
+  --seo-gradient-border: linear-gradient(135deg, rgba(167, 139, 250, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
+
+  --seo-header-h-mobile: 68px;
+  --seo-header-h-desktop: 80px;
+
+  --seo-container-max: 1320px;
+  --seo-container-narrow: 920px;
+
+  --seo-radius-sm: 8px;
+  --seo-radius-md: 14px;
+  --seo-radius-lg: 20px;
+  --seo-radius-pill: 9999px;
+
+  --seo-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --seo-transition-base: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   1. GLOBAL PAGE CONTAINER & AMBIENCE (Mobile-First Foundation)
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--seo-header-h-mobile);
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: var(--seo-header-h-desktop);
+  }
+}
+
+.seo-page {
+  background-color: var(--seo-color-bg);
+  color: var(--seo-color-text-main);
+  font-family: var(--seo-font-family);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Atmospheric Ambient Grid (Zero CPU/Paint Cost, Pure CSS) */
+.seo-ambient-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.seo-ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(139, 92, 246, 0.09) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 30%, transparent 85%);
+}
+
+.seo-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.seo-glow-orb--top {
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(280px, 80vw, 750px);
+  height: clamp(240px, 60vw, 520px);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.16) 0%, transparent 70%);
+}
+
+.seo-glow-orb--mid {
+  top: 40%;
+  right: -120px;
+  width: clamp(260px, 50vw, 550px);
+  height: clamp(260px, 50vw, 550px);
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.1) 0%, transparent 75%);
+}
+
+.seo-glow-orb--bottom {
+  bottom: 8%;
+  left: -100px;
+  width: clamp(300px, 60vw, 600px);
+  height: clamp(300px, 60vw, 600px);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+}
+
+/* --------------------------------------------------------------------------
+   2. CONTAINERS & SPACING
+   -------------------------------------------------------------------------- */
+.seo-container {
+  width: 100%;
+  max-width: var(--seo-container-max);
+  margin-inline: auto;
+  padding-inline: 16px;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  .seo-container {
+    padding-inline: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .seo-container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .seo-container {
+    padding-inline: 40px;
+  }
+}
+
+.seo-container--narrow {
+  max-width: var(--seo-container-narrow);
+}
+
+.seo-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Base Section Spacing */
+.seo-section {
+  position: relative;
+  padding: 48px 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .seo-section {
+    padding: 72px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .seo-section {
+    padding: 96px 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. HEADER / NAVIGATION (Minimal Paid-Traffic Style)
+   -------------------------------------------------------------------------- */
+.seo-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--seo-header-h-mobile);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  transition: background-color var(--seo-transition-base),
+              backdrop-filter var(--seo-transition-base),
+              border-color var(--seo-transition-base),
+              box-shadow var(--seo-transition-base);
+  border-bottom: 1px solid transparent;
+}
+
+@media (min-width: 768px) {
+  .seo-header {
+    height: var(--seo-header-h-desktop);
+  }
+}
+
+.seo-header.seo-header--scrolled {
+  background-color: rgba(5, 5, 5, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+
+.seo-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.seo-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.seo-header__logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .seo-header__logo-img {
+    height: 44px;
+  }
+}
+
+.seo-header__brand-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .seo-header__brand-text {
+    font-size: 1.28rem;
+  }
+}
+
+.seo-header__brand-small-i {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--seo-color-primary-hover);
+}
+
+/* Nav CTA - Guaranteed minimum 44px interactive touch target */
+.seo-btn--nav-cta {
+  background: rgba(20, 16, 30, 0.75);
+  border: 1px solid var(--seo-color-purple-border);
+  color: #FFFFFF;
+  padding: 0 16px;
+  height: 44px;
+  min-height: 44px;
+  border-radius: var(--seo-radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.12);
+  transition: all var(--seo-transition-base);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .seo-btn--nav-cta {
+    padding: 0 22px;
+    font-size: 0.9rem;
+    height: 46px;
+    min-height: 46px;
+  }
+}
+
+.seo-btn--nav-cta:hover {
+  background: rgba(139, 92, 246, 0.22);
+  border-color: var(--seo-color-primary-hover);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.35);
+  transform: translateY(-1px);
+}
+
+.seo-btn--nav-cta-text--desktop {
+  display: none;
+}
+
+.seo-btn--nav-cta-text--mobile {
+  display: inline;
+}
+
+@media (min-width: 600px) {
+  .seo-btn--nav-cta-text--desktop {
+    display: inline;
+  }
+  .seo-btn--nav-cta-text--mobile {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. SHARED BUTTONS & TYPOGRAPHY SYSTEM
+   -------------------------------------------------------------------------- */
+.seo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 24px;
+  border-radius: var(--seo-radius-pill);
+  font-family: var(--seo-font-family);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all var(--seo-transition-base);
+  text-align: center;
+}
+
+.seo-btn--primary {
+  background-color: #0D0D11;
+  color: #FFFFFF;
+  border: 1px solid var(--seo-color-purple-border);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.2);
+}
+
+.seo-btn--primary:hover {
+  background-color: #16161D;
+  border-color: var(--seo-color-primary-hover);
+  box-shadow: 0 0 26px rgba(139, 92, 246, 0.35);
+  transform: translateY(-2px);
+}
+
+.seo-btn--secondary {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #FFFFFF;
+  border: 1px solid var(--seo-color-border);
+}
+
+.seo-btn--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Editorial Gradient Text */
+.seo-gradient-text {
+  background: var(--seo-gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-bottom: 0.08em;
+}
+
+/* Section Header Typography */
+.seo-section-header {
+  text-align: center;
+  max-width: 820px;
+  margin-inline: auto;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .seo-section-header {
+    margin-bottom: 48px;
+  }
+}
+
+.seo-section-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--seo-color-primary-hover);
+  margin-bottom: 12px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  padding: 4px 12px;
+  border-radius: var(--seo-radius-pill);
+}
+
+.seo-section-title {
+  font-size: clamp(1.6rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+}
+
+.seo-section-desc {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--seo-color-text-muted);
+  line-height: 1.65;
+  margin: 0 auto;
+  max-width: 680px;
+}
+
+/* --------------------------------------------------------------------------
+   5. SECTION PLACEHOLDERS (Phase 1 Clean Shell Architecture)
+   -------------------------------------------------------------------------- */
+.seo-placeholder-card {
+  background: var(--seo-color-bg-card);
+  border: 1px solid var(--seo-color-border);
+  border-radius: var(--seo-radius-md);
+  padding: 24px 20px;
+  text-align: left;
+  transition: all var(--seo-transition-base);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .seo-placeholder-card {
+    padding: 36px 32px;
+    border-radius: var(--seo-radius-lg);
+  }
+}
+
+.seo-placeholder-card:hover {
+  border-color: var(--seo-color-border-hover);
+  background: var(--seo-color-bg-card-hover);
+}
+
+.seo-placeholder-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seo-placeholder-card__tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--seo-color-primary-hover);
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  padding: 3px 10px;
+  border-radius: var(--seo-radius-pill);
+}
+
+.seo-placeholder-card__badge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--seo-color-text-subtle);
+}
+
+.seo-placeholder-card__title {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.seo-placeholder-card__desc {
+  font-size: 0.92rem;
+  color: var(--seo-color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  max-width: 760px;
+}
+
+.seo-placeholder-card__preview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (min-width: 600px) {
+  .seo-placeholder-card__preview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .seo-placeholder-card__preview-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.seo-placeholder-card__preview-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  padding: 12px 14px;
+  border-radius: var(--seo-radius-sm);
+  font-size: 0.8rem;
+  color: var(--seo-color-text-muted);
+}
+
+.seo-placeholder-card__preview-item strong {
+  display: block;
+  color: #FFFFFF;
+  font-size: 0.86rem;
+  margin-bottom: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   6. SECTION 01 — SEO HERO (Clean Editorial Background & Centered Layout)
+   -------------------------------------------------------------------------- */
+.seo-hero {
+  position: relative;
+  min-height: calc(100vh - var(--seo-header-h-mobile));
+  padding-top: calc(var(--seo-header-h-mobile) + clamp(32px, 5vw, 64px));
+  padding-bottom: clamp(48px, 6vw, 76px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .seo-hero {
+    min-height: calc(100vh - var(--seo-header-h-desktop));
+    padding-top: calc(var(--seo-header-h-desktop) + clamp(48px, 6vw, 80px));
+    padding-bottom: clamp(56px, 6.5vw, 84px);
+  }
+}
+
+.seo-hero__content {
+  position: relative;
+  z-index: 5;
+  max-width: clamp(740px, 92vw, 1080px);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Eyebrow Label */
+.seo-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #C4B5FD;
+  margin-bottom: clamp(14px, 2.2vw, 22px);
+  padding: 6px 14px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.26);
+  border-radius: var(--seo-radius-pill);
+}
+
+.seo-hero__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #A78BFA;
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.8);
+  display: inline-block;
+}
+
+/* Dominant Responsive Headline */
+.seo-hero__title {
+  font-size: clamp(2.1rem, 5.8vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+  color: #FFFFFF;
+  margin: 0 auto clamp(16px, 2.2vw, 24px);
+  max-width: 980px;
+  overflow-wrap: break-word;
+}
+
+/* Supporting Copy */
+.seo-hero__description {
+  font-size: clamp(0.98rem, 1.8vw, 1.18rem);
+  color: var(--seo-color-text-muted);
+  line-height: 1.68;
+  max-width: 740px;
+  margin: 0 auto clamp(28px, 4.5vw, 42px);
+}
+
+/* CTA Group: Mobile First Stacking -> Desktop Row */
+.seo-hero__cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .seo-hero__cta-group {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    max-width: none;
+    gap: 16px;
+  }
+}
+
+/* Primary CTA: "GET YOUR FREE SEO AUDIT →" */
+.seo-hero__cta-primary {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.28) 0%, rgba(109, 40, 217, 0.20) 45%, rgba(18, 14, 28, 0.94) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.65);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.025em;
+  padding: 0.85rem 1.85rem;
+  min-height: 48px;
+  border-radius: var(--seo-radius-pill);
+  box-shadow: 0 2px 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: all var(--seo-transition-base);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.seo-hero__cta-primary:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.40) 0%, rgba(124, 58, 237, 0.30) 45%, rgba(24, 18, 40, 0.96) 100%);
+  border-color: #A78BFA;
+  box-shadow: 0 4px 28px rgba(139, 92, 246, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  color: #FFFFFF;
+}
+
+.seo-hero__cta-primary:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.32) 0%, rgba(18, 14, 28, 0.96) 100%);
+}
+
+.seo-hero__cta-primary:focus-visible {
+  outline: 2px solid #C4B5FD;
+  outline-offset: 3px;
+}
+
+/* Secondary CTA: "SEE OUR SEO RESULTS ↓" */
+.seo-hero__cta-secondary {
+  background-color: #0D0D11;
+  color: #F5F5F5;
+  border: 1px solid var(--seo-color-purple-border);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.025em;
+  padding: 0.85rem 1.75rem;
+  min-height: 48px;
+  border-radius: var(--seo-radius-pill);
+  box-shadow: 0 0 14px var(--seo-color-primary-glow);
+  transition: all var(--seo-transition-base);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.seo-hero__cta-secondary:hover {
+  border-color: var(--seo-color-primary-hover);
+  background-color: #141419;
+  box-shadow: 0 0 22px var(--seo-color-primary-glow);
+  transform: translateY(-2px);
+  color: #FFFFFF;
+}
+
+.seo-hero__cta-secondary:active {
+  transform: translateY(0);
+}
+
+.seo-hero__cta-secondary:focus-visible {
+  outline: 2px solid #A78BFA;
+  outline-offset: 3px;
+}
+
+/* CTA Arrow Micro-Interactions */
+.seo-hero__cta-arrow {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.95em;
+  line-height: 1;
+  color: #C4B5FD;
+  transition: transform var(--seo-transition-base), color var(--seo-transition-base);
+}
+
+.seo-hero__cta-primary:hover .seo-hero__cta-arrow {
+  transform: translateX(3px);
+  color: #FFFFFF;
+}
+
+.seo-hero__cta-secondary:hover .seo-hero__cta-arrow {
+  transform: translateY(2px);
+  color: #FFFFFF;
+}
+
+/* 12. Final CTA Shell */
+.seo-final-cta {
+  padding-bottom: 72px;
+}
+
+@media (min-width: 768px) {
+  .seo-final-cta {
+    padding-bottom: 96px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. FOOTER (Landing Page Matching Convention)
+   -------------------------------------------------------------------------- */
+.seo-footer {
+  padding: clamp(32px, 4vw, 48px) 0;
+  font-size: 0.82rem;
+  color: var(--seo-color-text-subtle);
+  background-color: var(--seo-color-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  z-index: 2;
+}
+
+.seo-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .seo-footer__inner {
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
+.seo-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  min-height: 44px;
+}
+
+.seo-footer__brand-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.seo-footer__copy {
+  margin: 0;
+  color: #8E8E93;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   8. RESPONSIVE FOUNDATIONS (Mobile Device Safe Bounds)
+   -------------------------------------------------------------------------- */
+/* Small Mobile Devices (360px - 389px) */
+@media (max-width: 389px) {
+  .seo-container {
+    padding-inline: 14px;
+  }
+
+  .seo-header__brand-text {
+    font-size: 1.05rem;
+  }
+
+  .seo-header__logo-img {
+    height: 32px;
+  }
+
+  .seo-btn--nav-cta {
+    height: 40px;
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 0.76rem;
+  }
+
+  .seo-hero__title {
+    font-size: 1.95rem;
+    letter-spacing: -0.03em;
+  }
+
+  .seo-hero__eyebrow {
+    font-size: 0.66rem;
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .seo-hero__description {
+    font-size: 0.92rem;
+    margin-bottom: 24px;
+  }
+
+  .seo-hero__cta-primary,
+  .seo-hero__cta-secondary {
+    font-size: 0.82rem;
+    padding: 0.75rem 1.15rem;
+    letter-spacing: 0.015em;
+  }
+
+  .seo-placeholder-card {
+    padding: 18px 14px;
+  }
+}
+
+/* High-res / Ultra-wide monitors (1440px+) */
+@media (min-width: 1440px) {
+  .seo-container {
+    max-width: 1360px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. ACCESSIBILITY & PREFERS-REDUCED-MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
