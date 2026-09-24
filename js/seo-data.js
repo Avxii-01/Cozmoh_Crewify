@@ -52,72 +52,83 @@ export const seoHeroData = {
 // 02. TRUSTED BRANDS + PROOF STATS
 // ============================================================================
 export const seoTrustData = {
-  eyebrow: 'TRUSTED BY GROWTH & PERFORMANCE AGENCIES WORLDWIDE',
-  stats: [
-    { value: '500+', label: 'Keywords Ranked #1-3', sublabel: 'Across competitive niches' },
-    { value: '340%', label: 'Avg Organic Traffic Surge', sublabel: 'Over 6-month fulfillment windows' },
-    { value: '100%', label: 'Strict White-Label', sublabel: 'Your agency on every report' },
-    { value: '62%', label: 'Avg Partner Margin', sublabel: 'Wholesale delivery rates' }
-  ],
-  logos: [
-    { name: 'Acktive Vision', src: 'assets/logos/acktive-vision-logo-Final-e1771914753291.png', class: 'wide' },
-    { name: 'Celebrity Cruises', src: 'assets/logos/celebrity-cruises.png', class: 'wide', invert: true },
-    { name: 'Your V Care', src: 'assets/logos/cropped-cropped-Your-V-Care-Logo-1.webp', class: 'square' },
-    { name: 'SRM Jeevan Healthcare', src: 'assets/logos/srmjeevan.png', class: 'wide' },
-    { name: 'KIMS Hospital', src: 'assets/logos/kimshospitals.png', class: 'wide' }
-  ]
+  eyebrow: 'TRUSTED BY AGENCIES WORLDWIDE TO DELIVER BEHIND THE SCENES',
+  proof: {
+    projectsDelivered: '400+',
+    whiteLabelRate: '100%',
+    averageRating: '4.9/5'
+  }
 };
 
 // ============================================================================
-// 03. SEO RESULTS / SEE OUR WORK (CASE STUDIES)
+// 03. SEO RESULTS / SEE OUR WORK (6 VERIFIED OUTCOMES)
 // ============================================================================
 export const seoResultsData = {
-  eyebrow: 'VERIFIED ORGANIC PERFORMANCE',
-  title: 'Real Search Results.',
-  titleGradient: 'Delivered Under Agency Brands.',
-  description: 'Actual client growth campaigns executed behind the scenes for partner agencies.',
-  caseStudies: [
+  eyebrow: 'SEO RESULTS',
+  title: 'See What SEO Can Deliver.',
+  description: "Real search and local SEO results from campaigns we've delivered behind the scenes.",
+  cards: [
     {
-      id: 'orthopedic-clinic-local-seo',
-      category: 'LOCAL SEO & GBP',
-      client: 'Orthopedic Specialty Clinic',
-      agencyContext: 'Delivered for a Regional Healthcare Marketing Agency',
-      headline: '+475% Increase in Direct Inbound Phone Inquiries',
-      timeframe: '4 Months Fulfillment',
-      metrics: [
-        { label: 'Monthly Calls', before: '60', after: '345', growth: '+475%' },
-        { label: 'Google Maps Top 3', before: '3 keywords', after: '28 keywords', growth: '+833%' },
-        { label: 'Local Search Impressions', before: '4.2K', after: '26.8K', growth: '+538%' }
-      ],
-      summary: 'Rebuilt local citation network, structured Google Business Profile service categories, and deployed location-specific schema. Captured dominant rankings for high-intent surgical and consultation searches.'
+      id: 'seo-card-palladium',
+      project: 'Palladium Janseva Hospital',
+      category: 'LOCAL SEO / GOOGLE BUSINESS PROFILE',
+      primaryResult: '700 Calls',
+      primaryLabel: 'CALLS FROM BUSINESS PROFILE',
+      description: 'Google Business Profile calls generated from June–September 2026.',
+      image: 'assets/images/seo-results/seo-result-palladium-700-calls.png'
     },
     {
-      id: 'luxury-resort-organic-seo',
-      category: 'NATIONAL & TECHNICAL SEO',
-      client: 'Boutique Eco-Resort & Spa',
-      agencyContext: 'Delivered for a Hospitality Creative Agency',
-      headline: '16 Top-3 Google Rankings & 310% Organic Booking Growth',
-      timeframe: '6 Months Fulfillment',
-      metrics: [
-        { label: 'First Page Rankings', before: '2', after: '16', growth: '+700%' },
-        { label: 'Organic Monthly Visits', before: '1,420', after: '5,890', growth: '+314%' },
-        { label: 'Direct Site Bookings', before: '$12.4K/mo', after: '$54.2K/mo', growth: '+337%' }
-      ],
-      summary: 'Complete technical overhaul, crawl-budget optimization, Core Web Vitals remediation, and strategic content cluster deployment targeting luxury getaway queries.'
+      id: 'seo-card-hospital',
+      project: 'A Leading Multispeciality Hospital',
+      category: 'SEO / ORGANIC VISIBILITY',
+      primaryResult: '53K Active Users',
+      primaryLabel: 'LAST 30 DAYS PERFORMANCE',
+      description: 'Consistent organic search visibility driving continuous patient acquisition.',
+      image: 'assets/images/seo-results/seo-result-hospital-53k-users.png',
+      secondaryMetrics: [
+        { value: '331K', label: 'Events' },
+        { value: '108K', label: 'Key Events' },
+        { value: '52K', label: 'New Users' }
+      ]
     },
     {
-      id: 'b2b-saas-content-seo',
-      category: 'B2B SEARCH & TOPICAL AUTHORITY',
-      client: 'Workflow Automation Software',
-      agencyContext: 'Delivered for a B2B SaaS Demand Gen Agency',
-      headline: 'Rank #1 for 14 Commercial High-Intent Search Queries',
-      timeframe: '5 Months Fulfillment',
-      metrics: [
-        { label: 'Demo Request Signups', before: '18/mo', after: '84/mo', growth: '+366%' },
-        { label: 'Domain Rating (DR)', before: '24', after: '47', growth: '+95%' },
-        { label: 'Target Keyword Visibility', before: '8%', after: '64%', growth: '+700%' }
-      ],
-      summary: 'Constructed 25 authoritative comparison landing pages, mapped search intent funnels, and acquired tier-1 editorial contextual backlinks without PBN risk.'
+      id: 'seo-card-cruise',
+      project: 'A Leading Cruise Line',
+      category: 'SEO / ORGANIC VISIBILITY',
+      primaryResult: '87K Active Users',
+      primaryLabel: 'ACTIVE USERS',
+      description: 'Organic discovery and passenger engagement across international travel queries.',
+      image: 'assets/images/seo-results/seo-result-cruise-87k-users.png',
+      secondaryMetrics: [
+        { value: '84K', label: 'New Users' }
+      ]
+    },
+    {
+      id: 'seo-card-interactions',
+      project: 'Local Search Growth',
+      category: 'LOCAL SEO',
+      primaryResult: '5,896',
+      primaryLabel: 'BUSINESS PROFILE INTERACTIONS',
+      description: 'Scaled local map pack visibility and customer engagement across high-intent searches.',
+      image: 'assets/images/seo-results/seo-result-local-interactions-5896.png'
+    },
+    {
+      id: 'seo-card-local-calls',
+      project: 'Local Search Calls',
+      category: 'LOCAL SEO',
+      primaryResult: '224 Calls',
+      primaryLabel: 'CALLS FROM BUSINESS PROFILE',
+      description: 'Calls made from the Business Profile.',
+      image: 'assets/images/seo-results/seo-result-local-calls-224.png'
+    },
+    {
+      id: 'seo-card-directions',
+      project: 'Local Search Discovery',
+      category: 'LOCAL SEO',
+      primaryResult: '1,443 Requests',
+      primaryLabel: 'DIRECTION REQUESTS',
+      description: 'Direction requests made from the Business Profile.',
+      image: 'assets/images/seo-results/seo-result-local-directions-1443.png'
     }
   ]
 };

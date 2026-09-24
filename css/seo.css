@@ -734,6 +734,434 @@ html {
   color: #FFFFFF;
 }
 
+/* --------------------------------------------------------------------------
+   6.2 SECTION 02 — TRUSTED BRANDS + PROOF (Enlarged Presence, Seamless Marquee)
+   -------------------------------------------------------------------------- */
+.seo-trust {
+  position: relative;
+  padding: clamp(48px, 6vw, 76px) 0 clamp(52px, 6.5vw, 84px) 0;
+  border-top: none;
+  border-bottom: none;
+  background: transparent;
+}
+
+.seo-trust__heading {
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8E8E93;
+  margin: 0 auto clamp(28px, 3.5vw, 40px);
+}
+
+/* Marquee sits directly on dark canvas with subtle gradient edge masks */
+.seo-trust__marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  margin-bottom: clamp(44px, 5.5vw, 70px);
+}
+
+.seo-trust__track {
+  display: flex;
+  width: max-content;
+  animation: seoMarquee 38s linear infinite;
+}
+
+.seo-trust__track:hover {
+  animation-play-state: paused;
+}
+
+.seo-trust__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(44px, 6vw, 80px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.seo-trust__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Authentic Original Brand Colors (Zero Grayscale, Same Scale as Campaign) */
+.seo-trust__logo {
+  height: clamp(44px, 4.8vw, 54px);
+  width: auto;
+  object-fit: contain;
+  opacity: 0.95;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  filter: none;
+}
+
+.seo-trust__logo:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.seo-trust__logo--wide {
+  max-width: clamp(160px, 16vw, 195px);
+}
+
+.seo-trust__logo--square {
+  max-width: clamp(56px, 6vw, 68px);
+}
+
+.seo-trust__logo--compact {
+  max-width: clamp(120px, 12vw, 145px);
+}
+
+@keyframes seoMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Editorial Proof Row: Pure Typography on Page Canvas (No Cards / No Widgets) */
+.seo-editorial-proof {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  max-width: 960px;
+  margin-inline: auto;
+  padding: 0;
+  border-top: none;
+}
+
+.seo-editorial-proof__item {
+  text-align: center;
+  position: relative;
+  padding: 0 clamp(16px, 2.5vw, 32px);
+}
+
+/* Extremely subtle hairline vertical separator */
+.seo-editorial-proof__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.seo-editorial-proof__num {
+  font-size: clamp(2.8rem, 4.5vw, 4.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.seo-editorial-proof__label {
+  font-size: clamp(0.72rem, 0.95vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8E8E93;
+}
+
+@media (max-width: 600px) {
+  .seo-editorial-proof {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .seo-editorial-proof__item:not(:last-child)::after {
+    display: none;
+  }
+
+  .seo-editorial-proof__item:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-bottom: 18px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6.3 SECTION 03 — SEO RESULTS / SEE OUR WORK (Carousel & Analytics Cards)
+   -------------------------------------------------------------------------- */
+.seo-results {
+  --seo-cs-gap: 24px;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 7vw, 104px) 0;
+}
+
+.seo-cs-carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.seo-cs-carousel-wrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.seo-cs-track {
+  display: flex;
+  gap: var(--seo-cs-gap);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.seo-cs-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card: Exactly 3 complete cards visible on desktop (>1024px) */
+.seo-cs-card {
+  flex: 0 0 calc((100% - (2 * var(--seo-cs-gap))) / 3);
+  width: calc((100% - (2 * var(--seo-cs-gap))) / 3);
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  background: rgba(14, 11, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  transition: all var(--seo-transition-base);
+}
+
+.seo-cs-card:hover {
+  border-color: rgba(167, 139, 250, 0.38);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Media: Viewport for Analytics Screenshots (object-fit: contain so data is never cropped) */
+.seo-cs-card__media {
+  width: 100%;
+  height: clamp(180px, 17vw, 215px);
+  position: relative;
+  background: #0E0C16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seo-cs-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 6px;
+  transition: transform 0.35s ease;
+  background: #FFFFFF;
+}
+
+.seo-cs-card:hover .seo-cs-card__img {
+  transform: scale(1.02);
+}
+
+.seo-cs-card__category {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(10, 8, 16, 0.92);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #E9D5FF;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: var(--seo-radius-pill);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+/* Card Content: Title + Descriptive Context */
+.seo-cs-card__content {
+  padding: clamp(16px, 1.8vw, 20px) clamp(16px, 2vw, 22px) 14px clamp(16px, 2vw, 22px);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.seo-cs-card__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.seo-cs-card__desc {
+  font-size: 0.86rem;
+  color: var(--seo-color-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Internal Card Hairline Divider */
+.seo-cs-card__divider {
+  height: 1px;
+  width: calc(100% - clamp(32px, 4vw, 44px));
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Card Results: Direct Verified Outcomes */
+.seo-cs-card__results {
+  padding: 16px clamp(16px, 2vw, 22px) clamp(18px, 2vw, 22px) clamp(16px, 2vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(10, 8, 18, 0.45);
+}
+
+.seo-cs-card__primary-result {
+  display: flex;
+  flex-direction: column;
+}
+
+.seo-cs-card__result-val {
+  font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  line-height: 1.05;
+}
+
+.seo-cs-card__result-lbl {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #C4B5FD;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Secondary Metrics Grid */
+.seo-cs-card__secondary-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seo-cs-card__sec-metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.seo-cs-card__sec-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.seo-cs-card__sec-lbl {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #8E8E93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Bottom Navigation Controls */
+.seo-cs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(24px, 3.5vw, 36px);
+  width: 100%;
+}
+
+.seo-carousel-btn {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(14, 11, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #E4E4E7;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  outline: none;
+  user-select: none;
+}
+
+.seo-carousel-btn:hover:not(:disabled) {
+  border-color: rgba(167, 139, 250, 0.6);
+  color: #FFFFFF;
+  background: rgba(139, 92, 246, 0.16);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.seo-carousel-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* Tablet (>= 768px and <= 1024px): Exactly 2 complete cards visible */
+@media (max-width: 1024px) {
+  .seo-results {
+    --seo-cs-gap: 20px;
+  }
+
+  .seo-cs-card {
+    flex: 0 0 calc((100% - var(--seo-cs-gap)) / 2);
+    width: calc((100% - var(--seo-cs-gap)) / 2);
+  }
+}
+
+/* Mobile (< 768px): Exactly 1 complete card visible */
+@media (max-width: 767.98px) {
+  .seo-results {
+    --seo-cs-gap: 16px;
+  }
+
+  .seo-cs-card {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .seo-cs-card__media {
+    height: 195px;
+  }
+}
+
 /* 12. Final CTA Shell */
 .seo-final-cta {
   padding-bottom: 72px;
@@ -848,6 +1276,18 @@ html {
   .seo-placeholder-card {
     padding: 18px 14px;
   }
+
+  .seo-editorial-proof__num {
+    font-size: 2.25rem;
+  }
+
+  .seo-editorial-proof__label {
+    font-size: 0.68rem;
+  }
+
+  .seo-trust__logo {
+    height: 38px;
+  }
 }
 
 /* High-res / Ultra-wide monitors (1440px+) */
@@ -868,5 +1308,10 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .seo-trust__track {
+    animation: none !important;
+    overflow-x: auto;
   }
 }

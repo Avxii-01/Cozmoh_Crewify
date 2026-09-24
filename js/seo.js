@@ -190,8 +190,62 @@ export const sectionControllers = {
       });
     }
   },
-  trust: () => console.debug('Section 02: Trust & Stats ready for implementation'),
-  results: () => console.debug('Section 03: Results ready for implementation'),
+  trust: () => {
+    const projectsEl = document.getElementById('seoProofProjects');
+    const whiteLabelEl = document.getElementById('seoProofWhiteLabel');
+    const ratingEl = document.getElementById('seoProofRating');
+
+    if (projectsEl && seoTrustData.proof?.projectsDelivered) {
+      projectsEl.textContent = seoTrustData.proof.projectsDelivered;
+    }
+    if (whiteLabelEl && seoTrustData.proof?.whiteLabelRate) {
+      whiteLabelEl.textContent = seoTrustData.proof.whiteLabelRate;
+    }
+    if (ratingEl && seoTrustData.proof?.averageRating) {
+      ratingEl.textContent = seoTrustData.proof.averageRating;
+    }
+  },
+  results: () => {
+    const track = document.getElementById('seoCsTrack');
+    const prevBtn = document.getElementById('seoCsPrevBtn');
+    const nextBtn = document.getElementById('seoCsNextBtn');
+
+    if (!track) return;
+
+    function updateNavButtons() {
+      if (!prevBtn || !nextBtn) return;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      prevBtn.disabled = track.scrollLeft <= 5;
+      nextBtn.disabled = track.scrollLeft >= maxScroll - 5;
+    }
+
+    function scrollCard(direction) {
+      const card = track.querySelector('.seo-cs-card');
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.columnGap || style.gap) || 24;
+      const step = cardRect.width + gap;
+      track.scrollBy({ left: direction * step, behavior: 'smooth' });
+
+      dispatchSeoTrackingEvent('results_carousel_nav', {
+        direction: direction > 0 ? 'next' : 'prev'
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => scrollCard(-1));
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => scrollCard(1));
+    }
+
+    track.addEventListener('scroll', updateNavButtons, { passive: true });
+    window.addEventListener('resize', updateNavButtons, { passive: true });
+
+    updateNavButtons();
+  },
   work: () => console.debug('Section 04: Selected Work ready for implementation'),
   auditCta: () => console.debug('Section 05: Audit CTA ready for implementation'),
   pricing: () => console.debug('Section 06: SEO Pricing ready for implementation'),
@@ -214,6 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize active sections
   sectionControllers.hero();
+  sectionControllers.trust();
+  sectionControllers.results();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',
