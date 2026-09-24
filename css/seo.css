@@ -1162,6 +1162,305 @@ html {
   }
 }
 
+/* --------------------------------------------------------------------------
+   6.4 SECTION 04 — SELECTED WORK / SEO-OPTIMIZED WEBSITES (Browser Frame & Previews)
+   -------------------------------------------------------------------------- */
+.seo-work {
+  --seo-work-gap: 24px;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 7vw, 104px) 0;
+}
+
+.seo-work-carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.seo-work-carousel-wrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.seo-work-track {
+  display: flex;
+  gap: var(--seo-work-gap);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.seo-work-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card: Exactly 3 complete cards visible on desktop (>1024px) */
+.seo-work-card {
+  flex: 0 0 calc((100% - (2 * var(--seo-work-gap))) / 3);
+  width: calc((100% - (2 * var(--seo-work-gap))) / 3);
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  transition: transform var(--seo-transition-base);
+}
+
+.seo-work-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Browser Window Shell */
+.seo-work-browser {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #08060D;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.seo-work-card:hover .seo-work-browser {
+  border-color: rgba(167, 139, 250, 0.32);
+  box-shadow: 0 16px 44px -8px rgba(0, 0, 0, 0.75);
+}
+
+/* Browser Header Bar */
+.seo-work-browser-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #0D0A14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+}
+
+.seo-work-browser-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.seo-work-browser-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.seo-work-browser-dot:nth-child(1) {
+  background: rgba(255, 95, 86, 0.75);
+}
+
+.seo-work-browser-dot:nth-child(2) {
+  background: rgba(255, 189, 46, 0.75);
+}
+
+.seo-work-browser-dot:nth-child(3) {
+  background: rgba(39, 201, 63, 0.75);
+}
+
+/* Muted Address Bar (Domain Pill - Pure Display, No Redirect) */
+.seo-work-browser-address {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: #94949C;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  max-width: 68%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seo-work-browser-domain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seo-work-browser-icon {
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+
+/* Website Preview Frame: Desktop 380–440px */
+.seo-work-preview {
+  width: 100%;
+  height: clamp(380px, 28vw, 440px);
+  position: relative;
+  background: #090710;
+  overflow: hidden;
+}
+
+.seo-work-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #090710;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.seo-work-preview iframe::-webkit-scrollbar {
+  display: none;
+}
+
+.seo-work-preview iframe.seo-work-iframe--hidden {
+  display: none !important;
+}
+
+/* Fallback Preview for Blocked / Failed Embeds */
+.seo-work-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #120E1C 0%, #08060D 100%);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.seo-work-fallback.seo-work-fallback--hidden {
+  display: none !important;
+}
+
+.seo-work-fallback-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  max-width: 280px;
+}
+
+.seo-work-fallback-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A78BFA;
+  margin-bottom: 4px;
+}
+
+.seo-work-fallback-domain {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #71717A;
+  letter-spacing: 0.02em;
+}
+
+.seo-work-fallback-msg {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #D4D4D8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+/* Metadata Block: Category, Title, Neutral Description */
+.seo-work-meta {
+  padding: 16px 4px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.seo-work-category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #A78BFA;
+}
+
+.seo-work-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.seo-work-desc {
+  font-size: 0.86rem;
+  color: var(--seo-color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Navigation Controls */
+.seo-work-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(24px, 3.5vw, 36px);
+  width: 100%;
+}
+
+/* Tablet (>= 768px and <= 1024px): Exactly 2 complete cards visible */
+@media (max-width: 1024px) {
+  .seo-work {
+    --seo-work-gap: 20px;
+  }
+
+  .seo-work-card {
+    flex: 0 0 calc((100% - var(--seo-work-gap)) / 2);
+    width: calc((100% - var(--seo-work-gap)) / 2);
+  }
+
+  .seo-work-preview {
+    height: clamp(340px, 38vw, 400px);
+  }
+}
+
+/* Mobile (< 768px): Exactly 1 complete card visible, User-controlled horizontal swipe */
+@media (max-width: 767.98px) {
+  .seo-work {
+    --seo-work-gap: 16px;
+  }
+
+  .seo-work-card {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .seo-work-preview {
+    height: clamp(300px, 68vw, 350px);
+  }
+
+  /* Prevent mobile touch gesture trapping inside iframe; guarantees silky 60fps swipe */
+  .seo-work-preview iframe {
+    pointer-events: none;
+  }
+}
+
 /* 12. Final CTA Shell */
 .seo-final-cta {
   padding-bottom: 72px;
@@ -1313,5 +1612,10 @@ html {
   .seo-trust__track {
     animation: none !important;
     overflow-x: auto;
+  }
+
+  .seo-work-track,
+  .seo-cs-track {
+    scroll-behavior: auto !important;
   }
 }

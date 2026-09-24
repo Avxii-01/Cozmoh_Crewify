@@ -137,28 +137,58 @@ export const seoResultsData = {
 // 04. SELECTED WORK / SEO-OPTIMIZED WEBSITES
 // ============================================================================
 export const seoWorkData = {
-  eyebrow: 'SHOWCASE SITES & INFRASTRUCTURE',
-  title: 'Search-First Architecture.',
-  titleGradient: 'Built for Maximum Indexation.',
-  description: 'Every site we construct or optimize combines flawless Core Web Vitals, semantic schema, and conversion-focused UX.',
+  eyebrow: 'SELECTED WORK',
+  title: 'Built to Look Good.',
+  titleGradient: 'Built to Be Found.',
+  description: 'Websites designed for real users and built with the technical foundations search engines need.',
   websites: [
     {
-      title: 'Auktive Healthcare & Ortho Hub',
-      type: 'Local Medical Authority Architecture',
-      metrics: '100% Core Web Vitals • Schema Markup • 48ms LCP',
-      image: 'assets/images/portfolio-grid-1.webp'
+      id: 'work-palladium-janseva',
+      name: 'Palladium Janseva',
+      domain: 'palladiumjanseva.com',
+      url: 'https://palladiumjanseva.com/',
+      category: 'WEBSITE DEVELOPMENT',
+      description: 'Responsive website development with SEO-ready foundations.'
     },
     {
-      title: 'Serene Escapes Nature Retreat',
-      type: 'Luxury Hospitality Booking Engine',
-      metrics: 'Dynamic Schema • Rich Snippets • Sub-second TTFB',
-      image: 'assets/images/portfolio-grid-2.webp'
+      id: 'work-falcon-tourism',
+      name: 'Falcon Tourism',
+      domain: 'falcontourism.ae',
+      url: 'https://falcontourism.ae/en/',
+      category: 'WEBSITE DEVELOPMENT',
+      description: 'Digital experience and website development designed for users and search.'
     },
     {
-      title: 'V-Care Specialized Diagnostics',
-      type: 'Multi-Location Health Directory',
-      metrics: 'Local Cluster Silos • Zero Cumulative Layout Shift',
-      image: 'assets/images/portfolio-grid-3.webp'
+      id: 'work-a-real-estate-media',
+      name: 'A Real Estate Media',
+      domain: 'arealestatemedia.com',
+      url: 'https://arealestatemedia.com/',
+      category: 'WEBSITE DEVELOPMENT',
+      description: 'High-performance media agency website built with modern web architecture.'
+    },
+    {
+      id: 'work-wearwulf',
+      name: 'WearWulf',
+      domain: 'wearwulf.in',
+      url: 'https://wearwulf.in/',
+      category: 'E-COMMERCE / WEBSITE DEVELOPMENT',
+      description: 'E-commerce website design and development with fast load times and clean code.'
+    },
+    {
+      id: 'work-acktiv-ortho',
+      name: 'Acktiv Ortho',
+      domain: 'acktivortho.com',
+      url: 'https://acktivortho.com/',
+      category: 'WEBSITE DEVELOPMENT',
+      description: 'Responsive medical clinic website built for local visibility and user clarity.'
+    },
+    {
+      id: 'work-crewiify',
+      name: 'CREWiiFY',
+      domain: 'crewiify.com',
+      url: 'https://www.crewiify.com/',
+      category: 'WEBSITE DEVELOPMENT',
+      description: 'Agency infrastructure and platform development built with search visibility in mind.'
     }
   ]
 };

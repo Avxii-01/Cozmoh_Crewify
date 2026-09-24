@@ -246,7 +246,57 @@ export const sectionControllers = {
 
     updateNavButtons();
   },
-  work: () => console.debug('Section 04: Selected Work ready for implementation'),
+  work: () => {
+    const track = document.getElementById('seoWorkTrack');
+    const prevBtn = document.getElementById('seoWorkPrevBtn');
+    const nextBtn = document.getElementById('seoWorkNextBtn');
+
+    if (!track) return;
+
+    // Attach genuine detectable error listeners to iframes for clean fallback
+    const iframes = track.querySelectorAll('.seo-work-preview iframe');
+    iframes.forEach((iframe) => {
+      iframe.addEventListener('error', () => {
+        iframe.classList.add('seo-work-iframe--hidden');
+        const fallback = iframe.parentElement ? iframe.parentElement.querySelector('.seo-work-fallback') : null;
+        if (fallback) fallback.classList.remove('seo-work-fallback--hidden');
+      });
+    });
+
+    function updateNavButtons() {
+      if (!prevBtn || !nextBtn) return;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      prevBtn.disabled = track.scrollLeft <= 5;
+      nextBtn.disabled = track.scrollLeft >= maxScroll - 5;
+    }
+
+    function scrollWork(direction) {
+      const card = track.querySelector('.seo-work-card');
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.columnGap || style.gap) || 24;
+      const step = cardRect.width + gap;
+      track.scrollBy({ left: direction * step, behavior: 'smooth' });
+
+      dispatchSeoTrackingEvent('work_carousel_nav', {
+        direction: direction > 0 ? 'next' : 'prev'
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => scrollWork(-1));
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => scrollWork(1));
+    }
+
+    track.addEventListener('scroll', updateNavButtons, { passive: true });
+    window.addEventListener('resize', updateNavButtons, { passive: true });
+
+    updateNavButtons();
+  },
   auditCta: () => console.debug('Section 05: Audit CTA ready for implementation'),
   pricing: () => console.debug('Section 06: SEO Pricing ready for implementation'),
   economics: () => console.debug('Section 07: Agency Economics ready for implementation'),
@@ -270,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.hero();
   sectionControllers.trust();
   sectionControllers.results();
+  sectionControllers.work();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',
