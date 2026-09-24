@@ -1462,6 +1462,306 @@ html {
 }
 
 /* --------------------------------------------------------------------------
+   6.5 SECTION 05 — FREE SEO AUDIT CTA (Lower-Friction Conversion)
+   -------------------------------------------------------------------------- */
+.seo-audit-cta {
+  position: relative;
+  padding: clamp(56px, 6vw, 88px) 0;
+  background-color: var(--seo-color-bg);
+  z-index: 2;
+}
+
+.seo-audit-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(22, 18, 36, 0.75) 0%, rgba(12, 10, 18, 0.88) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  border-radius: 24px;
+  padding: clamp(32px, 4.5vw, 56px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.seo-audit-card__glow {
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.seo-audit-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: center;
+}
+
+.seo-audit-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.seo-audit-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #C4B5FD;
+  margin-bottom: 14px;
+}
+
+.seo-audit-eyebrow svg {
+  color: #A78BFA;
+  flex-shrink: 0;
+}
+
+.seo-audit-title {
+  font-size: clamp(1.95rem, 3.2vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  margin: 0 0 16px 0;
+}
+
+.seo-audit-title-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #D8B4FE 40%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.seo-audit-description {
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--seo-color-text-muted);
+  margin: 0 0 28px 0;
+  max-width: 520px;
+}
+
+.seo-audit-action-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.seo-audit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0.95rem 2.2rem;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: linear-gradient(180deg, #1E1635 0%, #110C20 100%);
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  border-radius: var(--seo-radius-pill);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  transition: all var(--seo-transition-base);
+  letter-spacing: 0.02em;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+}
+
+.seo-audit-btn:hover {
+  background: linear-gradient(180deg, #271E42 0%, #16102B 100%);
+  border-color: var(--seo-color-primary);
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  color: #FFFFFF;
+}
+
+.seo-audit-btn-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  color: #C4B5FD;
+}
+
+.seo-audit-btn:hover .seo-audit-btn-arrow {
+  transform: translateX(4px);
+  color: #FFFFFF;
+}
+
+.seo-audit-reassurance {
+  font-size: 0.78rem;
+  color: #8E8E93;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.seo-audit-reassurance-dot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  border-radius: 50%;
+  background-color: #22C55E;
+  box-shadow: 0 0 6px #22C55E;
+  flex-shrink: 0;
+}
+
+/* Right Column: Breakdown Cards */
+.seo-audit-features {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.seo-audit-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.seo-audit-feature-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(167, 139, 250, 0.25);
+  transform: translateX(4px);
+}
+
+.seo-audit-feature-item__icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 10px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C4B5FD;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.seo-audit-feature-item__text {
+  flex: 1;
+}
+
+.seo-audit-feature-item__title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+  line-height: 1.35;
+}
+
+.seo-audit-feature-item__desc {
+  font-size: 0.82rem;
+  color: var(--seo-color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .seo-audit-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .seo-audit-card {
+    padding: 30px 20px;
+    border-radius: 18px;
+  }
+
+  .seo-audit-action-wrap {
+    width: 100%;
+  }
+
+  .seo-audit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .seo-audit-card {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  .seo-audit-title {
+    font-size: 1.8rem;
+  }
+
+  .seo-audit-description {
+    font-size: 0.92rem;
+    margin-bottom: 22px;
+  }
+
+  .seo-audit-feature-item {
+    padding: 14px 14px;
+    gap: 12px;
+  }
+
+  .seo-audit-feature-item__icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .seo-audit-feature-item__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .seo-audit-feature-item__title {
+    font-size: 0.92rem;
+  }
+
+  .seo-audit-feature-item__desc {
+    font-size: 0.78rem;
+  }
+
+  .seo-audit-reassurance {
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .seo-audit-card {
+    padding: 20px 14px;
+  }
+
+  .seo-audit-title {
+    font-size: 1.65rem;
+  }
+
+  .seo-audit-btn {
+    font-size: 0.88rem;
+    padding: 0.85rem 1.2rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
    6.6 SECTION 06 — SEO PRICING / PACKAGES (Three Fixed Delivery Tiers)
    -------------------------------------------------------------------------- */
 .seo-pricing {

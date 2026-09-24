@@ -297,7 +297,17 @@ export const sectionControllers = {
 
     updateNavButtons();
   },
-  auditCta: () => console.debug('Section 05: Audit CTA ready for implementation'),
+  auditCta: () => {
+    const auditBtn = document.getElementById('seoAuditPrimaryBtn');
+    if (auditBtn) {
+      auditBtn.addEventListener('click', () => {
+        dispatchSeoTrackingEvent('audit_cta_click', {
+          destination: '#seo-final-cta',
+          section: '05_free_seo_audit_cta'
+        });
+      });
+    }
+  },
   pricing: () => {
     const pricingBtns = document.querySelectorAll('.js-seo-pricing-cta');
     pricingBtns.forEach((btn) => {
@@ -331,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.trust();
   sectionControllers.results();
   sectionControllers.work();
+  sectionControllers.auditCta();
   sectionControllers.pricing();
 
   dispatchSeoTrackingEvent('page_view', {

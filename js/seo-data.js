@@ -197,18 +197,27 @@ export const seoWorkData = {
 // 05. FREE SEO AUDIT CTA
 // ============================================================================
 export const seoAuditCtaData = {
-  badge: 'WHITE-LABEL PROSPECTING ASSET',
-  title: 'Win New Retainers With Our',
-  titleGradient: '100% White-Label SEO Audit',
-  description: 'Pitching a new agency client? Send us their domain. We’ll generate a comprehensive, unbranded 35-point technical and competitor gap audit within 24 hours that you can present as your own.',
-  deliverables: [
-    'Technical crawl health & Core Web Vitals diagnosis',
-    'Competitor keyword gap analysis & missing revenue terms',
-    'Immediate quick-win action plan ready for client presentation'
+  eyebrow: 'LEADERSHIP & PERFORMANCE',
+  title: "Find out what's holding",
+  titleGradient: 'your SEO back.',
+  description: 'Get a practical look at the technical, on-page and visibility opportunities that could be limiting your search performance.',
+  features: [
+    {
+      title: 'Technical Foundation Health',
+      description: 'Indexability, crawl budget, Core Web Vitals, and architecture issues hurting search bots.'
+    },
+    {
+      title: 'On-Page & Content Intent',
+      description: 'Keyword mapping, topic clusters, meta signals, and user intent alignment across revenue pages.'
+    },
+    {
+      title: 'Competitive Visibility Gaps',
+      description: 'Actionable identification of search terms where competitors are winning valuable commercial traffic.'
+    }
   ],
-  ctaText: 'Request a Free White-Label Audit',
+  ctaText: 'Get My Free SEO Audit',
   ctaHref: '#seo-final-cta',
-  turnaroundNote: '⚡ Delivered within 24-48 hours. Completely unbranded PDF & slide deck.'
+  reassuranceNote: 'Performed manually by senior search strategists. No automated fluff.'
 };
 
 // ============================================================================
