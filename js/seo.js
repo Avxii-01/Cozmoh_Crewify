@@ -298,7 +298,17 @@ export const sectionControllers = {
     updateNavButtons();
   },
   auditCta: () => console.debug('Section 05: Audit CTA ready for implementation'),
-  pricing: () => console.debug('Section 06: SEO Pricing ready for implementation'),
+  pricing: () => {
+    const pricingBtns = document.querySelectorAll('.js-seo-pricing-cta');
+    pricingBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        dispatchSeoTrackingEvent('pricing_cta_click', {
+          package: btn.getAttribute('data-package') || 'unknown',
+          destination: '#seo-final-cta'
+        });
+      });
+    });
+  },
   economics: () => console.debug('Section 07: Agency Economics ready for implementation'),
   process: () => console.debug('Section 08: How It Works ready for implementation'),
   onboarding: () => console.debug('Section 09: Onboarding ready for implementation'),
@@ -321,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.trust();
   sectionControllers.results();
   sectionControllers.work();
+  sectionControllers.pricing();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',

@@ -212,67 +212,82 @@ export const seoAuditCtaData = {
 };
 
 // ============================================================================
-// 06. SEO PRICING TIERS (WHOLESALE PARTNER RATES)
+// 06. SEO PRICING TIERS (SEO PACKAGES)
 // ============================================================================
 export const seoPricingData = {
-  eyebrow: 'TRANSPARENT WHOLESALE PRICING',
-  title: 'Fixed Monthly Delivery Rates.',
-  titleGradient: 'Zero Margins Cut.',
-  description: 'Wholesale agency partner pricing with predictable monthly deliverables. Mark it up by 100% to 250% to your end client.',
-  plans: [
+  eyebrow: 'PRICING PLAN',
+  title: 'Transparent pricing for proven',
+  titleGradient: 'SEO solutions',
+  description: 'Scalable search strategies designed to dominate high-intent keywords and build sustainable authority.',
+  packages: [
     {
-      id: 'local-seo-starter',
-      name: 'Local SEO Fulfillment',
-      idealFor: 'Single-location service businesses, clinics & local professionals',
-      wholesalePrice: '$349',
-      period: '/month',
-      suggestedRetail: '$800 - $1,500/mo',
-      partnerMargin: '60% - 75%',
-      badge: 'POPULAR FOR LOCAL',
+      id: 'seo-starter',
+      tier: '01 / Basic',
+      name: 'SEO Starter',
+      tagline: 'On-page optimization, 4 content pieces, and 8 backlinks per month.',
+      price: '$1,200',
+      period: '/ month',
+      isPopular: false,
+      badge: 'Essential',
+      billingNote: 'Transparent scope • Dedicated delivery',
+      ctaText: 'Get Started →',
+      ctaHref: '#seo-final-cta',
       features: [
-        'Complete Google Business Profile optimization',
-        '25 localized citations & directory synchronization',
-        'On-page title/meta & local schema injection',
-        'Targeted local review generation strategy guide',
-        '10 targeted geographic keywords tracked',
-        'Monthly unbranded white-label ranking PDF report'
+        'On-Page Optimization',
+        '4 Content Pieces / mo',
+        '8 Quality Backlinks / mo',
+        'Technical SEO Audit & Setup',
+        'Google Search Console & GA4 Setup',
+        'Local SEO Domination',
+        'Monthly Performance & Ranking Report'
       ]
     },
     {
-      id: 'growth-organic-seo',
-      name: 'Organic Growth SEO',
-      idealFor: 'Growing regional brands, eCommerce & multi-location businesses',
-      wholesalePrice: '$699',
-      period: '/month',
-      suggestedRetail: '$1,800 - $3,000/mo',
-      partnerMargin: '65% - 78%',
-      badge: 'MOST POPULAR',
-      featured: true,
+      id: 'seo-growth',
+      tier: '02 / Growth',
+      name: 'SEO Growth',
+      tagline: 'On-page optimization, 8 content pieces, 15 backlinks, and technical SEO per month.',
+      price: '$2,000',
+      period: '/ month',
+      isPopular: true,
+      badge: 'Most Popular',
+      billingNote: 'Transparent scope • Dedicated delivery',
+      ctaText: 'Get Started →',
+      ctaHref: '#seo-final-cta',
       features: [
-        'Full technical site audit & monthly crawl maintenance',
-        'On-page optimization for up to 15 key service pages',
-        '2 in-depth 1,500+ word keyword-optimized pillar articles',
-        '4 contextual high-authority backlinks (DR 30+ to 60+)',
-        '30 strategic national / regional search queries tracked',
-        'White-label dashboard access + client-ready monthly deck'
+        'On-Page Optimization',
+        '8 Content Pieces / mo',
+        '15 Quality Backlinks / mo',
+        'Advanced Technical SEO & Schema',
+        'Competitor Keyword Gap Analysis',
+        'Local SEO Domination',
+        'AI SEO (AEO & GEO)',
+        'Monthly Performance & Ranking Report',
+        'Dedicated SEO Account Manager'
       ]
     },
     {
-      id: 'scale-enterprise-seo',
-      name: 'National Authority Scale',
-      idealFor: 'High-ticket B2B, SaaS, established eCommerce & multi-state brands',
-      wholesalePrice: '$1,299',
-      period: '/month',
-      suggestedRetail: '$3,500 - $6,000/mo',
-      partnerMargin: '68% - 80%',
-      badge: 'HIGH MARGINS',
+      id: 'seo-scale',
+      tier: '03 / Scale',
+      name: 'SEO Scale',
+      tagline: 'Full technical SEO, 12 content pieces, and 25 backlinks per month.',
+      price: '$3,000',
+      period: '/ month',
+      isPopular: false,
+      badge: 'Enterprise',
+      billingNote: 'Transparent scope • Dedicated delivery',
+      ctaText: 'Get Started →',
+      ctaHref: '#seo-final-cta',
       features: [
-        'Deep semantic content cluster architecture & topic mapping',
-        'Comprehensive technical & Core Web Vitals engineering',
-        '4 long-form technical/commercial thought leadership guides',
-        '8 premium editorial tier-1 backlinks (DR 50+ to 75+)',
-        '100+ keywords tracked with competitor movement tracking',
-        'Dedicated Senior SEO Delivery Strategist on your agency Slack'
+        'Full Technical SEO & Architecture',
+        '12 Content Pieces / mo',
+        '25 High-Authority Backlinks / mo',
+        'On-Page Optimization & Content Hubs',
+        'Tier-1 Digital PR & Authority Links',
+        'Local SEO Domination',
+        'AI SEO (AEO & GEO)',
+        'Real-Time Analytics & Custom Dashboard',
+        '24/7 Priority Support & Weekly Sprints'
       ]
     }
   ]
