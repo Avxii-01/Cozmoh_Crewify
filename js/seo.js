@@ -97,15 +97,19 @@ function initAnchorNavigation() {
 }
 
 // ============================================================================
-// CALENDLY EMBED / REDIRECT CONTROLLER
+// CALENDLY EMBED & INLINE WIDGET CONTROLLER
 // ============================================================================
 export function initSeoCalendly() {
   const calendlyUrl = calendlyConfig.url;
-  const container = document.getElementById(calendlyConfig.embedContainerId);
+  const modal = document.getElementById('seoCalendlyModal');
+  const modalBackdrop = document.getElementById('seoCalendlyModalBackdrop');
+  const modalClose = document.getElementById('seoCalendlyModalClose');
+  const openModalBtn = document.getElementById('seoOpenCalendlyBtn');
+  const container = document.getElementById(calendlyConfig.embedContainerId || 'seoCalendlyInlineWidget');
   const headerCta = document.getElementById('seoHeaderCta');
   const directBtns = document.querySelectorAll('.js-seo-calendly-btn');
 
-  // Build target URL with UTM parameters preserved from page load
+  // Build target URL with preserved UTM parameters and dark-mode aesthetics
   const buildTrackingUrl = () => {
     try {
       const currentUrl = new URL(window.location.href);
@@ -116,37 +120,141 @@ export function initSeoCalendly() {
           target.searchParams.set(param, currentUrl.searchParams.get(param));
         }
       });
+
+      // Integrated styling parameters matching dark editorial palette
+      target.searchParams.set('hide_landing_page_details', '1');
+      target.searchParams.set('hide_gdpr_banner', '1');
+      target.searchParams.set('background_color', '0a0a0d');
+      target.searchParams.set('text_color', 'f5f5f5');
+      target.searchParams.set('primary_color', '8b5cf6');
+
       return target.toString();
     } catch {
-      return calendlyUrl;
+      return `${calendlyUrl}?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0a0a0d&text_color=f5f5f5&primary_color=8b5cf6`;
     }
   };
 
   const finalUrl = buildTrackingUrl();
+  let calendlyMounted = false;
 
-  // Attach click tracking to all Calendly CTAs
-  directBtns.forEach((btn) => {
-    if (btn.tagName.toLowerCase() === 'a') {
-      btn.href = finalUrl;
-    }
-    btn.addEventListener('click', () => {
-      dispatchSeoTrackingEvent('calendly_cta_click', {
-        ctaId: btn.id || 'direct_cta',
-        destination: finalUrl
+  const mountCalendly = () => {
+    if (calendlyMounted || !container) return;
+    calendlyMounted = true;
+    container.setAttribute('data-url', finalUrl);
+
+    if (window.Calendly && typeof window.Calendly.initInlineWidget === 'function') {
+      container.innerHTML = '';
+      window.Calendly.initInlineWidget({
+        url: finalUrl,
+        parentElement: container
       });
+    } else {
+      // High-reliability responsive iframe fallback
+      container.innerHTML = `<iframe src="${finalUrl}" width="100%" height="100%" frameborder="0" title="Schedule a White-Label SEO Discovery Call" style="border:none;min-height:100%;width:100%;border-radius:14px;background:transparent;"></iframe>`;
+    }
+  };
+
+  const openModal = () => {
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('seo-modal-open');
+
+    // Mount Calendly widget on first open if not yet mounted
+    if (!calendlyMounted) {
+      // Load Calendly external widget script asynchronously once
+      let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
+      if (!script) {
+        script = document.createElement('script');
+        script.src = 'https://assets.calendly.com/assets/external/widget.js';
+        script.async = true;
+        script.onload = mountCalendly;
+        script.onerror = mountCalendly; // Fallback to iframe if external script fails
+        document.head.appendChild(script);
+      } else if (window.Calendly) {
+        mountCalendly();
+      } else {
+        script.addEventListener('load', mountCalendly);
+        script.addEventListener('error', mountCalendly);
+      }
+    }
+
+    if (modalClose) {
+      modalClose.focus();
+    }
+
+    dispatchSeoTrackingEvent('calendly_modal_open', {
+      source: 'final_cta_btn'
     });
+  };
+
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('seo-modal-open');
+
+    if (openModalBtn) {
+      openModalBtn.focus();
+    }
+
+    dispatchSeoTrackingEvent('calendly_modal_close', {
+      source: 'modal_close'
+    });
+  };
+
+  if (openModalBtn) {
+    openModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  }
+
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+  }
+
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', closeModal);
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (modal && modal.classList.contains('is-open') && e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  // Attach smooth scrolling and analytics to internal anchor CTAs
+  directBtns.forEach((btn) => {
+    const href = btn.getAttribute('href');
+    // If the CTA points to the final section anchor #seo-final-cta, preserve it and scroll smoothly
+    if (href && href.startsWith('#')) {
+      btn.addEventListener('click', (e) => {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        dispatchSeoTrackingEvent('calendly_cta_click', {
+          ctaId: btn.id || 'anchor_cta',
+          destination: href
+        });
+      });
+    } else {
+      // For any non-anchor fallback, preserve link tracking
+      btn.addEventListener('click', () => {
+        dispatchSeoTrackingEvent('calendly_cta_click', {
+          ctaId: btn.id || 'direct_cta',
+          destination: finalUrl
+        });
+      });
+    }
   });
 
   if (headerCta) {
     headerCta.addEventListener('click', () => {
       dispatchSeoTrackingEvent('header_cta_click', { destination: '#seo-final-cta' });
     });
-  }
-
-  // Prepared for inline Calendly iframe when final CTA section is activated
-  if (container) {
-    // Container ready for script-based or inline iframe injection
-    console.debug('SEO Calendly container ready:', container.id);
   }
 }
 
@@ -379,8 +487,8 @@ export const sectionControllers = {
     // Section CTA
     const showcaseCta = document.getElementById('seoAuditShowcaseCta');
 
-    let currentSlideIndex = 0;
-    let modalSlideIndex = 0;
+    let currentSlideIndex = 1;
+    let modalSlideIndex = 1;
     let lastActiveTrigger = null;
 
     // Update the dominant featured slide
@@ -465,20 +573,16 @@ export const sectionControllers = {
       });
     }
 
-    // Thumbnail click interactions
+    // Thumbnail click interactions: clicking a preview sets it as dominant and opens larger view modal
     thumbs.forEach((thumb) => {
-      thumb.addEventListener('click', (e) => {
+      thumb.addEventListener('click', () => {
         const idx = parseInt(thumb.getAttribute('data-slide-index'), 10);
-        // If user specifically clicked zoom icon, open modal directly
-        if (e.target.closest('.seo-audit-showcase__thumb-zoom-icon')) {
-          openLightbox(idx, thumb);
-        } else {
-          setDominantSlide(idx);
-          dispatchSeoTrackingEvent('audit_showcase_slide_select', {
-            slideIndex: idx,
-            title: slides[idx]?.title || 'Unknown'
-          });
-        }
+        setDominantSlide(idx);
+        openLightbox(idx, thumb);
+        dispatchSeoTrackingEvent('audit_showcase_slide_select', {
+          slideIndex: idx,
+          title: slides[idx]?.title || 'Unknown'
+        });
       });
     });
 
@@ -550,8 +654,37 @@ export const sectionControllers = {
       });
     }
   },
-  faq: () => console.debug('Section 11: FAQ ready for implementation'),
-  finalCta: () => console.debug('Section 12: Final CTA ready for implementation')
+  faq: () => {
+    const triggers = document.querySelectorAll('.seo-faq-trigger');
+    if (!triggers.length) return;
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const isCurrentlyExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+        // Close all other triggers so only one is open at a time
+        triggers.forEach((otherTrigger) => {
+          otherTrigger.setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current trigger
+        if (!isCurrentlyExpanded) {
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+
+        const questionText = trigger.querySelector('.seo-faq-question')?.textContent.trim() || '';
+        dispatchSeoTrackingEvent('faq_toggle', {
+          faqId: trigger.id,
+          question: questionText,
+          expanded: !isCurrentlyExpanded
+        });
+      });
+    });
+  },
+  finalCta: () => {
+    // Section 12 controller hook: Inline Calendly embed initialized via initSeoCalendly
+    console.debug('Section 12: Final CTA & Inline Calendly active');
+  }
 };
 
 // ============================================================================
@@ -574,6 +707,8 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.process();
   sectionControllers.onboarding();
   sectionControllers.auditShowcase();
+  sectionControllers.faq();
+  sectionControllers.finalCta();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',

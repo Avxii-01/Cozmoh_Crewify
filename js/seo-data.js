@@ -472,32 +472,38 @@ export const seoAuditShowcaseData = {
 // ============================================================================
 export const seoFaqData = {
   eyebrow: 'COMMON QUESTIONS',
-  title: 'Everything You Need To Know About',
-  titleGradient: 'Our White-Label SEO',
+  title: 'The questions agencies',
+  titleGradient: 'ask first.',
   faqs: [
     {
-      q: 'Will my client ever know CREWiiFY is doing the work?',
-      a: 'Never. We are 100% invisible. All reports, deliverables, audits, and communication artifacts carry your agency’s branding, fonts, and colors. We never interact with your clients directly unless you explicitly invite our team to a strategy call under your agency email address.'
+      id: 'faq-01',
+      q: 'Will you ever contact my client?',
+      a: 'No. We stay fully invisible. Every document and communication carries your brand — we never appear.'
     },
     {
-      q: 'Are there any contracts or long-term commitments?',
-      a: 'No. All our white-label SEO plans run month-to-month. You can scale up, pause, or cancel any client retainer with 14 days’ notice before the next billing cycle.'
+      id: 'faq-02',
+      q: 'How fast is turnaround?',
+      a: 'Audits come back in ~48 hours. Ongoing deliverables ship on a committed cadence every 30-day cycle.'
     },
     {
-      q: 'How do you acquire backlinks?',
-      a: 'We strictly follow white-hat, editorial outreach standards. We secure real contextual mentions on high-authority niche blogs, industry publications, and established digital press. We never use PBNs, automated spam links, or black-hat tactics that risk Google penalties.'
+      id: 'faq-03',
+      q: 'Can I white-label everything?',
+      a: 'Yes — reports, strategy docs and comms all carry your logo, colours and domain. Nothing points back to us.'
     },
     {
-      q: 'What kind of reporting do you provide?',
-      a: 'Every month you receive an unbranded, presentation-ready PDF slide deck detailing keyword movement, organic traffic growth, completed technical fixes, published content, and acquired backlinks. You can drop in your agency logo and email it directly to your client.'
+      id: 'faq-04',
+      q: 'What’s the minimum term?',
+      a: 'There’s no lock-in, but SEO compounds — so we recommend a 3-month minimum to see real movement.'
     },
     {
-      q: 'How fast can we onboard our first client?',
-      a: 'Within 24 to 48 hours. Once you submit the onboarding questionnaire and grant necessary analytics or CMS credentials, our sprint starts immediately.'
+      id: 'faq-05',
+      q: 'How do we start?',
+      a: 'Send us a client site for a free audit. It’s the no-risk way to see the quality before you commit.'
     },
     {
-      q: 'Can we try a free audit before signing up?',
-      a: 'Yes! Send us any prospect or client URL, and we will generate a complimentary 100% white-label SEO audit for you to evaluate our diagnostic depth and presentation quality.'
+      id: 'faq-06',
+      q: 'Who owns the account access?',
+      a: 'You do. We work inside your accounts and tools, so nothing sits behind a door only we can open.'
     }
   ]
 };
@@ -506,10 +512,11 @@ export const seoFaqData = {
 // 12. FINAL CONVERSION SECTION
 // ============================================================================
 export const seoFinalCtaData = {
-  eyebrow: 'START SCALING YOUR AGENCY',
-  title: 'Ready To Add High-Margin SEO',
-  titleGradient: 'To Your Agency Roster?',
-  description: 'Schedule a confidential 20-minute white-label partnership briefing. We’ll review your agency goals, show you sample reports, and explain how to add $10k–$30k/mo in recurring search revenue.',
-  calendlyUrl: calendlyConfig.url,
-  reassurance: 'No pressure. No commitment. Just a practical conversation about your fulfillment needs.'
+  eyebrow: 'READY TO SCALE YOUR SEO DELIVERY?',
+  title: "Let's Build Your",
+  titleGradient: 'SEO Delivery Engine.',
+  description: "Bring us the client. We'll handle the SEO delivery behind the scenes.",
+  intro: "Book a discovery call and let's talk about what you need delivered.",
+  calendlyUrl: calendlyConfig.url
 };
+

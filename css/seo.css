@@ -408,6 +408,26 @@ html {
   border-radius: var(--seo-radius-pill);
 }
 
+/* Purple Capsule Eyebrow (Unified across Free SEO Audit Showcase, FAQ, and Final CTA) */
+.seo-capsule-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C4B5FD;
+  padding: 5px 14px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  border-radius: var(--seo-radius-pill);
+  margin-bottom: 16px;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
+  line-height: 1.3;
+}
+
 .seo-section-title {
   font-size: clamp(1.6rem, 5vw, 2.75rem);
   font-weight: 800;
@@ -3311,14 +3331,536 @@ body.seo-modal-open {
   }
 }
 
-/* 12. Final CTA Shell */
-.seo-final-cta {
-  padding-bottom: 72px;
+/* --------------------------------------------------------------------------
+   6.11 SECTION 11 — FAQ (Two-Column Editorial Accordion)
+   -------------------------------------------------------------------------- */
+.seo-faq {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 7vw, 104px) 0;
+  background-color: var(--seo-color-bg);
 }
 
-@media (min-width: 768px) {
+.seo-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 48px;
+  max-width: 1140px;
+  margin: clamp(32px, 4vw, 48px) auto 0;
+}
+
+.seo-faq-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hairline Editorial Separators */
+.seo-faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 200ms ease;
+}
+
+.seo-faq-item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.seo-faq-item:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Question Trigger Button */
+.seo-faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  padding: 22px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  min-height: 52px;
+  gap: 16px;
+  outline: none;
+  box-sizing: border-box;
+  transition: color 200ms ease;
+}
+
+.seo-faq-trigger:hover {
+  color: #C4B5FD;
+}
+
+.seo-faq-trigger:focus-visible {
+  outline: 2px solid #8B5CF6;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Numbered Index Label */
+.seo-faq-index {
+  font-family: 'Space Grotesk', var(--seo-font-family), monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #A78BFA;
+  opacity: 0.85;
+  flex-shrink: 0;
+  min-width: 24px;
+}
+
+.seo-faq-question {
+  flex: 1;
+  letter-spacing: -0.01em;
+}
+
+/* Plus / Minus Indicator Icon */
+.seo-faq-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A1A1AA;
+  flex-shrink: 0;
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seo-faq-trigger:hover .seo-faq-icon {
+  border-color: rgba(167, 139, 250, 0.35);
+  background: rgba(139, 92, 246, 0.1);
+  color: #FFFFFF;
+}
+
+.seo-faq-trigger[aria-expanded="true"] .seo-faq-icon {
+  border-color: rgba(167, 139, 250, 0.45);
+  background: rgba(139, 92, 246, 0.15);
+  color: #C4B5FD;
+  transform: rotate(90deg);
+}
+
+.seo-faq-icon__line {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease;
+  transform-origin: center;
+}
+
+.seo-faq-trigger[aria-expanded="true"] .seo-faq-icon__line--v {
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+/* Accordion Smooth Expand/Collapse */
+.seo-faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.seo-faq-trigger[aria-expanded="true"] + .seo-faq-content {
+  grid-template-rows: 1fr;
+}
+
+.seo-faq-body {
+  min-height: 0;
+  padding-bottom: 22px;
+  padding-left: 40px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seo-faq-trigger[aria-expanded="true"] + .seo-faq-content .seo-faq-body {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.seo-faq-answer {
+  font-size: 0.92rem;
+  color: #A1A1AA;
+  line-height: 1.62;
+  margin: 0;
+  padding-right: 28px;
+}
+
+/* Tablet (<= 860px): Stack into 1 clean column */
+@media (max-width: 860px) {
+  .seo-faq-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 640px;
+  }
+
+  .seo-faq-column:last-child .seo-faq-item:first-child {
+    border-top: none;
+  }
+}
+
+/* Mobile Screen (<= 640px) */
+@media (max-width: 640px) {
+  .seo-faq-trigger {
+    padding: 18px 0;
+    font-size: 0.98rem;
+    gap: 12px;
+  }
+
+  .seo-faq-index {
+    font-size: 0.72rem;
+    min-width: 20px;
+  }
+
+  .seo-faq-body {
+    padding-left: 32px;
+    padding-bottom: 18px;
+  }
+
+  .seo-faq-answer {
+    font-size: 0.88rem;
+    padding-right: 8px;
+    line-height: 1.55;
+  }
+
+  .seo-faq-icon {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+  }
+}
+
+/* Small Viewport (<= 375px) */
+@media (max-width: 375px) {
+  .seo-faq {
+    padding: 48px 0;
+  }
+
+  .seo-faq-trigger {
+    padding: 16px 0;
+    font-size: 0.92rem;
+    min-height: 48px;
+    gap: 10px;
+  }
+
+  .seo-faq-index {
+    font-size: 0.68rem;
+    min-width: 18px;
+  }
+
+  .seo-faq-body {
+    padding-left: 28px;
+    padding-bottom: 16px;
+  }
+
+  .seo-faq-answer {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6.12 SECTION 12 — FINAL CTA (Conversion Focal Point)
+   -------------------------------------------------------------------------- */
+.seo-final-cta {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 8vw, 120px) 0 clamp(80px, 9vw, 136px);
+  background-color: var(--seo-color-bg);
+}
+
+.seo-final-cta-content {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.seo-final-cta-title {
+  font-size: clamp(2.3rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+  margin: 0 0 20px;
+}
+
+.seo-final-cta-desc {
+  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
+  font-weight: 500;
+  color: #F5F5F5;
+  line-height: 1.5;
+  margin: 0 0 10px;
+  max-width: 620px;
+}
+
+.seo-final-cta-intro {
+  font-size: clamp(0.92rem, 1.1vw, 1.04rem);
+  color: var(--seo-color-text-muted);
+  line-height: 1.55;
+  margin: 0 0 32px;
+}
+
+.seo-final-cta__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.seo-final-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 16px 36px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: var(--seo-radius-pill);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.28) 0%, rgba(109, 40, 217, 0.18) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  color: #FFFFFF;
+  box-shadow: 0 0 26px rgba(139, 92, 246, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  transition: all var(--seo-transition-base);
+}
+
+.seo-final-cta__btn:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.42) 0%, rgba(124, 58, 237, 0.3) 100%);
+  border-color: #C4B5FD;
+  box-shadow: 0 0 36px rgba(139, 92, 246, 0.45), 0 4px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.seo-final-cta__btn .seo-btn__arrow {
+  display: inline-block;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 200ms ease;
+}
+
+.seo-final-cta__btn:hover .seo-btn__arrow {
+  transform: translateX(4px);
+}
+
+.seo-final-cta__reassurance {
+  font-size: 0.8rem;
+  color: #71717A;
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   CALENDLY BOOKING MODAL OVERLAY (.seo-calendly-modal)
+   ========================================================================== */
+.seo-calendly-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+.seo-calendly-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.seo-calendly-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.seo-calendly-modal__dialog {
+  position: relative;
+  z-index: 2;
+  width: min(840px, 94vw);
+  height: min(780px, 92vh);
+  background: #0A0A0D;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85), 0 0 40px rgba(139, 92, 246, 0.1);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transform: scale(0.96);
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seo-calendly-modal.is-open .seo-calendly-modal__dialog {
+  transform: scale(1);
+}
+
+.seo-calendly-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.seo-calendly-modal__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.seo-calendly-modal__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #C4B5FD;
+}
+
+.seo-calendly-modal__title {
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seo-calendly-modal__close {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #E4E4E7;
+  cursor: pointer;
+  transition: all 180ms ease;
+  flex-shrink: 0;
+}
+
+.seo-calendly-modal__close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.seo-calendly-modal__body {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #0A0A0D;
+  display: flex;
+  flex-direction: column;
+}
+
+.seo-calendly-modal__widget {
+  width: 100%;
+  height: 100%;
+  min-height: 580px;
+  flex: 1;
+  border: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.seo-calendly-modal__widget iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Tablet & Mobile modal adjustments */
+@media (max-width: 768px) {
+  .seo-calendly-modal {
+    padding: 12px;
+  }
+
+  .seo-calendly-modal__dialog {
+    width: 100%;
+    height: 94vh;
+    border-radius: 14px;
+  }
+
+  .seo-calendly-modal__header {
+    padding: 12px 14px;
+  }
+
+  .seo-calendly-modal__title {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 375px) {
   .seo-final-cta {
-    padding-bottom: 96px;
+    padding: 52px 0 68px;
+  }
+
+  .seo-final-cta-title {
+    font-size: 1.85rem;
+    margin-bottom: 14px;
+  }
+
+  .seo-final-cta-desc {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .seo-final-cta-intro {
+    font-size: 0.86rem;
+    margin-bottom: 24px;
+  }
+
+  .seo-final-cta__btn {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    min-height: 50px;
+  }
+
+  .seo-final-cta__reassurance {
+    font-size: 0.74rem;
+    text-align: center;
+  }
+
+  .seo-calendly-modal {
+    padding: 8px;
+  }
+
+  .seo-calendly-modal__dialog {
+    height: calc(100vh - 16px);
+    border-radius: 12px;
+  }
+
+  .seo-calendly-modal__header {
+    padding: 10px 12px;
   }
 }
 
