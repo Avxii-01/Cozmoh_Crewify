@@ -392,18 +392,78 @@ export const seoOnboardingData = {
 };
 
 // ============================================================================
-// 10. FREE SEO AUDIT SHOWCASE (TEASER & SAMPLE PREVIEW)
+// 10. FREE SEO AUDIT SHOWCASE (EXACT STRATEGIC BLUEPRINT DELIVERABLE)
 // ============================================================================
 export const seoAuditShowcaseData = {
-  eyebrow: 'WHAT’S INSIDE THE AUDIT',
-  title: 'A Pitch-Ready Proposal Deck,',
-  titleGradient: 'Not Just an Automated PDF.',
-  description: 'Our free white-label audit isn’t a shallow automated export. It is an editorial-grade diagnostic report that highlights clear ROI opportunities your agency can use to close deals.',
-  sections: [
-    { name: 'Core Web Vitals & Speed Index', desc: 'LCP, FID, CLS scores mapped against industry benchmarks.' },
-    { name: 'Competitor Organic Keyword Gaps', desc: 'High-intent search queries where rivals are stealing qualified leads.' },
-    { name: 'On-Page Architecture & Metadata', desc: 'Title tags, semantic headings, internal link hierarchy audit.' },
-    { name: 'Backlink & Domain Authority Profile', desc: 'Toxic link risk, referring domain velocity, and authority gap.' }
+  eyebrow: 'SEE WHAT YOU GET',
+  title: 'Your free audit goes',
+  titleGradient: 'beyond a traffic report.',
+  description: 'We look at the technical foundation, search opportunities, local visibility, conversion gaps and the roadmap to turn them into growth.',
+  deckLabel: 'A LOOK INSIDE A CREWiiFY SEO AUDIT',
+  disclaimer: 'Example deliverable. Audit findings and recommendations are tailored to each website.',
+  ctaText: 'GET MY FREE SEO AUDIT',
+  ctaHref: '#seo-final-cta',
+  slides: [
+    {
+      id: 'audit-slide-cover',
+      tag: 'STRATEGIC DELIVERABLE',
+      title: "Leon's Express Cleaning LLC — Strategic Growth Blueprint",
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • STRATEGIC GROWTH BLUEPRINT",
+      desc: 'A data-driven strategy to dominate organic search, capture commercial construction cleaning contracts & elevate local market authority.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-cover.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-cover.webp',
+      alt: "Leon's Express Cleaning LLC Strategic Growth Blueprint Cover"
+    },
+    {
+      id: 'audit-slide-status',
+      tag: '01 / CURRENT STATUS AUDIT',
+      title: 'Brand Strengths & Critical Gaps Analysis',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • CURRENT STATUS AUDIT",
+      desc: 'Identifies established builder relationships, commercial revenue leaks, and indexation bottlenecks.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-current-status.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-current-status.webp',
+      alt: 'Current Status Audit and Critical Gaps'
+    },
+    {
+      id: 'audit-slide-keywords',
+      tag: '02 / KEYWORD STRATEGY',
+      title: 'High-Intent Commercial Keyword Silos',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • SEARCH STRATEGY",
+      desc: 'Commercial search volume mapped to high purchase intent queries and targeted destination URLs.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-keyword-strategy.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-keyword-strategy.webp',
+      alt: 'Search Strategy and Target Keywords'
+    },
+    {
+      id: 'audit-slide-technical',
+      tag: '03 / TECHNICAL SEO',
+      title: 'Core Web Vitals & Speed Index Audit',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • PERFORMANCE AUDIT",
+      desc: 'Page speed diagnostics (>3.8s to <1.6s), 95+ mobile health target, and JSON-LD structured schema.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-technical-seo.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-technical-seo.webp',
+      alt: 'Performance Audit and Technical SEO Architecture'
+    },
+    {
+      id: 'audit-slide-local',
+      tag: '04 / LOCAL SEO ENGINE',
+      title: 'Google Maps Pack & NAP Consistency',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • LOCAL SEO ENGINE",
+      desc: '100% NAP cross-directory verification, automated 5-star review engine, and geo-grid rank targeting.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-local-seo.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-local-seo.webp',
+      alt: 'Local SEO Engine and Google Maps Pack'
+    },
+    {
+      id: 'audit-slide-roadmap',
+      tag: '05 / IMPLEMENTATION ROADMAP',
+      title: '12-Week Phased SEO Action Roadmap',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • IMPLEMENTATION PLAN",
+      desc: 'Clear 3-phase execution from technical foundation (Weeks 1-4) through city silos to recurring authority scaling.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-implementation-roadmap.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-implementation-roadmap.webp',
+      alt: 'Phased Implementation Plan and SEO Roadmap'
+    }
   ]
 };
 

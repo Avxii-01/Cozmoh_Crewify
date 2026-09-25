@@ -346,7 +346,210 @@ export const sectionControllers = {
       }, { once: true });
     });
   },
-  auditShowcase: () => console.debug('Section 10: Audit Showcase ready for implementation'),
+  auditShowcase: () => {
+    const slides = seoAuditShowcaseData.slides || [];
+    if (!slides.length) return;
+
+    // Dominant preview elements
+    const dominantFrameTitle = document.getElementById('seoAuditDominantFrameTitle');
+    const dominantExpandBtn = document.getElementById('seoAuditDominantExpandBtn');
+    const dominantMedia = document.getElementById('seoAuditDominantMedia');
+    const dominantWebp = document.getElementById('seoAuditDominantWebp');
+    const dominantImg = document.getElementById('seoAuditDominantImg');
+    const dominantTag = document.getElementById('seoAuditDominantTag');
+    const dominantTitle = document.getElementById('seoAuditDominantTitle');
+    const dominantDesc = document.getElementById('seoAuditDominantDesc');
+
+    // Supporting thumbnails
+    const thumbs = document.querySelectorAll('.seo-audit-showcase__thumb');
+
+    // Lightbox modal elements
+    const modal = document.getElementById('seoAuditShowcaseModal');
+    const modalBackdrop = document.getElementById('seoAuditModalBackdrop');
+    const modalClose = document.getElementById('seoAuditModalClose');
+    const modalTag = document.getElementById('seoAuditModalTag');
+    const modalTitle = document.getElementById('seoAuditModalTitle');
+    const modalWebp = document.getElementById('seoAuditModalWebp');
+    const modalImg = document.getElementById('seoAuditModalImg');
+    const modalDesc = document.getElementById('seoAuditModalDesc');
+    const modalPrev = document.getElementById('seoAuditModalPrev');
+    const modalNext = document.getElementById('seoAuditModalNext');
+    const modalCounter = document.getElementById('seoAuditModalCounter');
+
+    // Section CTA
+    const showcaseCta = document.getElementById('seoAuditShowcaseCta');
+
+    let currentSlideIndex = 0;
+    let modalSlideIndex = 0;
+    let lastActiveTrigger = null;
+
+    // Update the dominant featured slide
+    function setDominantSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      currentSlideIndex = index;
+      const slide = slides[index];
+
+      if (dominantFrameTitle && slide.frameTitle) dominantFrameTitle.textContent = slide.frameTitle;
+      if (dominantWebp && slide.imageWebp) dominantWebp.srcset = slide.imageWebp;
+      if (dominantImg) {
+        if (slide.imagePng) dominantImg.src = slide.imagePng;
+        if (slide.alt) dominantImg.alt = slide.alt;
+      }
+      if (dominantTag && slide.tag) dominantTag.textContent = slide.tag;
+      if (dominantTitle && slide.title) dominantTitle.textContent = slide.title;
+      if (dominantDesc && slide.desc) dominantDesc.textContent = slide.desc;
+
+      // Update thumbnail active states
+      thumbs.forEach((thumb) => {
+        const thumbIdx = parseInt(thumb.getAttribute('data-slide-index'), 10);
+        if (thumbIdx === index) {
+          thumb.classList.add('is-active');
+        } else {
+          thumb.classList.remove('is-active');
+        }
+      });
+    }
+
+    // Update modal content
+    function updateModalContent(index) {
+      if (index < 0 || index >= slides.length) return;
+      modalSlideIndex = index;
+      const slide = slides[index];
+
+      if (modalTag && slide.tag) modalTag.textContent = slide.tag;
+      if (modalTitle && slide.title) modalTitle.textContent = slide.title;
+      if (modalWebp && slide.imageWebp) modalWebp.srcset = slide.imageWebp;
+      if (modalImg) {
+        if (slide.imagePng) modalImg.src = slide.imagePng;
+        if (slide.alt) modalImg.alt = slide.alt;
+      }
+      if (modalDesc && slide.desc) modalDesc.textContent = slide.desc;
+      if (modalCounter) modalCounter.textContent = `${index + 1} / ${slides.length}`;
+    }
+
+    // Open lightbox modal
+    function openLightbox(index, triggerEl) {
+      lastActiveTrigger = triggerEl || document.activeElement;
+      updateModalContent(index);
+
+      if (modal) {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      document.body.classList.add('seo-modal-open');
+
+      if (modalClose) {
+        modalClose.focus();
+      }
+
+      dispatchSeoTrackingEvent('audit_showcase_modal_open', {
+        slideIndex: index,
+        title: slides[index]?.title || 'Unknown'
+      });
+    }
+
+    // Close lightbox modal
+    function closeLightbox() {
+      if (modal) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+      document.body.classList.remove('seo-modal-open');
+
+      if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
+        lastActiveTrigger.focus();
+      }
+
+      dispatchSeoTrackingEvent('audit_showcase_modal_close', {
+        slideIndex: modalSlideIndex
+      });
+    }
+
+    // Thumbnail click interactions
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', (e) => {
+        const idx = parseInt(thumb.getAttribute('data-slide-index'), 10);
+        // If user specifically clicked zoom icon, open modal directly
+        if (e.target.closest('.seo-audit-showcase__thumb-zoom-icon')) {
+          openLightbox(idx, thumb);
+        } else {
+          setDominantSlide(idx);
+          dispatchSeoTrackingEvent('audit_showcase_slide_select', {
+            slideIndex: idx,
+            title: slides[idx]?.title || 'Unknown'
+          });
+        }
+      });
+    });
+
+    // Dominant preview click triggers modal
+    if (dominantMedia) {
+      dominantMedia.addEventListener('click', () => {
+        openLightbox(currentSlideIndex, dominantMedia);
+      });
+      dominantMedia.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(currentSlideIndex, dominantMedia);
+        }
+      });
+    }
+
+    if (dominantExpandBtn) {
+      dominantExpandBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(currentSlideIndex, dominantExpandBtn);
+      });
+    }
+
+    // Lightbox modal controls
+    if (modalClose) {
+      modalClose.addEventListener('click', closeLightbox);
+    }
+
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', closeLightbox);
+    }
+
+    if (modalPrev) {
+      modalPrev.addEventListener('click', () => {
+        const newIdx = (modalSlideIndex - 1 + slides.length) % slides.length;
+        updateModalContent(newIdx);
+      });
+    }
+
+    if (modalNext) {
+      modalNext.addEventListener('click', () => {
+        const newIdx = (modalSlideIndex + 1) % slides.length;
+        updateModalContent(newIdx);
+      });
+    }
+
+    // Global keyboard listener for modal
+    window.addEventListener('keydown', (e) => {
+      if (!modal || !modal.classList.contains('is-open')) return;
+
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        const newIdx = (modalSlideIndex - 1 + slides.length) % slides.length;
+        updateModalContent(newIdx);
+      } else if (e.key === 'ArrowRight') {
+        const newIdx = (modalSlideIndex + 1) % slides.length;
+        updateModalContent(newIdx);
+      }
+    });
+
+    // Section CTA Click Tracking
+    if (showcaseCta) {
+      showcaseCta.addEventListener('click', () => {
+        dispatchSeoTrackingEvent('audit_showcase_cta_click', {
+          destination: '#seo-final-cta',
+          section: '10_free_seo_audit_showcase'
+        });
+      });
+    }
+  },
   faq: () => console.debug('Section 11: FAQ ready for implementation'),
   finalCta: () => console.debug('Section 12: Final CTA ready for implementation')
 };
@@ -370,6 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.economics();
   sectionControllers.process();
   sectionControllers.onboarding();
+  sectionControllers.auditShowcase();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',

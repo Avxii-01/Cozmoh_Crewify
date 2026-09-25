@@ -1437,34 +1437,221 @@
     </section>
 
     <!-- 10. FREE SEO AUDIT SHOWCASE -->
-    <section class="seo-section seo-audit-showcase" id="seo-audit-showcase" data-section-index="10">
+    <section class="seo-section seo-audit-showcase" id="seo-audit-showcase" data-section-index="10" aria-label="Free SEO Audit Deliverable Showcase">
       <div class="seo-container">
-        <div class="seo-placeholder-card">
-          <div class="seo-placeholder-card__header">
-            <span class="seo-placeholder-card__tag">Section 10</span>
-            <span class="seo-placeholder-card__badge">Phase 1 Foundation • Shell Ready</span>
-          </div>
-          <h2 class="seo-placeholder-card__title">FREE SEO AUDIT SHOWCASE</h2>
-          <p class="seo-placeholder-card__desc">
-            Visual preview of the white-label audit report deck: Core Web Vitals scores, competitor gap analysis, on-page architecture findings, and backlink deficit mapping.
+        <!-- Section Header -->
+        <div class="seo-section-header">
+          <span class="seo-section-eyebrow">SEE WHAT YOU GET</span>
+          <h2 class="seo-section-title">
+            Your free audit goes <span class="seo-gradient-text">beyond a traffic report.</span>
+          </h2>
+          <p class="seo-section-desc">
+            We look at the technical foundation, search opportunities, local visibility, conversion gaps and the roadmap to turn them into growth.
           </p>
-          <div class="seo-placeholder-card__preview-grid">
-            <div class="seo-placeholder-card__preview-item">
-              <strong>Presentation-Ready</strong>
-              High-design PDF/slides for immediate pitching
+          <div class="seo-audit-showcase__deck-badge">
+            <span class="seo-audit-showcase__deck-badge-dot" aria-hidden="true"></span>
+            <span>A LOOK INSIDE A CREWiiFY SEO AUDIT</span>
+          </div>
+        </div>
+
+        <!-- Showcase Main Layout (Dominant Preview + 4 Supporting Previews) -->
+        <div class="seo-audit-showcase__layout">
+          <!-- DOMINANT PREVIEW CARD -->
+          <div class="seo-audit-showcase__dominant" id="seoAuditDominantCard">
+            <div class="seo-audit-showcase__dominant-frame">
+              <!-- Window / Deck Header Bar -->
+              <div class="seo-audit-showcase__frame-bar">
+                <div class="seo-audit-showcase__frame-dots" aria-hidden="true">
+                  <span class="seo-audit-showcase__dot seo-audit-showcase__dot--red"></span>
+                  <span class="seo-audit-showcase__dot seo-audit-showcase__dot--amber"></span>
+                  <span class="seo-audit-showcase__dot seo-audit-showcase__dot--green"></span>
+                </div>
+                <div class="seo-audit-showcase__frame-title" id="seoAuditDominantFrameTitle">
+                  LEON'S EXPRESS CLEANING LLC &bull; STRATEGIC GROWTH BLUEPRINT
+                </div>
+                <div class="seo-audit-showcase__frame-actions">
+                  <button type="button" class="seo-audit-showcase__expand-trigger" id="seoAuditDominantExpandBtn" aria-label="Inspect slide in full resolution modal">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    <span>Inspect Slide</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Dominant Media Area (Interactive Click-to-Enlarge) -->
+              <div class="seo-audit-showcase__dominant-media" id="seoAuditDominantMedia" role="button" tabindex="0" aria-label="Click to enlarge Strategic Growth Blueprint slide in lightbox">
+                <picture id="seoAuditDominantPicture">
+                  <source id="seoAuditDominantWebp" srcset="assets/images/seo-audit-showcase/audit-cover.webp" type="image/webp">
+                  <img id="seoAuditDominantImg" src="assets/images/seo-audit-showcase/audit-cover.png" alt="Leon's Express Cleaning LLC Strategic Growth Blueprint Cover" class="seo-audit-showcase__dominant-img" width="1920" height="1080" loading="lazy">
+                </picture>
+                <div class="seo-audit-showcase__media-overlay">
+                  <span class="seo-audit-showcase__media-zoom-pill">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to view full slide</span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Dominant Caption Footer -->
+              <div class="seo-audit-showcase__dominant-info">
+                <div class="seo-audit-showcase__dominant-header">
+                  <span class="seo-audit-showcase__tag" id="seoAuditDominantTag">STRATEGIC DELIVERABLE</span>
+                  <h3 class="seo-audit-showcase__dominant-title" id="seoAuditDominantTitle">
+                    Leon's Express Cleaning LLC &mdash; Strategic Growth Blueprint
+                  </h3>
+                </div>
+                <p class="seo-audit-showcase__dominant-desc" id="seoAuditDominantDesc">
+                  A data-driven strategy to dominate organic search, capture commercial construction cleaning contracts &amp; elevate local market authority.
+                </p>
+              </div>
             </div>
-            <div class="seo-placeholder-card__preview-item">
-              <strong>Revenue Focus</strong>
-              Highlights lost organic revenue opportunities
-            </div>
-            <div class="seo-placeholder-card__preview-item">
-              <strong>Your Brand Stamp</strong>
-              100% white-label ready for your agency logo
-            </div>
+          </div>
+
+          <!-- SUPPORTING PREVIEW CARDS (4-Card Editorial Grid) -->
+          <div class="seo-audit-showcase__supporting-grid" role="region" aria-label="Audit Deep-Dive Chapters">
+            <!-- Supporting Card 01: Status Audit & Critical Gaps -->
+            <button type="button" class="seo-audit-showcase__thumb" data-slide-index="1" aria-label="View Current Status & Gaps Audit">
+              <div class="seo-audit-showcase__thumb-preview">
+                <picture>
+                  <source srcset="assets/images/seo-audit-showcase/audit-current-status.webp" type="image/webp">
+                  <img src="assets/images/seo-audit-showcase/audit-current-status.png" alt="Current Status Audit and Critical Gaps" class="seo-audit-showcase__thumb-img" width="1920" height="1080" loading="lazy">
+                </picture>
+                <span class="seo-audit-showcase__thumb-zoom-icon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+              </div>
+              <div class="seo-audit-showcase__thumb-body">
+                <span class="seo-audit-showcase__thumb-tag">01 / STATUS AUDIT</span>
+                <h4 class="seo-audit-showcase__thumb-title">Brand Strengths &amp; Gaps</h4>
+                <p class="seo-audit-showcase__thumb-desc">Identifies builder relationships, commercial revenue leaks, and indexation bottlenecks.</p>
+              </div>
+            </button>
+
+            <!-- Supporting Card 02: High-Intent Keyword Strategy -->
+            <button type="button" class="seo-audit-showcase__thumb" data-slide-index="2" aria-label="View Search Strategy and High-Intent Keywords">
+              <div class="seo-audit-showcase__thumb-preview">
+                <picture>
+                  <source srcset="assets/images/seo-audit-showcase/audit-keyword-strategy.webp" type="image/webp">
+                  <img src="assets/images/seo-audit-showcase/audit-keyword-strategy.png" alt="Search Strategy and Target Keywords" class="seo-audit-showcase__thumb-img" width="1920" height="1080" loading="lazy">
+                </picture>
+                <span class="seo-audit-showcase__thumb-zoom-icon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+              </div>
+              <div class="seo-audit-showcase__thumb-body">
+                <span class="seo-audit-showcase__thumb-tag">02 / KEYWORD STRATEGY</span>
+                <h4 class="seo-audit-showcase__thumb-title">High-Intent Keyword Silos</h4>
+                <p class="seo-audit-showcase__thumb-desc">Commercial search volume mapped to high purchase intent and targeted destination URLs.</p>
+              </div>
+            </button>
+
+            <!-- Supporting Card 03: Performance & Technical SEO -->
+            <button type="button" class="seo-audit-showcase__thumb" data-slide-index="3" aria-label="View Performance and Technical SEO">
+              <div class="seo-audit-showcase__thumb-preview">
+                <picture>
+                  <source srcset="assets/images/seo-audit-showcase/audit-technical-seo.webp" type="image/webp">
+                  <img src="assets/images/seo-audit-showcase/audit-technical-seo.png" alt="Performance Audit and Technical SEO Architecture" class="seo-audit-showcase__thumb-img" width="1920" height="1080" loading="lazy">
+                </picture>
+                <span class="seo-audit-showcase__thumb-zoom-icon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+              </div>
+              <div class="seo-audit-showcase__thumb-body">
+                <span class="seo-audit-showcase__thumb-tag">03 / TECHNICAL SEO</span>
+                <h4 class="seo-audit-showcase__thumb-title">Core Web Vitals &amp; Schema</h4>
+                <p class="seo-audit-showcase__thumb-desc">Page speed diagnostics (&gt;3.8s to &lt;1.6s), 95+ mobile health target, and JSON-LD schema.</p>
+              </div>
+            </button>
+
+            <!-- Supporting Card 04: Local SEO Engine & Maps Pack -->
+            <button type="button" class="seo-audit-showcase__thumb" data-slide-index="4" aria-label="View Local SEO Engine and Google Maps Pack">
+              <div class="seo-audit-showcase__thumb-preview">
+                <picture>
+                  <source srcset="assets/images/seo-audit-showcase/audit-local-seo.webp" type="image/webp">
+                  <img src="assets/images/seo-audit-showcase/audit-local-seo.png" alt="Local SEO Engine and Google Maps Pack" class="seo-audit-showcase__thumb-img" width="1920" height="1080" loading="lazy">
+                </picture>
+                <span class="seo-audit-showcase__thumb-zoom-icon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+              </div>
+              <div class="seo-audit-showcase__thumb-body">
+                <span class="seo-audit-showcase__thumb-tag">04 / LOCAL SEO ENGINE</span>
+                <h4 class="seo-audit-showcase__thumb-title">Maps Pack &amp; NAP Consistency</h4>
+                <p class="seo-audit-showcase__thumb-desc">100% NAP cross-directory verification, automated 5-star review engine, and geo-grid targeting.</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section Footer: Disclaimer & Primary CTA -->
+        <div class="seo-audit-showcase__footer">
+          <p class="seo-audit-showcase__disclaimer">
+            Example deliverable. Audit findings and recommendations are tailored to each website.
+          </p>
+          <div class="seo-audit-showcase__cta-wrapper">
+            <a href="#seo-final-cta" class="seo-btn seo-btn--primary seo-audit-showcase__cta js-seo-calendly-btn" id="seoAuditShowcaseCta">
+              <span>GET MY FREE SEO AUDIT</span>
+              <span class="seo-btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- LIGHTBOX MODAL FOR SEO AUDIT SHOWCASE -->
+    <div class="seo-audit-showcase-modal" id="seoAuditShowcaseModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="SEO Audit Report Preview Lightbox">
+      <div class="seo-audit-showcase-modal__backdrop" id="seoAuditModalBackdrop"></div>
+      <div class="seo-audit-showcase-modal__dialog">
+        <!-- Modal Top Bar -->
+        <div class="seo-audit-showcase-modal__header">
+          <div class="seo-audit-showcase-modal__meta">
+            <span class="seo-audit-showcase-modal__tag" id="seoAuditModalTag">STRATEGIC DELIVERABLE</span>
+            <span class="seo-audit-showcase-modal__title" id="seoAuditModalTitle">Leon's Express Cleaning LLC &mdash; Strategic Growth Blueprint</span>
+          </div>
+          <button type="button" class="seo-audit-showcase-modal__close" id="seoAuditModalClose" aria-label="Close preview modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Modal Image Body -->
+        <div class="seo-audit-showcase-modal__body">
+          <picture id="seoAuditModalPicture">
+            <source id="seoAuditModalWebp" srcset="assets/images/seo-audit-showcase/audit-cover.webp" type="image/webp">
+            <img id="seoAuditModalImg" src="assets/images/seo-audit-showcase/audit-cover.png" alt="Audit Preview Full View" class="seo-audit-showcase-modal__img" width="1920" height="1080">
+          </picture>
+        </div>
+
+        <!-- Modal Footer Bar -->
+        <div class="seo-audit-showcase-modal__footer">
+          <p class="seo-audit-showcase-modal__desc" id="seoAuditModalDesc">
+            A data-driven strategy to dominate organic search, capture commercial construction cleaning contracts &amp; elevate local market authority.
+          </p>
+          <div class="seo-audit-showcase-modal__nav">
+            <button type="button" class="seo-audit-showcase-modal__nav-btn" id="seoAuditModalPrev" aria-label="Previous audit slide">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span>Prev Slide</span>
+            </button>
+            <span class="seo-audit-showcase-modal__counter" id="seoAuditModalCounter">1 / 6</span>
+            <button type="button" class="seo-audit-showcase-modal__nav-btn" id="seoAuditModalNext" aria-label="Next audit slide">
+              <span>Next Slide</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 11. FAQ -->
     <section class="seo-section seo-faq" id="seo-faq" data-section-index="11">
