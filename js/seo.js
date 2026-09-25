@@ -328,8 +328,24 @@ export const sectionControllers = {
       }, { once: true });
     });
   },
-  process: () => console.debug('Section 08: How It Works ready for implementation'),
-  onboarding: () => console.debug('Section 09: Onboarding ready for implementation'),
+  process: () => {
+    const processSteps = document.querySelectorAll('.seo-process-step');
+    processSteps.forEach((step) => {
+      step.addEventListener('mouseenter', () => {
+        const id = step.getAttribute('id') || 'unknown';
+        dispatchSeoTrackingEvent('process_step_hover', { stepId: id });
+      }, { once: true });
+    });
+  },
+  onboarding: () => {
+    const items = document.querySelectorAll('.seo-onboarding-item');
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        const num = item.querySelector('.seo-onboarding-item__num')?.textContent.trim() || 'unknown';
+        dispatchSeoTrackingEvent('onboarding_item_hover', { itemNum: num });
+      }, { once: true });
+    });
+  },
   auditShowcase: () => console.debug('Section 10: Audit Showcase ready for implementation'),
   faq: () => console.debug('Section 11: FAQ ready for implementation'),
   finalCta: () => console.debug('Section 12: Final CTA ready for implementation')
@@ -352,6 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.auditCta();
   sectionControllers.pricing();
   sectionControllers.economics();
+  sectionControllers.process();
+  sectionControllers.onboarding();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',

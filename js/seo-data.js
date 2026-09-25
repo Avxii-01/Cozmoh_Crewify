@@ -343,46 +343,51 @@ export const seoEconomicsData = {
 // 08. HOW IT WORKS (THE 4-STEP PROCESS)
 // ============================================================================
 export const seoProcessData = {
-  eyebrow: 'SEAMLESS WHITE-LABEL WORKFLOW',
-  title: 'How It Works Behind The Scenes',
-  titleGradient: 'In 4 Frictionless Steps',
-  description: 'Your agency sells and retains the client relationship. We do all the heavy lifting in stealth mode.',
+  eyebrow: 'HOW IT WORKS',
+  title: 'From first audit to',
+  titleGradient: 'monthly rhythm.',
+  description: 'A simple four-step white-label delivery engine built for operational clarity and recurring retention.',
   steps: [
     {
       number: '01',
-      title: 'You Sell The SEO Retainer',
-      desc: 'Use our free white-label audits and proposal templates to close clients at $1,500–$5,000/mo.'
+      title: 'Free SEO audit',
+      desc: 'Send us any site. We return a prioritised fix list in ~48 hours — no obligation.'
     },
     {
       number: '02',
-      title: 'Submit Intake in 5 Minutes',
-      desc: 'Fill out our streamlined onboarding form with client target keywords, competitors, and access credentials.'
+      title: 'Onboarding & setup',
+      desc: 'A one-time technical foundation: audit fixes, tracking and baseline research.'
     },
     {
       number: '03',
-      title: 'We Execute Technical & Content Sprints',
-      desc: 'Our delivery squad fixes technical errors, publishes content, and secures authority links each month.'
+      title: 'Monthly deliverables',
+      desc: 'Countable units every 30-day cycle — content, links, on-page and keyword work.'
     },
     {
       number: '04',
-      title: 'You Send White-Label Reports',
-      desc: 'Receive beautifully branded monthly reports bearing your agency logo to present to your delighted client.'
+      title: 'White-label reporting',
+      desc: 'Branded reports on your cadence — weekly, bi-weekly or monthly by tier.'
     }
   ]
 };
 
 // ============================================================================
-// 09. ONBOARDING SEQUENCE & TIMELINE
+// 09. ONBOARDING (INCLUDED TECHNICAL FOUNDATION)
 // ============================================================================
 export const seoOnboardingData = {
-  eyebrow: 'SPEED TO EXECUTION',
-  title: 'From Intake to First Sprint',
-  titleGradient: 'In Under 48 Hours',
-  timeline: [
-    { day: 'Day 1', label: 'Onboarding & Asset Handshake', detail: 'Intake form completed, Google Search Console / GA4 access verified, client baseline rankings locked.' },
-    { day: 'Day 2-3', label: 'Comprehensive Technical Audit', detail: 'Deep site crawl, indexing issues flagged, canonicalization and metadata mapping mapped.' },
-    { day: 'Day 7', label: 'Strategy & Roadmap Approval', detail: 'Target keyword cluster roadmap and monthly content calendar submitted for your review.' },
-    { day: 'Day 14+', label: 'Active Execution & Link Velocity', detail: 'Content published, on-page updates deployed, outreach links acquired, bi-weekly pulse updates.' }
+  eyebrow: 'INCLUDED WITH EVERY PLAN',
+  title: 'Onboarding is',
+  titleGradient: 'on us.',
+  description: "Every plan starts with a one-time technical foundation — no extra charge. It's the groundwork that makes the monthly deliverables actually compound.",
+  items: [
+    { number: '01', title: 'Full technical audit & fix list' },
+    { number: '02', title: 'Schema markup implementation' },
+    { number: '03', title: 'Canonical tags setup' },
+    { number: '04', title: 'Robots.txt optimization' },
+    { number: '05', title: 'XML sitemap & submission' },
+    { number: '06', title: 'Google Search Console setup' },
+    { number: '07', title: 'Google Analytics setup' },
+    { number: '08', title: 'Baseline keyword & competitor research' }
   ]
 };
 
