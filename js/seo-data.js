@@ -303,45 +303,40 @@ export const seoPricingData = {
 };
 
 // ============================================================================
-// 07. AGENCY ECONOMICS / MARGINS COMPARISON
+// 07. AGENCY ECONOMICS / MARGINS
 // ============================================================================
 export const seoEconomicsData = {
-  eyebrow: 'AGENCY PROFITABILITY MATHEMATICS',
-  title: 'Stop Hiring In-House SEOs.',
-  titleGradient: 'Keep 65%+ Net Margin.',
-  description: 'Compare the true cost of building an in-house SEO department versus partnering with CREWiiFY’s white-label infrastructure.',
-  comparison: {
-    inHouse: {
-      title: 'In-House SEO Specialist',
-      totalCost: '$7,800/mo',
-      breakdown: [
-        { label: 'Senior SEO Salary & Taxes', value: '$6,200/mo' },
-        { label: 'Ahrefs / Semrush / Screaming Frog Licenses', value: '$750/mo' },
-        { label: 'Outsourced Content & Link Budgets', value: '$850/mo' },
-        { label: 'Management Overhead & Hiring Friction', value: '15+ hrs/wk' }
-      ],
-      drawbacks: [
-        'High fixed overhead regardless of client volume',
-        'Key-person risk when employee resigns or underperforms',
-        'Capacity capped at 4-6 accounts per specialist'
-      ]
+  eyebrow: 'AGENCY ECONOMICS / MARGINS',
+  title: 'SEO Delivery That Leaves Room',
+  titleGradient: 'for Your Margin.',
+  description: 'Sell SEO at your own client-facing rates while CREWiiFY handles technical fulfillment. Scale recurring agency revenue with predictable wholesale costs.',
+  microcopy: 'Sell under your brand. Outsource the delivery. Keep the difference.',
+  packages: [
+    {
+      id: 'seo-starter',
+      tier: '01 / Starter',
+      name: 'SEO Starter',
+      clientBill: '$1,200',
+      crewiifyRate: '$395',
+      youKeep: '$800'
     },
-    crewiify: {
-      title: 'CREWiiFY White-Label Fulfillment',
-      totalCost: 'From $349/client',
-      breakdown: [
-        { label: 'Wholesale Delivery Fee', value: 'Fixed per client tier' },
-        { label: 'Enterprise Tool Stack Included', value: '$0 / Included' },
-        { label: 'Content Writing & Quality Backlinks', value: 'Included' },
-        { label: 'Agency Margin Kept', value: '60% to 75% per account' }
-      ],
-      advantages: [
-        '100% variable cost tied strictly to revenue',
-        'Instant elastic scaling from 1 to 50+ client accounts',
-        'Entire team of technical, on-page, and link building pros'
-      ]
+    {
+      id: 'seo-growth',
+      tier: '02 / Growth',
+      name: 'SEO Growth',
+      clientBill: '$2,000',
+      crewiifyRate: '$695',
+      youKeep: '$1,300'
+    },
+    {
+      id: 'seo-scale',
+      tier: '03 / Scale',
+      name: 'SEO Scale',
+      clientBill: '$3,000',
+      crewiifyRate: '$999',
+      youKeep: '$2,000'
     }
-  }
+  ]
 };
 
 // ============================================================================

@@ -319,7 +319,15 @@ export const sectionControllers = {
       });
     });
   },
-  economics: () => console.debug('Section 07: Agency Economics ready for implementation'),
+  economics: () => {
+    const econCards = document.querySelectorAll('.seo-economics-card');
+    econCards.forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        const id = card.getAttribute('id') || 'unknown';
+        dispatchSeoTrackingEvent('economics_card_hover', { cardId: id });
+      }, { once: true });
+    });
+  },
   process: () => console.debug('Section 08: How It Works ready for implementation'),
   onboarding: () => console.debug('Section 09: Onboarding ready for implementation'),
   auditShowcase: () => console.debug('Section 10: Audit Showcase ready for implementation'),
@@ -343,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectionControllers.work();
   sectionControllers.auditCta();
   sectionControllers.pricing();
+  sectionControllers.economics();
 
   dispatchSeoTrackingEvent('page_view', {
     page: 'seo_landing_page',

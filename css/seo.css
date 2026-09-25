@@ -2083,6 +2083,264 @@ html {
   }
 }
 
+/* --------------------------------------------------------------------------
+   6.7 SECTION 07 — AGENCY ECONOMICS / MARGINS
+   -------------------------------------------------------------------------- */
+.seo-economics {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(56px, 6vw, 92px) 0;
+  background-color: var(--seo-color-bg);
+}
+
+.seo-economics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+  align-items: stretch;
+}
+
+/* Economics Card Design (Visually Lighter than Pricing Cards) */
+.seo-economics-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(16, 13, 24, 0.7) 0%, rgba(10, 8, 14, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 26px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-sizing: border-box;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.seo-economics-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(167, 139, 250, 0.3);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 20px rgba(139, 92, 246, 0.12);
+}
+
+/* Growth Card Subtle Elevation */
+.seo-economics-card--popular {
+  border-color: rgba(167, 139, 250, 0.28);
+  background: linear-gradient(145deg, rgba(22, 16, 36, 0.78) 0%, rgba(12, 9, 20, 0.9) 100%);
+}
+
+.seo-economics-card--popular:hover {
+  border-color: rgba(167, 139, 250, 0.45);
+}
+
+.seo-economics-card__header {
+  margin-bottom: 18px;
+}
+
+.seo-economics-card__tier {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(167, 139, 250, 0.7);
+  margin-bottom: 6px;
+}
+
+.seo-economics-card__name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.seo-economics-card__divider {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.07);
+  margin-bottom: 20px;
+}
+
+/* Metrics List Container */
+.seo-economics-card__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Base Metric Row */
+.seo-economics-metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.seo-economics-metric__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.seo-economics-metric__val {
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* Hierarchy Level 1: CLIENT BILL (Neutral / Subdued) */
+.seo-economics-metric--client {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.seo-economics-metric--client .seo-economics-metric__label {
+  color: #71717A;
+}
+
+.seo-economics-metric--client .seo-economics-metric__val {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #8E8E93;
+}
+
+/* Hierarchy Level 2: CREWiiFY RATE (Strongest Operational Number) */
+.seo-economics-metric--our {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.seo-economics-metric--our .seo-economics-metric__label {
+  color: #FFFFFF;
+}
+
+.seo-economics-metric--our .seo-economics-metric__val {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+/* Hierarchy Level 3: YOU KEEP (Visually Emphasized with Restrained Purple Accent) */
+.seo-economics-metric--keep {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.14) 0%, rgba(109, 40, 217, 0.08) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.seo-economics-metric--keep .seo-economics-metric__label {
+  color: #C4B5FD;
+}
+
+.seo-economics-metric--keep .seo-economics-metric__val {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #C4B5FD;
+  letter-spacing: -0.025em;
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.35);
+}
+
+/* Section Footer Note */
+.seo-economics-footer {
+  margin-top: clamp(28px, 4vw, 42px);
+  text-align: center;
+}
+
+.seo-economics-footer__note {
+  display: inline-block;
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  color: #8E8E93;
+  margin: 0;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* Tablet & Mobile Stack (<= 900px) */
+@media (max-width: 900px) {
+  .seo-economics-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+}
+
+/* Mobile Screen Adjustments (<= 480px) */
+@media (max-width: 480px) {
+  .seo-economics-card {
+    padding: 22px 18px;
+  }
+
+  .seo-economics-card__name {
+    font-size: 1.25rem;
+  }
+
+  .seo-economics-metric {
+    padding: 10px 12px;
+  }
+
+  .seo-economics-metric--client .seo-economics-metric__val {
+    font-size: 1.1rem;
+  }
+
+  .seo-economics-metric--our .seo-economics-metric__val {
+    font-size: 1.3rem;
+  }
+
+  .seo-economics-metric--keep .seo-economics-metric__val {
+    font-size: 1.45rem;
+  }
+}
+
+/* Small Viewport Refinements (<= 375px) */
+@media (max-width: 375px) {
+  .seo-economics-card {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  .seo-economics-card__tier {
+    font-size: 0.68rem;
+  }
+
+  .seo-economics-card__name {
+    font-size: 1.15rem;
+  }
+
+  .seo-economics-metric {
+    padding: 9px 10px;
+  }
+
+  .seo-economics-metric__label {
+    font-size: 0.68rem;
+  }
+
+  .seo-economics-metric--client .seo-economics-metric__val {
+    font-size: 1.05rem;
+  }
+
+  .seo-economics-metric--our .seo-economics-metric__val {
+    font-size: 1.22rem;
+  }
+
+  .seo-economics-metric--keep .seo-economics-metric__val {
+    font-size: 1.38rem;
+  }
+
+  .seo-economics-footer__note {
+    font-size: 0.8rem;
+    padding-inline: 8px;
+  }
+}
+
 /* 12. Final CTA Shell */
 .seo-final-cta {
   padding-bottom: 72px;
