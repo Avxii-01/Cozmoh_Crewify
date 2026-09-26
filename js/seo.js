@@ -344,6 +344,7 @@ export function initSeoCalendly() {
     });
   }
 
+  // Backdrop click: ONLY if event.target === backdrop
   if (modalBackdrop) {
     modalBackdrop.addEventListener('click', (e) => {
       if (e.target === modalBackdrop) {
@@ -353,15 +354,6 @@ export function initSeoCalendly() {
       }
     });
   }
-
-  // Backdrop click handling outside modal dialog
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target === modalBackdrop) {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal();
-    }
-  });
 
   // Clicks inside the modal content must NOT close the modal and stop backdrop propagation
   if (modalDialog) {

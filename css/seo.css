@@ -70,6 +70,10 @@ body.seo-modal-open {
   touch-action: none;
 }
 
+body.seo-modal-open .seo-header {
+  pointer-events: none !important;
+}
+
 .seo-page {
   background-color: var(--seo-color-bg);
   color: var(--seo-color-text-main);
@@ -383,14 +387,19 @@ body.seo-modal-open {
   transform: translateY(-2px);
 }
 
-/* Editorial Gradient Text */
+/* Editorial Heading Gradient Text (Unified across SEO Section Titles) */
+.seo-heading-gradient,
 .seo-gradient-text {
   background: var(--seo-gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  max-width: 100%;
   padding-bottom: 0.08em;
+  vertical-align: baseline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* Section Header Typography */
@@ -3120,7 +3129,7 @@ body.seo-modal-open {
 .seo-audit-showcase-modal {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3715,15 +3724,16 @@ body.seo-modal-open {
 
 /* ==========================================================================
    CALENDLY BOOKING MODAL OVERLAY (.seo-calendly-modal)
+   Top-level Layering: z-index 100000 sitting completely above fixed navbar (1000)
    ========================================================================== */
 .seo-calendly-modal {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 100000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px 20px;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -3739,9 +3749,10 @@ body.seo-modal-open {
 }
 
 .seo-calendly-modal__backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.84);
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   touch-action: none;
@@ -3752,7 +3763,7 @@ body.seo-modal-open {
   position: relative;
   z-index: 2;
   width: min(840px, 94vw);
-  height: min(780px, 92vh);
+  height: min(780px, 90vh);
   background: #0A0A0D;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
@@ -3779,6 +3790,8 @@ body.seo-modal-open {
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 .seo-calendly-modal__meta {
@@ -3818,6 +3831,9 @@ body.seo-modal-open {
   cursor: pointer;
   transition: all 180ms ease;
   flex-shrink: 0;
+  position: relative;
+  z-index: 12;
+  pointer-events: auto;
 }
 
 .seo-calendly-modal__close:hover {
@@ -3829,6 +3845,7 @@ body.seo-modal-open {
 .seo-calendly-modal__body {
   flex: 1;
   position: relative;
+  z-index: 1;
   overflow: hidden;
   background: #0A0A0D;
   display: flex;
@@ -3860,6 +3877,17 @@ body.seo-modal-open {
 }
 
 /* Tablet & Mobile modal adjustments */
+@media (max-width: 1024px) {
+  .seo-calendly-modal {
+    padding: 16px;
+  }
+
+  .seo-calendly-modal__dialog {
+    width: min(780px, 96vw);
+    height: min(800px, 92vh);
+  }
+}
+
 @media (max-width: 768px) {
   .seo-calendly-modal {
     padding: 12px;
@@ -3867,7 +3895,7 @@ body.seo-modal-open {
 
   .seo-calendly-modal__dialog {
     width: 100%;
-    height: 94vh;
+    height: min(760px, 94vh);
     border-radius: 14px;
   }
 
@@ -3877,6 +3905,39 @@ body.seo-modal-open {
 
   .seo-calendly-modal__title {
     font-size: 0.88rem;
+  }
+
+  .seo-calendly-modal__close {
+    min-width: 42px;
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 640px) {
+  .seo-calendly-modal {
+    padding: 8px;
+    align-items: stretch;
+  }
+
+  .seo-calendly-modal__dialog {
+    width: 100%;
+    height: calc(100vh - 16px);
+    height: calc(100dvh - 16px);
+    max-height: none;
+    border-radius: 14px;
+  }
+
+  .seo-calendly-modal__header {
+    padding: 12px 14px;
+  }
+
+  .seo-calendly-modal__title {
+    font-size: 0.88rem;
+  }
+
+  .seo-calendly-modal__close {
+    min-width: 40px;
+    min-height: 40px;
   }
 }
 
@@ -3913,16 +3974,30 @@ body.seo-modal-open {
   }
 
   .seo-calendly-modal {
-    padding: 8px;
+    padding: 6px;
   }
 
   .seo-calendly-modal__dialog {
-    height: calc(100vh - 16px);
+    height: calc(100vh - 12px);
+    height: calc(100dvh - 12px);
     border-radius: 12px;
   }
 
   .seo-calendly-modal__header {
     padding: 10px 12px;
+  }
+
+  .seo-calendly-modal__badge {
+    font-size: 0.62rem;
+  }
+
+  .seo-calendly-modal__title {
+    font-size: 0.82rem;
+  }
+
+  .seo-calendly-modal__close {
+    min-width: 38px;
+    min-height: 38px;
   }
 }
 
