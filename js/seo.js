@@ -104,10 +104,7 @@ export function initSeoCalendly() {
   const modal = document.getElementById('seoCalendlyModal');
   const modalBackdrop = document.getElementById('seoCalendlyModalBackdrop');
   const modalClose = document.getElementById('seoCalendlyModalClose');
-  const openModalBtn = document.getElementById('seoOpenCalendlyBtn');
   const container = document.getElementById(calendlyConfig.embedContainerId || 'seoCalendlyInlineWidget');
-  const headerCta = document.getElementById('seoHeaderCta');
-  const directBtns = document.querySelectorAll('.js-seo-calendly-btn');
 
   // Build target URL with preserved UTM parameters and dark-mode aesthetics
   const buildTrackingUrl = () => {
@@ -136,6 +133,7 @@ export function initSeoCalendly() {
 
   const finalUrl = buildTrackingUrl();
   let calendlyMounted = false;
+  let lastActiveTrigger = null;
 
   const mountCalendly = () => {
     if (calendlyMounted || !container) return;
@@ -154,8 +152,9 @@ export function initSeoCalendly() {
     }
   };
 
-  const openModal = () => {
+  const openModal = (triggerEl = null) => {
     if (!modal) return;
+    lastActiveTrigger = triggerEl || document.activeElement;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('seo-modal-open');
@@ -184,7 +183,7 @@ export function initSeoCalendly() {
     }
 
     dispatchSeoTrackingEvent('calendly_modal_open', {
-      source: 'final_cta_btn'
+      source: triggerEl?.id || 'booking_cta'
     });
   };
 
@@ -194,8 +193,8 @@ export function initSeoCalendly() {
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('seo-modal-open');
 
-    if (openModalBtn) {
-      openModalBtn.focus();
+    if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
+      lastActiveTrigger.focus();
     }
 
     dispatchSeoTrackingEvent('calendly_modal_close', {
@@ -203,12 +202,17 @@ export function initSeoCalendly() {
     });
   };
 
-  if (openModalBtn) {
-    openModalBtn.addEventListener('click', (e) => {
+  // Wire all booking CTAs on the SEO page to open the internal modal
+  const bookingTriggers = document.querySelectorAll(
+    '#seoHeroSecondaryCta, #seoOpenCalendlyBtn, #seoHeaderCta, .js-seo-open-calendly, [data-open-calendly]'
+  );
+
+  bookingTriggers.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openModal();
+      openModal(btn);
     });
-  }
+  });
 
   if (modalClose) {
     modalClose.addEventListener('click', closeModal);
@@ -223,39 +227,6 @@ export function initSeoCalendly() {
       closeModal();
     }
   });
-
-  // Attach smooth scrolling and analytics to internal anchor CTAs
-  directBtns.forEach((btn) => {
-    const href = btn.getAttribute('href');
-    // If the CTA points to the final section anchor #seo-final-cta, preserve it and scroll smoothly
-    if (href && href.startsWith('#')) {
-      btn.addEventListener('click', (e) => {
-        const targetEl = document.querySelector(href);
-        if (targetEl) {
-          e.preventDefault();
-          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        dispatchSeoTrackingEvent('calendly_cta_click', {
-          ctaId: btn.id || 'anchor_cta',
-          destination: href
-        });
-      });
-    } else {
-      // For any non-anchor fallback, preserve link tracking
-      btn.addEventListener('click', () => {
-        dispatchSeoTrackingEvent('calendly_cta_click', {
-          ctaId: btn.id || 'direct_cta',
-          destination: finalUrl
-        });
-      });
-    }
-  });
-
-  if (headerCta) {
-    headerCta.addEventListener('click', () => {
-      dispatchSeoTrackingEvent('header_cta_click', { destination: '#seo-final-cta' });
-    });
-  }
 }
 
 // ============================================================================
@@ -293,7 +264,7 @@ export const sectionControllers = {
       secondaryCta.addEventListener('click', () => {
         dispatchSeoTrackingEvent('hero_secondary_cta_click', {
           ctaText: secondaryCta.textContent.trim(),
-          destination: '#seo-results'
+          action: 'open_calendly_modal'
         });
       });
     }
@@ -458,20 +429,14 @@ export const sectionControllers = {
     const slides = seoAuditShowcaseData.slides || [];
     if (!slides.length) return;
 
-    // Dominant preview elements
-    const dominantFrameTitle = document.getElementById('seoAuditDominantFrameTitle');
-    const dominantExpandBtn = document.getElementById('seoAuditDominantExpandBtn');
-    const dominantMedia = document.getElementById('seoAuditDominantMedia');
-    const dominantWebp = document.getElementById('seoAuditDominantWebp');
-    const dominantImg = document.getElementById('seoAuditDominantImg');
-    const dominantTag = document.getElementById('seoAuditDominantTag');
-    const dominantTitle = document.getElementById('seoAuditDominantTitle');
-    const dominantDesc = document.getElementById('seoAuditDominantDesc');
+    const viewerBody = document.getElementById('seoAuditViewerBody');
+    const pageCountEl = document.getElementById('seoAuditPageCount');
 
-    // Supporting thumbnails
-    const thumbs = document.querySelectorAll('.seo-audit-showcase__thumb');
+    if (pageCountEl) {
+      pageCountEl.textContent = `${slides.length} pages`;
+    }
 
-    // Lightbox modal elements
+    // Modal elements
     const modal = document.getElementById('seoAuditShowcaseModal');
     const modalBackdrop = document.getElementById('seoAuditModalBackdrop');
     const modalClose = document.getElementById('seoAuditModalClose');
@@ -483,42 +448,39 @@ export const sectionControllers = {
     const modalPrev = document.getElementById('seoAuditModalPrev');
     const modalNext = document.getElementById('seoAuditModalNext');
     const modalCounter = document.getElementById('seoAuditModalCounter');
-
-    // Section CTA
     const showcaseCta = document.getElementById('seoAuditShowcaseCta');
 
-    let currentSlideIndex = 1;
-    let modalSlideIndex = 1;
+    let modalSlideIndex = 0;
     let lastActiveTrigger = null;
 
-    // Update the dominant featured slide
-    function setDominantSlide(index) {
-      if (index < 0 || index >= slides.length) return;
-      currentSlideIndex = index;
-      const slide = slides[index];
+    // Populate the vertical document viewer with all pages
+    if (viewerBody) {
+      viewerBody.innerHTML = slides.map((slide, idx) => `
+        <div class="seo-audit-viewer__page" data-page-index="${idx}" tabindex="0" role="button" aria-label="View page ${idx + 1}: ${slide.title}">
+          <picture>
+            <source srcset="${slide.imageWebp}" type="image/webp">
+            <img src="${slide.imagePng}" alt="${slide.alt}" class="seo-audit-viewer__page-img" loading="${idx < 2 ? 'eager' : 'lazy'}" width="1920" height="1080">
+          </picture>
+        </div>
+      `).join('');
 
-      if (dominantFrameTitle && slide.frameTitle) dominantFrameTitle.textContent = slide.frameTitle;
-      if (dominantWebp && slide.imageWebp) dominantWebp.srcset = slide.imageWebp;
-      if (dominantImg) {
-        if (slide.imagePng) dominantImg.src = slide.imagePng;
-        if (slide.alt) dominantImg.alt = slide.alt;
-      }
-      if (dominantTag && slide.tag) dominantTag.textContent = slide.tag;
-      if (dominantTitle && slide.title) dominantTitle.textContent = slide.title;
-      if (dominantDesc && slide.desc) dominantDesc.textContent = slide.desc;
+      // Add click & keyboard handler to open modal for high-res inspection
+      viewerBody.querySelectorAll('.seo-audit-viewer__page').forEach((pageEl) => {
+        const handleOpen = () => {
+          const idx = parseInt(pageEl.getAttribute('data-page-index'), 10);
+          openLightbox(idx, pageEl);
+        };
 
-      // Update thumbnail active states
-      thumbs.forEach((thumb) => {
-        const thumbIdx = parseInt(thumb.getAttribute('data-slide-index'), 10);
-        if (thumbIdx === index) {
-          thumb.classList.add('is-active');
-        } else {
-          thumb.classList.remove('is-active');
-        }
+        pageEl.addEventListener('click', handleOpen);
+        pageEl.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOpen();
+          }
+        });
       });
     }
 
-    // Update modal content
     function updateModalContent(index) {
       if (index < 0 || index >= slides.length) return;
       modalSlideIndex = index;
@@ -535,7 +497,6 @@ export const sectionControllers = {
       if (modalCounter) modalCounter.textContent = `${index + 1} / ${slides.length}`;
     }
 
-    // Open lightbox modal
     function openLightbox(index, triggerEl) {
       lastActiveTrigger = triggerEl || document.activeElement;
       updateModalContent(index);
@@ -556,7 +517,6 @@ export const sectionControllers = {
       });
     }
 
-    // Close lightbox modal
     function closeLightbox() {
       if (modal) {
         modal.classList.remove('is-open');
@@ -573,40 +533,6 @@ export const sectionControllers = {
       });
     }
 
-    // Thumbnail click interactions: clicking a preview sets it as dominant and opens larger view modal
-    thumbs.forEach((thumb) => {
-      thumb.addEventListener('click', () => {
-        const idx = parseInt(thumb.getAttribute('data-slide-index'), 10);
-        setDominantSlide(idx);
-        openLightbox(idx, thumb);
-        dispatchSeoTrackingEvent('audit_showcase_slide_select', {
-          slideIndex: idx,
-          title: slides[idx]?.title || 'Unknown'
-        });
-      });
-    });
-
-    // Dominant preview click triggers modal
-    if (dominantMedia) {
-      dominantMedia.addEventListener('click', () => {
-        openLightbox(currentSlideIndex, dominantMedia);
-      });
-      dominantMedia.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openLightbox(currentSlideIndex, dominantMedia);
-        }
-      });
-    }
-
-    if (dominantExpandBtn) {
-      dominantExpandBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openLightbox(currentSlideIndex, dominantExpandBtn);
-      });
-    }
-
-    // Lightbox modal controls
     if (modalClose) {
       modalClose.addEventListener('click', closeLightbox);
     }
@@ -629,7 +555,6 @@ export const sectionControllers = {
       });
     }
 
-    // Global keyboard listener for modal
     window.addEventListener('keydown', (e) => {
       if (!modal || !modal.classList.contains('is-open')) return;
 
@@ -644,7 +569,6 @@ export const sectionControllers = {
       }
     });
 
-    // Section CTA Click Tracking
     if (showcaseCta) {
       showcaseCta.addEventListener('click', () => {
         dispatchSeoTrackingEvent('audit_showcase_cta_click', {

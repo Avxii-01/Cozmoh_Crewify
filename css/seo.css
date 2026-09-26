@@ -51,6 +51,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--seo-header-h-mobile);
+  overflow-x: hidden;
 }
 
 @media (min-width: 768px) {
@@ -199,9 +200,9 @@ html {
   align-items: center;
   background-color: transparent;
   transition: background-color var(--seo-transition-base),
-              backdrop-filter var(--seo-transition-base),
-              border-color var(--seo-transition-base),
-              box-shadow var(--seo-transition-base);
+    backdrop-filter var(--seo-transition-base),
+    border-color var(--seo-transition-base),
+    box-shadow var(--seo-transition-base);
   border-bottom: 1px solid transparent;
 }
 
@@ -318,6 +319,7 @@ html {
   .seo-btn--nav-cta-text--desktop {
     display: inline;
   }
+
   .seo-btn--nav-cta-text--mobile {
     display: none;
   }
@@ -375,6 +377,7 @@ html {
 .seo-gradient-text {
   background: var(--seo-gradient-text);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   padding-bottom: 0.08em;
@@ -394,21 +397,8 @@ html {
   }
 }
 
-.seo-section-label {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--seo-color-primary-hover);
-  margin-bottom: 12px;
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.2);
-  padding: 4px 12px;
-  border-radius: var(--seo-radius-pill);
-}
-
-/* Purple Capsule Eyebrow (Unified across Free SEO Audit Showcase, FAQ, and Final CTA) */
+/* Purple Capsule Eyebrow (Unified across all landing page sections) */
+.seo-section-label,
 .seo-capsule-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -557,9 +547,9 @@ html {
    -------------------------------------------------------------------------- */
 .seo-hero {
   position: relative;
-  min-height: calc(100vh - var(--seo-header-h-mobile));
-  padding-top: calc(var(--seo-header-h-mobile) + clamp(32px, 5vw, 64px));
-  padding-bottom: clamp(48px, 6vw, 76px);
+  min-height: auto;
+  padding-top: calc(var(--seo-header-h-mobile) + clamp(24px, 4vw, 40px));
+  padding-bottom: clamp(28px, 4vw, 44px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -570,9 +560,9 @@ html {
 
 @media (min-width: 768px) {
   .seo-hero {
-    min-height: calc(100vh - var(--seo-header-h-desktop));
-    padding-top: calc(var(--seo-header-h-desktop) + clamp(48px, 6vw, 80px));
-    padding-bottom: clamp(56px, 6.5vw, 84px);
+    min-height: auto;
+    padding-top: calc(var(--seo-header-h-desktop) + clamp(36px, 5vw, 60px));
+    padding-bottom: clamp(36px, 4.5vw, 52px);
   }
 }
 
@@ -759,7 +749,7 @@ html {
    -------------------------------------------------------------------------- */
 .seo-trust {
   position: relative;
-  padding: clamp(48px, 6vw, 76px) 0 clamp(52px, 6.5vw, 84px) 0;
+  padding: clamp(24px, 3.5vw, 36px) 0 clamp(32px, 4.5vw, 48px) 0;
   border-top: none;
   border-bottom: none;
   background: transparent;
@@ -842,6 +832,7 @@ html {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -916,7 +907,7 @@ html {
   --seo-cs-gap: 24px;
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 7vw, 104px) 0;
+  padding: clamp(40px, 5vw, 64px) 0;
 }
 
 .seo-cs-carousel-container {
@@ -1189,7 +1180,7 @@ html {
   --seo-work-gap: 24px;
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 7vw, 104px) 0;
+  padding: clamp(40px, 5vw, 64px) 0;
 }
 
 .seo-work-carousel-container {
@@ -1486,7 +1477,7 @@ html {
    -------------------------------------------------------------------------- */
 .seo-audit-cta {
   position: relative;
-  padding: clamp(56px, 6vw, 88px) 0;
+  padding: clamp(36px, 4.5vw, 56px) 0;
   background-color: var(--seo-color-bg);
   z-index: 2;
 }
@@ -1535,12 +1526,18 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #C4B5FD;
-  margin-bottom: 14px;
+  padding: 5px 14px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  border-radius: var(--seo-radius-pill);
+  margin-bottom: 16px;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
+  line-height: 1.3;
 }
 
 .seo-audit-eyebrow svg {
@@ -1787,7 +1784,7 @@ html {
 .seo-pricing {
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 7vw, 104px) 0;
+  padding: clamp(44px, 5.5vw, 68px) 0 clamp(20px, 2.5vw, 32px) 0;
 }
 
 .seo-pricing-grid {
@@ -2109,7 +2106,7 @@ html {
 .seo-economics {
   position: relative;
   overflow: hidden;
-  padding: clamp(56px, 6vw, 92px) 0;
+  padding: clamp(20px, 2.5vw, 32px) 0 clamp(44px, 5.5vw, 68px) 0;
   background-color: var(--seo-color-bg);
 }
 
@@ -2367,7 +2364,7 @@ html {
 .seo-process {
   position: relative;
   overflow: hidden;
-  padding: clamp(56px, 6vw, 92px) 0;
+  padding: clamp(44px, 5.5vw, 68px) 0 clamp(20px, 2.5vw, 32px) 0;
   background-color: var(--seo-color-bg);
 }
 
@@ -2528,7 +2525,7 @@ html {
 .seo-onboarding {
   position: relative;
   overflow: hidden;
-  padding: clamp(56px, 6vw, 92px) 0;
+  padding: clamp(20px, 2.5vw, 32px) 0 clamp(44px, 5.5vw, 68px) 0;
   background-color: var(--seo-color-bg);
 }
 
@@ -2692,7 +2689,7 @@ html {
 .seo-audit-showcase {
   position: relative;
   overflow: hidden;
-  padding: clamp(60px, 7vw, 96px) 0;
+  padding: clamp(44px, 5.5vw, 68px) 0;
   background-color: var(--seo-color-bg);
 }
 
@@ -2780,9 +2777,17 @@ html {
   display: inline-block;
 }
 
-.seo-audit-showcase__dot--red { background-color: #FF5F56; }
-.seo-audit-showcase__dot--amber { background-color: #FFBD2E; }
-.seo-audit-showcase__dot--green { background-color: #27C93F; }
+.seo-audit-showcase__dot--red {
+  background-color: #FF5F56;
+}
+
+.seo-audit-showcase__dot--amber {
+  background-color: #FFBD2E;
+}
+
+.seo-audit-showcase__dot--green {
+  background-color: #27C93F;
+}
 
 .seo-audit-showcase__frame-title {
   font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, monospace;
@@ -3030,6 +3035,7 @@ html {
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -3337,7 +3343,7 @@ body.seo-modal-open {
 .seo-faq {
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 7vw, 104px) 0;
+  padding: clamp(44px, 5.5vw, 68px) 0;
   background-color: var(--seo-color-bg);
 }
 
@@ -3465,7 +3471,7 @@ body.seo-modal-open {
   overflow: hidden;
 }
 
-.seo-faq-trigger[aria-expanded="true"] + .seo-faq-content {
+.seo-faq-trigger[aria-expanded="true"]+.seo-faq-content {
   grid-template-rows: 1fr;
 }
 
@@ -3478,7 +3484,7 @@ body.seo-modal-open {
   transition: opacity 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seo-faq-trigger[aria-expanded="true"] + .seo-faq-content .seo-faq-body {
+.seo-faq-trigger[aria-expanded="true"]+.seo-faq-content .seo-faq-body {
   opacity: 1;
   transform: translateY(0);
 }
@@ -3570,7 +3576,7 @@ body.seo-modal-open {
 .seo-final-cta {
   position: relative;
   overflow: hidden;
-  padding: clamp(72px, 8vw, 120px) 0 clamp(80px, 9vw, 136px);
+  padding: clamp(56px, 7vw, 88px) 0 clamp(64px, 8vw, 108px);
   background-color: var(--seo-color-bg);
 }
 
@@ -3989,9 +3995,163 @@ body.seo-modal-open {
 }
 
 /* --------------------------------------------------------------------------
+   6.10b SECTION 10 — DOCUMENT VIEWER (Scrollable Audit Pages)
+   -------------------------------------------------------------------------- */
+.seo-audit-viewer {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #08080C;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.6), 0 0 28px rgba(139, 92, 246, 0.08);
+}
+
+.seo-audit-viewer__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.seo-audit-viewer__dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.seo-audit-viewer__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.seo-audit-viewer__dot--red { background-color: #FF5F56; }
+.seo-audit-viewer__dot--amber { background-color: #FFBD2E; }
+.seo-audit-viewer__dot--green { background-color: #27C93F; }
+
+.seo-audit-viewer__label {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #8E8E93;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seo-audit-viewer__page-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #C4B5FD;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  padding: 3px 10px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: var(--seo-radius-pill);
+}
+
+.seo-audit-viewer__body {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.35) rgba(255, 255, 255, 0.04);
+}
+
+.seo-audit-viewer__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.seo-audit-viewer__body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.seo-audit-viewer__body::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.35);
+  border-radius: 4px;
+}
+
+.seo-audit-viewer__body::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.55);
+}
+
+.seo-audit-viewer__page {
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0A0A0E;
+}
+
+.seo-audit-viewer__page:last-child {
+  border-bottom: none;
+}
+
+.seo-audit-viewer__page-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Responsive: taller viewport on mobile */
+@media (max-width: 768px) {
+  .seo-audit-viewer {
+    border-radius: 12px;
+  }
+
+  .seo-audit-viewer__body {
+    max-height: 55vh;
+  }
+
+  .seo-audit-viewer__label {
+    font-size: 0.66rem;
+  }
+
+  .seo-audit-viewer__header {
+    padding: 9px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .seo-audit-viewer {
+    border-radius: 10px;
+  }
+
+  .seo-audit-viewer__body {
+    max-height: 50vh;
+  }
+
+  .seo-audit-viewer__label {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6.9b ONBOARDING ENDCAP (Full-width 9th item)
+   -------------------------------------------------------------------------- */
+.seo-onboarding-item--endcap {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 460px;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
    9. ACCESSIBILITY & PREFERS-REDUCED-MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

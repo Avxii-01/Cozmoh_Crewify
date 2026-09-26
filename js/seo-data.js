@@ -33,18 +33,18 @@ export const calendlyConfig = {
 // ============================================================================
 export const seoHeroData = {
   eyebrow: 'WHITE-LABEL SEO FOR AGENCIES',
-  title: 'Scale Your SEO Delivery',
-  titleGradient: 'Without Building a Bigger Team.',
-  description: 'White-label SEO fulfillment that helps agencies deliver stronger search visibility, local SEO and AI search optimization — without building the delivery team in-house.',
+  title: 'White-label SEO outsourcing',
+  titleGradient: 'at 1/3rd the cost or less.',
+  description: 'Our experts focus on results with stronger search visibility, local SEO and AI search optimization with 8+ Years of SEO Experience.',
   primaryCta: {
     label: 'GET YOUR FREE SEO AUDIT',
     href: '#seo-audit-cta',
     arrow: '→'
   },
   secondaryCta: {
-    label: 'SEE OUR SEO RESULTS',
-    href: '#seo-results',
-    arrow: '↓'
+    label: 'BOOK A CALL',
+    href: '#seo-final-cta',
+    arrow: '→'
   }
 };
 
@@ -65,16 +65,16 @@ export const seoTrustData = {
 // ============================================================================
 export const seoResultsData = {
   eyebrow: 'SEO RESULTS',
-  title: 'See What SEO Can Deliver.',
+  title: 'See what our white-label SEO can deliver.',
   description: "Real search and local SEO results from campaigns we've delivered behind the scenes.",
   cards: [
     {
       id: 'seo-card-palladium',
-      project: 'Palladium Janseva Hospital',
+      project: 'Local Business',
       category: 'LOCAL SEO / GOOGLE BUSINESS PROFILE',
       primaryResult: '700 Calls',
       primaryLabel: 'CALLS FROM BUSINESS PROFILE',
-      description: 'Google Business Profile calls generated from June–September 2026.',
+      description: 'Google Business Profile calls generated from June to September 2026.',
       image: 'assets/images/seo-results/seo-result-palladium-700-calls.png'
     },
     {
@@ -138,8 +138,8 @@ export const seoResultsData = {
 // ============================================================================
 export const seoWorkData = {
   eyebrow: 'SELECTED WORK',
-  title: 'Built to Look Good.',
-  titleGradient: 'Built to Be Found.',
+  title: 'SEO Optimised',
+  titleGradient: 'Websites',
   description: 'Websites designed for real users and built with the technical foundations search engines need.',
   websites: [
     {
@@ -197,9 +197,9 @@ export const seoWorkData = {
 // 05. FREE SEO AUDIT CTA
 // ============================================================================
 export const seoAuditCtaData = {
-  eyebrow: 'LEADERSHIP & PERFORMANCE',
-  title: "Find out what's holding",
-  titleGradient: 'your SEO back.',
+  eyebrow: 'PITCHING A CLIENT??',
+  title: 'Get a Free SEO Audit',
+  titleGradient: 'To close them.',
   description: 'Get a practical look at the technical, on-page and visibility opportunities that could be limiting your search performance.',
   features: [
     {
@@ -215,18 +215,18 @@ export const seoAuditCtaData = {
       description: 'Actionable identification of search terms where competitors are winning valuable commercial traffic.'
     }
   ],
-  ctaText: 'Get My Free SEO Audit',
+  ctaText: 'Get A Free SEO Audit',
   ctaHref: '#seo-final-cta',
   reassuranceNote: 'Performed manually by senior search strategists. No automated fluff.'
 };
 
 // ============================================================================
-// 06. SEO PRICING TIERS (SEO PACKAGES)
+// 06. SEO PRICING TIERS (SEO PACKAGES - CREWiiFY Outsourcing Rates)
 // ============================================================================
 export const seoPricingData = {
   eyebrow: 'PRICING PLAN',
   title: 'Transparent pricing for proven',
-  titleGradient: 'SEO solutions',
+  titleGradient: 'White-label SEO solutions.',
   description: 'Scalable search strategies designed to dominate high-intent keywords and build sustainable authority.',
   packages: [
     {
@@ -234,7 +234,7 @@ export const seoPricingData = {
       tier: '01 / Basic',
       name: 'SEO Starter',
       tagline: 'On-page optimization, 4 content pieces, and 8 backlinks per month.',
-      price: '$1,200',
+      price: '$395',
       period: '/ month',
       isPopular: false,
       badge: 'Essential',
@@ -256,7 +256,7 @@ export const seoPricingData = {
       tier: '02 / Growth',
       name: 'SEO Growth',
       tagline: 'On-page optimization, 8 content pieces, 15 backlinks, and technical SEO per month.',
-      price: '$2,000',
+      price: '$695',
       period: '/ month',
       isPopular: true,
       badge: 'Most Popular',
@@ -280,7 +280,7 @@ export const seoPricingData = {
       tier: '03 / Scale',
       name: 'SEO Scale',
       tagline: 'Full technical SEO, 12 content pieces, and 25 backlinks per month.',
-      price: '$3,000',
+      price: '$999',
       period: '/ month',
       isPopular: false,
       badge: 'Enterprise',
@@ -316,24 +316,24 @@ export const seoEconomicsData = {
       id: 'seo-starter',
       tier: '01 / Starter',
       name: 'SEO Starter',
-      clientBill: '$1,200',
-      crewiifyRate: '$395',
+      youCharge: '$1,200',
+      ourRate: '$395',
       youKeep: '$800'
     },
     {
       id: 'seo-growth',
       tier: '02 / Growth',
       name: 'SEO Growth',
-      clientBill: '$2,000',
-      crewiifyRate: '$695',
+      youCharge: '$2,000',
+      ourRate: '$695',
       youKeep: '$1,300'
     },
     {
       id: 'seo-scale',
       tier: '03 / Scale',
       name: 'SEO Scale',
-      clientBill: '$3,000',
-      crewiifyRate: '$999',
+      youCharge: '$3,000',
+      ourRate: '$999',
       youKeep: '$2,000'
     }
   ]
@@ -345,13 +345,13 @@ export const seoEconomicsData = {
 export const seoProcessData = {
   eyebrow: 'HOW IT WORKS',
   title: 'From first audit to',
-  titleGradient: 'monthly rhythm.',
+  titleGradient: 'getting results.',
   description: 'A simple four-step white-label delivery engine built for operational clarity and recurring retention.',
   steps: [
     {
       number: '01',
       title: 'Free SEO audit',
-      desc: 'Send us any site. We return a prioritised fix list in ~48 hours — no obligation.'
+      desc: 'Send us any site. We return a prioritised fix list in ~48 hours, no obligation.'
     },
     {
       number: '02',
@@ -361,12 +361,12 @@ export const seoProcessData = {
     {
       number: '03',
       title: 'Monthly deliverables',
-      desc: 'Countable units every 30-day cycle — content, links, on-page and keyword work.'
+      desc: 'Countable units every 30-day cycle: content, links, on-page and keyword work.'
     },
     {
       number: '04',
       title: 'White-label reporting',
-      desc: 'Branded reports on your cadence — weekly, bi-weekly or monthly by tier.'
+      desc: 'Branded reports on your cadence: weekly, bi-weekly or monthly by tier.'
     }
   ]
 };
@@ -378,7 +378,7 @@ export const seoOnboardingData = {
   eyebrow: 'INCLUDED WITH EVERY PLAN',
   title: 'Onboarding is',
   titleGradient: 'on us.',
-  description: "Every plan starts with a one-time technical foundation — no extra charge. It's the groundwork that makes the monthly deliverables actually compound.",
+  description: "Every plan starts with a one-time technical foundation, no extra charge. It's the groundwork that makes the monthly deliverables actually compound.",
   items: [
     { number: '01', title: 'Full technical audit & fix list' },
     { number: '02', title: 'Schema markup implementation' },
@@ -387,7 +387,8 @@ export const seoOnboardingData = {
     { number: '05', title: 'XML sitemap & submission' },
     { number: '06', title: 'Google Search Console setup' },
     { number: '07', title: 'Google Analytics setup' },
-    { number: '08', title: 'Baseline keyword & competitor research' }
+    { number: '08', title: 'Baseline keyword & competitor research' },
+    { number: '09', title: 'And more.' }
   ]
 };
 
@@ -401,13 +402,13 @@ export const seoAuditShowcaseData = {
   description: 'We look at the technical foundation, search opportunities, local visibility, conversion gaps and the roadmap to turn them into growth.',
   deckLabel: 'A LOOK INSIDE A CREWiiFY SEO AUDIT',
   disclaimer: 'Example deliverable. Audit findings and recommendations are tailored to each website.',
-  ctaText: 'GET MY FREE SEO AUDIT',
+  ctaText: 'GET A FREE SEO AUDIT',
   ctaHref: '#seo-final-cta',
   slides: [
     {
       id: 'audit-slide-cover',
       tag: 'STRATEGIC DELIVERABLE',
-      title: "Leon's Express Cleaning LLC — Strategic Growth Blueprint",
+      title: "Leon's Express Cleaning LLC - Strategic Growth Blueprint",
       frameTitle: "LEON'S EXPRESS CLEANING LLC • STRATEGIC GROWTH BLUEPRINT",
       desc: 'A data-driven strategy to dominate organic search, capture commercial construction cleaning contracts & elevate local market authority.',
       imagePng: 'assets/images/seo-audit-showcase/audit-cover.png',
@@ -455,14 +456,64 @@ export const seoAuditShowcaseData = {
       alt: 'Local SEO Engine and Google Maps Pack'
     },
     {
+      id: 'audit-slide-architecture',
+      tag: '05 / SITE ARCHITECTURE',
+      title: 'Site Architecture & Internal Linking',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • SITE ARCHITECTURE",
+      desc: 'Service silo mapping, internal link flow optimisation, and crawl priority hierarchy.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-site-architecture.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-site-architecture.webp',
+      alt: 'Site Architecture and Internal Linking Strategy'
+    },
+    {
+      id: 'audit-slide-cms',
+      tag: '06 / CMS STRATEGY',
+      title: 'Content Management & Publishing Plan',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • CMS STRATEGY",
+      desc: 'Content calendar, topic clusters, and publishing cadence for sustainable organic growth.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-cms-strategy.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-cms-strategy.webp',
+      alt: 'CMS Strategy and Content Publishing Plan'
+    },
+    {
+      id: 'audit-slide-cro',
+      tag: '07 / CONVERSION CRO',
+      title: 'Conversion Rate Optimisation Audit',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • CONVERSION AUDIT",
+      desc: 'Lead form analysis, CTA placement, and user journey friction points holding back conversions.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-conversion-cro.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-conversion-cro.webp',
+      alt: 'Conversion Rate Optimisation Audit'
+    },
+    {
+      id: 'audit-slide-roi',
+      tag: '08 / ROI FORECAST',
+      title: 'Revenue Impact & ROI Projections',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • ROI FORECAST",
+      desc: 'Traffic-to-revenue modelling, projected lead volume, and estimated return on SEO investment.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-roi-forecast.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-roi-forecast.webp',
+      alt: 'ROI Forecast and Revenue Projections'
+    },
+    {
       id: 'audit-slide-roadmap',
-      tag: '05 / IMPLEMENTATION ROADMAP',
+      tag: '09 / IMPLEMENTATION ROADMAP',
       title: '12-Week Phased SEO Action Roadmap',
       frameTitle: "LEON'S EXPRESS CLEANING LLC • IMPLEMENTATION PLAN",
       desc: 'Clear 3-phase execution from technical foundation (Weeks 1-4) through city silos to recurring authority scaling.',
       imagePng: 'assets/images/seo-audit-showcase/audit-implementation-roadmap.png',
       imageWebp: 'assets/images/seo-audit-showcase/audit-implementation-roadmap.webp',
       alt: 'Phased Implementation Plan and SEO Roadmap'
+    },
+    {
+      id: 'audit-slide-next-steps',
+      tag: '10 / NEXT STEPS',
+      title: 'Recommended Next Steps & Engagement',
+      frameTitle: "LEON'S EXPRESS CLEANING LLC • NEXT STEPS",
+      desc: 'Prioritised action items, recommended engagement model, and onboarding timeline.',
+      imagePng: 'assets/images/seo-audit-showcase/audit-next-steps.png',
+      imageWebp: 'assets/images/seo-audit-showcase/audit-next-steps.webp',
+      alt: 'Recommended Next Steps'
     }
   ]
 };
@@ -478,7 +529,7 @@ export const seoFaqData = {
     {
       id: 'faq-01',
       q: 'Will you ever contact my client?',
-      a: 'No. We stay fully invisible. Every document and communication carries your brand — we never appear.'
+      a: 'No. We stay fully invisible. Every document and communication carries your brand. We never appear.'
     },
     {
       id: 'faq-02',
@@ -488,17 +539,17 @@ export const seoFaqData = {
     {
       id: 'faq-03',
       q: 'Can I white-label everything?',
-      a: 'Yes — reports, strategy docs and comms all carry your logo, colours and domain. Nothing points back to us.'
+      a: 'Yes. Reports, strategy docs and comms all carry your logo, colours and domain. Nothing points back to us.'
     },
     {
       id: 'faq-04',
-      q: 'What’s the minimum term?',
-      a: 'There’s no lock-in, but SEO compounds — so we recommend a 3-month minimum to see real movement.'
+      q: "What's the minimum term?",
+      a: 'There\'s no lock-in, but SEO compounds over time, so we recommend a 3-month minimum to see real movement.'
     },
     {
       id: 'faq-05',
       q: 'How do we start?',
-      a: 'Send us a client site for a free audit. It’s the no-risk way to see the quality before you commit.'
+      a: 'Send us a client site for a free audit. It\'s the no-risk way to see the quality before you commit.'
     },
     {
       id: 'faq-06',
@@ -513,10 +564,9 @@ export const seoFaqData = {
 // ============================================================================
 export const seoFinalCtaData = {
   eyebrow: 'READY TO SCALE YOUR SEO DELIVERY?',
-  title: "Let's Build Your",
-  titleGradient: 'SEO Delivery Engine.',
+  title: 'Let us help you outsource',
+  titleGradient: 'white-label SEO for your agency.',
   description: "Bring us the client. We'll handle the SEO delivery behind the scenes.",
   intro: "Book a discovery call and let's talk about what you need delivered.",
   calendlyUrl: calendlyConfig.url
 };
-
