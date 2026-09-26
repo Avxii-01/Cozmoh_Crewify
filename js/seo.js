@@ -70,6 +70,16 @@ function initHeaderScroll() {
 function initAnchorNavigation() {
   document.querySelectorAll('a[href^="#seo-"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
+      // Ignore booking triggers that open the Calendly modal
+      if (
+        anchor.classList.contains('js-seo-open-calendly') ||
+        anchor.classList.contains('js-seo-calendly-btn') ||
+        anchor.id === 'seoHeaderCta' ||
+        anchor.hasAttribute('data-open-calendly')
+      ) {
+        return;
+      }
+
       const targetId = anchor.getAttribute('href');
       if (targetId === '#') return;
 
@@ -104,9 +114,9 @@ const SeoScrollLock = {
   savedScrollY: 0,
   scrollbarWidth: 0,
 
-  lock() {
+  lock(scrollY = null) {
     if (this.lockCount === 0) {
-      this.savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      this.savedScrollY = scrollY !== null ? scrollY : (window.pageYOffset || window.scrollY || document.documentElement.scrollTop || 0);
       this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
       document.documentElement.classList.add('seo-scroll-locked');
@@ -136,6 +146,8 @@ const SeoScrollLock = {
       window.removeEventListener('touchmove', this._preventBackgroundScroll);
       window.removeEventListener('wheel', this._preventBackgroundWheel);
 
+      const restoreScrollY = this.savedScrollY;
+
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
@@ -149,8 +161,17 @@ const SeoScrollLock = {
       document.documentElement.classList.remove('seo-scroll-locked');
       document.body.classList.remove('seo-modal-open');
 
-      window.scrollTo(0, this.savedScrollY);
+      const prevBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, restoreScrollY);
+      requestAnimationFrame(() => {
+        window.scrollTo(0, restoreScrollY);
+        document.documentElement.style.scrollBehavior = prevBehavior;
+      });
+
+      return restoreScrollY;
     }
+    return this.savedScrollY;
   },
 
   _preventBackgroundScroll(e) {
@@ -180,6 +201,7 @@ export function initSeoCalendly() {
   const modal = document.getElementById('seoCalendlyModal');
   const modalBackdrop = document.getElementById('seoCalendlyModalBackdrop');
   const modalClose = document.getElementById('seoCalendlyModalClose');
+  const modalDialog = modal ? modal.querySelector('.seo-calendly-modal__dialog') : null;
   const container = document.getElementById(calendlyConfig.embedContainerId || 'seoCalendlyInlineWidget');
 
   // Build target URL with preserved UTM parameters and dark-mode aesthetics
@@ -210,6 +232,7 @@ export function initSeoCalendly() {
   const finalUrl = buildTrackingUrl();
   let calendlyMounted = false;
   let lastActiveTrigger = null;
+  let previousScrollY = 0;
 
   const mountCalendly = () => {
     if (calendlyMounted || !container) return;
@@ -231,24 +254,25 @@ export function initSeoCalendly() {
   const openModal = (triggerEl = null) => {
     if (!modal) return;
     lastActiveTrigger = triggerEl || document.activeElement;
+    previousScrollY = window.pageYOffset || window.scrollY || document.documentElement.scrollTop || 0;
+
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
 
     if (window.__seoAuditAutoScrollCtrl) {
       window.__seoAuditAutoScrollCtrl.pause();
     }
-    SeoScrollLock.lock();
+    SeoScrollLock.lock(previousScrollY);
 
     // Mount Calendly widget on first open if not yet mounted
     if (!calendlyMounted) {
-      // Load Calendly external widget script asynchronously once
       let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
       if (!script) {
         script = document.createElement('script');
         script.src = 'https://assets.calendly.com/assets/external/widget.js';
         script.async = true;
         script.onload = mountCalendly;
-        script.onerror = mountCalendly; // Fallback to iframe if external script fails
+        script.onerror = mountCalendly;
         document.head.appendChild(script);
       } else if (window.Calendly) {
         mountCalendly();
@@ -268,18 +292,30 @@ export function initSeoCalendly() {
   };
 
   const closeModal = () => {
-    if (!modal) return;
+    if (!modal || !modal.classList.contains('is-open')) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
+    
     SeoScrollLock.unlock();
 
     if (window.__seoAuditAutoScrollCtrl) {
       window.__seoAuditAutoScrollCtrl.resume();
     }
 
+    // Safely restore focus without triggering browser scroll jumps
     if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
-      lastActiveTrigger.focus();
+      try {
+        lastActiveTrigger.focus({ preventScroll: true });
+      } catch {
+        // Fallback for older browsers
+      }
     }
+
+    // Explicitly guarantee window stays at exact previousScrollY without modifying window.location.hash
+    window.scrollTo({ top: previousScrollY, left: 0, behavior: 'instant' });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: previousScrollY, left: 0, behavior: 'instant' });
+    });
 
     dispatchSeoTrackingEvent('calendly_modal_close', {
       source: 'modal_close'
@@ -294,20 +330,51 @@ export function initSeoCalendly() {
   bookingTriggers.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       openModal(btn);
     });
   });
 
+  // Explicit close handlers with preventDefault & stopPropagation
   if (modalClose) {
-    modalClose.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeModal();
+    });
   }
 
   if (modalBackdrop) {
-    modalBackdrop.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      }
+    });
   }
 
-  window.addEventListener('keydown', (e) => {
-    if (modal && modal.classList.contains('is-open') && e.key === 'Escape') {
+  // Backdrop click handling outside modal dialog
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target === modalBackdrop) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeModal();
+    }
+  });
+
+  // Clicks inside the modal content must NOT close the modal and stop backdrop propagation
+  if (modalDialog) {
+    modalDialog.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  // Escape key closes modal cleanly without navigating or scrolling
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) {
+      e.preventDefault();
+      e.stopPropagation();
       closeModal();
     }
   });
@@ -571,87 +638,195 @@ export const sectionControllers = {
     function initAuditViewerAutoScroll(element) {
       if (!element) return;
 
-      // Respect prefers-reduced-motion
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Respect prefers-reduced-motion: reduce
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (prefersReduced && prefersReduced.matches) {
         return;
       }
 
-      let isPaused = false;
-      let isModalOpen = false;
-      let resumeTimer = null;
-      let lastTime = null;
-      let state = 'down'; // 'down', 'at-bottom', 'returning'
-      let stateTimer = null;
+      // Cancel any existing loop to prevent duplicates
+      if (element.__autoScrollRafId) {
+        cancelAnimationFrame(element.__autoScrollRafId);
+        element.__autoScrollRafId = null;
+      }
+      if (element.__stateTimer) {
+        clearTimeout(element.__stateTimer);
+        element.__stateTimer = null;
+      }
+      if (element.__inactivityTimer) {
+        clearTimeout(element.__inactivityTimer);
+        element.__inactivityTimer = null;
+      }
 
-      const getSpeed = () => (window.innerWidth < 768 ? 18 : 28);
+      let isPausedByUser = false;
+      let isTouching = false;
+      let isExternalPaused = false;
+      let lastTimestamp = null;
+      let state = 'scrolling_down'; // 'scrolling_down' | 'paused_at_bottom' | 'returning_to_top' | 'paused_at_top'
 
-      const pauseAutoScroll = (duration = 2600) => {
-        isPaused = true;
-        if (resumeTimer) clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(() => {
-          isPaused = false;
-          lastTime = null;
-        }, duration);
+      // Responsive speeds matching target specifications:
+      // Desktop: approximately 20–30 pixels/second (24px/s)
+      // Tablet: approximately 15–25 pixels/second (18px/s)
+      // Mobile: approximately 8–15 pixels/second (10px/s)
+      const getVelocity = () => {
+        const w = window.innerWidth;
+        if (w >= 1024) return 24;
+        if (w >= 768) return 18;
+        return 10;
       };
 
-      const onUserInteraction = () => {
-        if (state === 'returning') {
-          state = 'down';
+      const resetInactivityTimer = () => {
+        if (element.__inactivityTimer) {
+          clearTimeout(element.__inactivityTimer);
         }
-        pauseAutoScroll(2800);
+        element.__inactivityTimer = setTimeout(() => {
+          isPausedByUser = false;
+          lastTimestamp = null;
+        }, 3000);
       };
 
-      element.addEventListener('mouseenter', () => { isPaused = true; });
-      element.addEventListener('mouseleave', () => {
-        isPaused = false;
-        lastTime = null;
-      });
-      element.addEventListener('touchstart', onUserInteraction, { passive: true });
-      element.addEventListener('touchmove', onUserInteraction, { passive: true });
-      element.addEventListener('wheel', onUserInteraction, { passive: true });
-      element.addEventListener('mousedown', onUserInteraction, { passive: true });
+      const pauseForInteraction = () => {
+        isPausedByUser = true;
+        if (state === 'returning_to_top' || state === 'paused_at_bottom' || state === 'paused_at_top') {
+          if (element.__stateTimer) clearTimeout(element.__stateTimer);
+          state = 'scrolling_down';
+        }
+        resetInactivityTimer();
+      };
 
-      function step(now) {
-        if (!lastTime) lastTime = now;
-        const delta = (now - lastTime) / 1000;
-        lastTime = now;
+      // User interaction handlers
+      const onWheel = () => {
+        pauseForInteraction();
+      };
 
-        if (!isPaused && !isModalOpen) {
+      const onTouchStart = () => {
+        isTouching = true;
+        isPausedByUser = true;
+        if (state === 'returning_to_top' || state === 'paused_at_bottom' || state === 'paused_at_top') {
+          if (element.__stateTimer) clearTimeout(element.__stateTimer);
+          state = 'scrolling_down';
+        }
+        if (element.__inactivityTimer) clearTimeout(element.__inactivityTimer);
+      };
+
+      const onTouchMove = () => {
+        isTouching = true;
+        isPausedByUser = true;
+        if (element.__inactivityTimer) clearTimeout(element.__inactivityTimer);
+      };
+
+      const onTouchEnd = () => {
+        isTouching = false;
+        resetInactivityTimer();
+      };
+
+      const onMouseDown = () => {
+        pauseForInteraction();
+      };
+
+      const onScroll = () => {
+        // If user is actively touching or scrolling manually
+        if (isTouching || isPausedByUser) {
+          resetInactivityTimer();
+        }
+      };
+
+      element.addEventListener('wheel', onWheel, { passive: true });
+      element.addEventListener('touchstart', onTouchStart, { passive: true });
+      element.addEventListener('touchmove', onTouchMove, { passive: true });
+      element.addEventListener('touchend', onTouchEnd, { passive: true });
+      element.addEventListener('touchcancel', onTouchEnd, { passive: true });
+      element.addEventListener('mousedown', onMouseDown, { passive: true });
+      element.addEventListener('scroll', onScroll, { passive: true });
+
+      // Listen to prefers-reduced-motion changes
+      if (prefersReduced && typeof prefersReduced.addEventListener === 'function') {
+        prefersReduced.addEventListener('change', (e) => {
+          if (e.matches) {
+            if (element.__autoScrollRafId) {
+              cancelAnimationFrame(element.__autoScrollRafId);
+              element.__autoScrollRafId = null;
+            }
+          } else {
+            lastTimestamp = null;
+            element.__autoScrollRafId = requestAnimationFrame(step);
+          }
+        });
+      }
+
+      function step(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.1);
+        lastTimestamp = timestamp;
+
+        if (!isPausedByUser && !isTouching && !isExternalPaused) {
           const maxScroll = element.scrollHeight - element.clientHeight;
           if (maxScroll > 15) {
-            if (state === 'down') {
-              const move = getSpeed() * delta;
+            if (state === 'scrolling_down') {
+              const move = getVelocity() * dt;
               element.scrollTop += move;
 
-              if (element.scrollTop >= maxScroll - 3) {
+              if (element.scrollTop >= maxScroll - 2) {
                 element.scrollTop = maxScroll;
-                state = 'at-bottom';
-                if (stateTimer) clearTimeout(stateTimer);
-                stateTimer = setTimeout(() => {
-                  if (!isPaused && !isModalOpen) {
-                    state = 'returning';
+                state = 'paused_at_bottom';
+                if (element.__stateTimer) clearTimeout(element.__stateTimer);
+
+                // Pause approximately 1.5–2 seconds at bottom (1.8s)
+                element.__stateTimer = setTimeout(() => {
+                  if (!isPausedByUser && !isTouching && !isExternalPaused) {
+                    state = 'returning_to_top';
                     element.scrollTo({ top: 0, behavior: 'smooth' });
-                    stateTimer = setTimeout(() => {
-                      state = 'down';
-                      lastTime = null;
-                    }, 1800);
+
+                    // Wait for smooth return to top to reach top
+                    waitForTop();
                   } else {
-                    state = 'down';
+                    state = 'scrolling_down';
+                    lastTimestamp = null;
                   }
-                }, 2400);
+                }, 1800);
               }
             }
           }
         }
 
-        requestAnimationFrame(step);
+        element.__autoScrollRafId = requestAnimationFrame(step);
       }
 
-      requestAnimationFrame(step);
+      function waitForTop() {
+        let attempts = 0;
+        const checkInterval = setInterval(() => {
+          attempts++;
+          if (element.scrollTop <= 3 || isPausedByUser || isTouching || attempts > 25) {
+            clearInterval(checkInterval);
+            if (!isPausedByUser && !isTouching && !isExternalPaused && state === 'returning_to_top') {
+              element.scrollTop = 0;
+              state = 'paused_at_top';
+              if (element.__stateTimer) clearTimeout(element.__stateTimer);
+
+              // Pause approximately 1 second at top
+              element.__stateTimer = setTimeout(() => {
+                state = 'scrolling_down';
+                lastTimestamp = null;
+              }, 1000);
+            } else {
+              state = 'scrolling_down';
+              lastTimestamp = null;
+            }
+          }
+        }, 100);
+      }
+
+      // Start animation loop
+      element.__autoScrollRafId = requestAnimationFrame(step);
 
       window.__seoAuditAutoScrollCtrl = {
-        pause: () => { isModalOpen = true; },
-        resume: () => { isModalOpen = false; lastTime = null; }
+        pause: () => {
+          isExternalPaused = true;
+        },
+        resume: () => {
+          isExternalPaused = false;
+          lastTimestamp = null;
+        }
       };
     }
 
@@ -707,7 +882,9 @@ export const sectionControllers = {
       }
 
       if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
-        lastActiveTrigger.focus();
+        try {
+          lastActiveTrigger.focus({ preventScroll: true });
+        } catch {}
       }
 
       dispatchSeoTrackingEvent('audit_showcase_modal_close', {

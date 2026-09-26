@@ -60,6 +60,16 @@ html {
   }
 }
 
+html.seo-scroll-locked {
+  overflow: hidden !important;
+  scroll-behavior: auto !important;
+}
+
+body.seo-modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 .seo-page {
   background-color: var(--seo-color-bg);
   color: var(--seo-color-text-main);
@@ -4110,7 +4120,7 @@ body.seo-modal-open {
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior-y: contain;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(139, 92, 246, 0.35) rgba(255, 255, 255, 0.04);
   -webkit-overflow-scrolling: touch;
