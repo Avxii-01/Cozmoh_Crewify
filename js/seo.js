@@ -97,6 +97,82 @@ function initAnchorNavigation() {
 }
 
 // ============================================================================
+// ROBUST MODAL SCROLL LOCK CONTROLLER
+// ============================================================================
+const SeoScrollLock = {
+  lockCount: 0,
+  savedScrollY: 0,
+  scrollbarWidth: 0,
+
+  lock() {
+    if (this.lockCount === 0) {
+      this.savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      document.documentElement.classList.add('seo-scroll-locked');
+      document.body.classList.add('seo-modal-open');
+
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${this.savedScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+
+      if (this.scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${this.scrollbarWidth}px`;
+        const header = document.getElementById('seoHeader');
+        if (header) header.style.paddingRight = `${this.scrollbarWidth}px`;
+      }
+
+      window.addEventListener('touchmove', this._preventBackgroundScroll, { passive: false });
+      window.addEventListener('wheel', this._preventBackgroundWheel, { passive: false });
+    }
+    this.lockCount++;
+  },
+
+  unlock() {
+    this.lockCount = Math.max(0, this.lockCount - 1);
+    if (this.lockCount === 0) {
+      window.removeEventListener('touchmove', this._preventBackgroundScroll);
+      window.removeEventListener('wheel', this._preventBackgroundWheel);
+
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.body.style.paddingRight = '';
+
+      const header = document.getElementById('seoHeader');
+      if (header) header.style.paddingRight = '';
+
+      document.documentElement.classList.remove('seo-scroll-locked');
+      document.body.classList.remove('seo-modal-open');
+
+      window.scrollTo(0, this.savedScrollY);
+    }
+  },
+
+  _preventBackgroundScroll(e) {
+    const isInsideScrollable = e.target.closest(
+      '.seo-calendly-modal__body, .seo-calendly-modal__widget, .seo-audit-showcase-modal__body, .seo-audit-showcase-modal__dialog'
+    );
+    if (!isInsideScrollable && e.cancelable) {
+      e.preventDefault();
+    }
+  },
+
+  _preventBackgroundWheel(e) {
+    const isInsideScrollable = e.target.closest(
+      '.seo-calendly-modal__body, .seo-calendly-modal__widget, .seo-audit-showcase-modal__body, .seo-audit-showcase-modal__dialog'
+    );
+    if (!isInsideScrollable && e.cancelable) {
+      e.preventDefault();
+    }
+  }
+};
+
+// ============================================================================
 // CALENDLY EMBED & INLINE WIDGET CONTROLLER
 // ============================================================================
 export function initSeoCalendly() {
@@ -157,7 +233,11 @@ export function initSeoCalendly() {
     lastActiveTrigger = triggerEl || document.activeElement;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('seo-modal-open');
+
+    if (window.__seoAuditAutoScrollCtrl) {
+      window.__seoAuditAutoScrollCtrl.pause();
+    }
+    SeoScrollLock.lock();
 
     // Mount Calendly widget on first open if not yet mounted
     if (!calendlyMounted) {
@@ -191,7 +271,11 @@ export function initSeoCalendly() {
     if (!modal) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('seo-modal-open');
+    SeoScrollLock.unlock();
+
+    if (window.__seoAuditAutoScrollCtrl) {
+      window.__seoAuditAutoScrollCtrl.resume();
+    }
 
     if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
       lastActiveTrigger.focus();
@@ -479,6 +563,96 @@ export const sectionControllers = {
           }
         });
       });
+
+      // Initialize Auto-Scroll engine
+      initAuditViewerAutoScroll(viewerBody);
+    }
+
+    function initAuditViewerAutoScroll(element) {
+      if (!element) return;
+
+      // Respect prefers-reduced-motion
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+
+      let isPaused = false;
+      let isModalOpen = false;
+      let resumeTimer = null;
+      let lastTime = null;
+      let state = 'down'; // 'down', 'at-bottom', 'returning'
+      let stateTimer = null;
+
+      const getSpeed = () => (window.innerWidth < 768 ? 18 : 28);
+
+      const pauseAutoScroll = (duration = 2600) => {
+        isPaused = true;
+        if (resumeTimer) clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          isPaused = false;
+          lastTime = null;
+        }, duration);
+      };
+
+      const onUserInteraction = () => {
+        if (state === 'returning') {
+          state = 'down';
+        }
+        pauseAutoScroll(2800);
+      };
+
+      element.addEventListener('mouseenter', () => { isPaused = true; });
+      element.addEventListener('mouseleave', () => {
+        isPaused = false;
+        lastTime = null;
+      });
+      element.addEventListener('touchstart', onUserInteraction, { passive: true });
+      element.addEventListener('touchmove', onUserInteraction, { passive: true });
+      element.addEventListener('wheel', onUserInteraction, { passive: true });
+      element.addEventListener('mousedown', onUserInteraction, { passive: true });
+
+      function step(now) {
+        if (!lastTime) lastTime = now;
+        const delta = (now - lastTime) / 1000;
+        lastTime = now;
+
+        if (!isPaused && !isModalOpen) {
+          const maxScroll = element.scrollHeight - element.clientHeight;
+          if (maxScroll > 15) {
+            if (state === 'down') {
+              const move = getSpeed() * delta;
+              element.scrollTop += move;
+
+              if (element.scrollTop >= maxScroll - 3) {
+                element.scrollTop = maxScroll;
+                state = 'at-bottom';
+                if (stateTimer) clearTimeout(stateTimer);
+                stateTimer = setTimeout(() => {
+                  if (!isPaused && !isModalOpen) {
+                    state = 'returning';
+                    element.scrollTo({ top: 0, behavior: 'smooth' });
+                    stateTimer = setTimeout(() => {
+                      state = 'down';
+                      lastTime = null;
+                    }, 1800);
+                  } else {
+                    state = 'down';
+                  }
+                }, 2400);
+              }
+            }
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+
+      window.__seoAuditAutoScrollCtrl = {
+        pause: () => { isModalOpen = true; },
+        resume: () => { isModalOpen = false; lastTime = null; }
+      };
     }
 
     function updateModalContent(index) {
@@ -505,7 +679,11 @@ export const sectionControllers = {
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
       }
-      document.body.classList.add('seo-modal-open');
+
+      if (window.__seoAuditAutoScrollCtrl) {
+        window.__seoAuditAutoScrollCtrl.pause();
+      }
+      SeoScrollLock.lock();
 
       if (modalClose) {
         modalClose.focus();
@@ -522,7 +700,11 @@ export const sectionControllers = {
         modal.classList.remove('is-open');
         modal.setAttribute('aria-hidden', 'true');
       }
-      document.body.classList.remove('seo-modal-open');
+      SeoScrollLock.unlock();
+
+      if (window.__seoAuditAutoScrollCtrl) {
+        window.__seoAuditAutoScrollCtrl.resume();
+      }
 
       if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
         lastActiveTrigger.focus();

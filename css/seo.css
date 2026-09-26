@@ -1526,23 +1526,43 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #C4B5FD;
-  padding: 5px 14px;
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.28);
+  padding: 6px 14px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.32);
   border-radius: var(--seo-radius-pill);
   margin-bottom: 16px;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.14);
   line-height: 1.3;
+  white-space: nowrap;
 }
 
 .seo-audit-eyebrow svg {
   color: #A78BFA;
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+@media (min-width: 768px) {
+  .seo-audit-eyebrow {
+    font-size: 0.82rem;
+    padding: 8px 20px;
+    gap: 9px;
+    margin-bottom: 22px;
+    background: rgba(139, 92, 246, 0.12);
+    border-color: rgba(167, 139, 250, 0.4);
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.2);
+  }
+
+  .seo-audit-eyebrow svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 .seo-audit-title {
@@ -3074,10 +3094,17 @@ html {
 }
 
 /* ==========================================================================
-   LIGHTBOX MODAL FOR SEO AUDIT SHOWCASE
+   ROBUST MODAL SCROLL LOCK & OVERLAY STYLING
    ========================================================================== */
+html.seo-scroll-locked {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
 body.seo-modal-open {
   overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none;
 }
 
 .seo-audit-showcase-modal {
@@ -3092,6 +3119,8 @@ body.seo-modal-open {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 240ms ease, visibility 240ms ease;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .seo-audit-showcase-modal.is-open {
@@ -3104,8 +3133,14 @@ body.seo-modal-open {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.seo-audit-showcase-modal__dialog {
+  overscroll-behavior: contain;
 }
 
 .seo-audit-showcase-modal__dialog {
@@ -3683,6 +3718,8 @@ body.seo-modal-open {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 240ms ease, visibility 240ms ease;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .seo-calendly-modal.is-open {
@@ -3697,6 +3734,8 @@ body.seo-modal-open {
   background: rgba(0, 0, 0, 0.84);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .seo-calendly-modal__dialog {
@@ -3714,6 +3753,7 @@ body.seo-modal-open {
   box-sizing: border-box;
   transform: scale(0.96);
   transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain;
 }
 
 .seo-calendly-modal.is-open .seo-calendly-modal__dialog {
@@ -3783,6 +3823,8 @@ body.seo-modal-open {
   background: #0A0A0D;
   display: flex;
   flex-direction: column;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .seo-calendly-modal__widget {
@@ -3793,6 +3835,8 @@ body.seo-modal-open {
   border: none;
   background: transparent;
   box-sizing: border-box;
+  overscroll-behavior: contain;
+  touch-action: auto !important;
 }
 
 .seo-calendly-modal__widget iframe {
@@ -3801,6 +3845,8 @@ body.seo-modal-open {
   min-height: 100% !important;
   border: none !important;
   background: transparent !important;
+  touch-action: auto !important;
+  overscroll-behavior: contain;
 }
 
 /* Tablet & Mobile modal adjustments */
@@ -3999,7 +4045,7 @@ body.seo-modal-open {
    -------------------------------------------------------------------------- */
 .seo-audit-viewer {
   position: relative;
-  max-width: 920px;
+  max-width: 900px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -4060,13 +4106,14 @@ body.seo-modal-open {
 }
 
 .seo-audit-viewer__body {
-  max-height: 70vh;
+  max-height: 68vh;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior-y: contain;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(139, 92, 246, 0.35) rgba(255, 255, 255, 0.04);
+  -webkit-overflow-scrolling: touch;
 }
 
 .seo-audit-viewer__body::-webkit-scrollbar {
@@ -4091,6 +4138,15 @@ body.seo-modal-open {
   display: block;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   background: #0A0A0E;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.2s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.seo-audit-viewer__page:hover {
+  opacity: 0.96;
 }
 
 .seo-audit-viewer__page:last-child {
@@ -4104,36 +4160,90 @@ body.seo-modal-open {
   object-fit: contain;
 }
 
-/* Responsive: taller viewport on mobile */
-@media (max-width: 768px) {
+/* Tablet: scale width naturally */
+@media (max-width: 1024px) {
   .seo-audit-viewer {
-    border-radius: 12px;
+    max-width: 780px;
   }
-
   .seo-audit-viewer__body {
-    max-height: 55vh;
-  }
-
-  .seo-audit-viewer__label {
-    font-size: 0.66rem;
-  }
-
-  .seo-audit-viewer__header {
-    padding: 9px 14px;
+    max-height: 62vh;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .seo-audit-viewer {
+    max-width: 100%;
+    border-radius: 14px;
+  }
+  .seo-audit-viewer__body {
+    max-height: 58vh;
+  }
+  .seo-audit-viewer__header {
+    padding: 10px 14px;
+  }
+}
+
+/* Mobile 375px / 390px / 412px: audit pages nearly fill available width for large readability */
+@media (max-width: 640px) {
+  .seo-audit-showcase .seo-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .seo-audit-viewer {
+    border-radius: 12px;
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .seo-audit-viewer__header {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .seo-audit-viewer__dots {
+    gap: 5px;
+  }
+
+  .seo-audit-viewer__dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .seo-audit-viewer__label {
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .seo-audit-viewer__page-count {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+  }
+
+  .seo-audit-viewer__body {
+    max-height: 64vh;
+  }
+
+  .seo-audit-viewer__page {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+@media (max-width: 375px) {
+  .seo-audit-showcase .seo-container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   .seo-audit-viewer {
     border-radius: 10px;
   }
 
   .seo-audit-viewer__body {
-    max-height: 50vh;
-  }
-
-  .seo-audit-viewer__label {
-    display: none;
+    max-height: 62vh;
   }
 }
 
