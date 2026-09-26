@@ -4238,9 +4238,15 @@ body.seo-modal-open {
   border-bottom: none;
 }
 
+.seo-audit-viewer__page picture {
+  display: block;
+  width: 100%;
+}
+
 .seo-audit-viewer__page-img {
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   display: block;
   object-fit: contain;
 }

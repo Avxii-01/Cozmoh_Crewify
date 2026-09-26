@@ -1,4 +1,4 @@
-/**
+﻿/**
  * seo.js - Isolated Logic Controller for CREWiiFY Dedicated SEO Landing Page
  * 
  * Strict Isolation:
@@ -74,7 +74,14 @@ function initAnchorNavigation() {
       if (
         anchor.classList.contains('js-seo-open-calendly') ||
         anchor.classList.contains('js-seo-calendly-btn') ||
+        anchor.classList.contains('js-seo-audit-cta') ||
+        anchor.classList.contains('js-seo-pricing-cta') ||
         anchor.id === 'seoHeaderCta' ||
+        anchor.id === 'seoHeroPrimaryCta' ||
+        anchor.id === 'seoHeroSecondaryCta' ||
+        anchor.id === 'seoAuditPrimaryBtn' ||
+        anchor.id === 'seoAuditShowcaseCta' ||
+        anchor.id === 'seoOpenCalendlyBtn' ||
         anchor.hasAttribute('data-open-calendly')
       ) {
         return;
@@ -324,7 +331,7 @@ export function initSeoCalendly() {
 
   // Wire all booking CTAs on the SEO page to open the internal modal
   const bookingTriggers = document.querySelectorAll(
-    '#seoHeroSecondaryCta, #seoOpenCalendlyBtn, #seoHeaderCta, .js-seo-open-calendly, [data-open-calendly]'
+    '#seoHeroPrimaryCta, #seoHeroSecondaryCta, #seoOpenCalendlyBtn, #seoHeaderCta, #seoAuditPrimaryBtn, #seoAuditShowcaseCta, .js-seo-open-calendly, .js-seo-pricing-cta, .js-seo-audit-cta, [data-open-calendly]'
   );
 
   bookingTriggers.forEach((btn) => {
@@ -602,7 +609,7 @@ export const sectionControllers = {
         <div class="seo-audit-viewer__page" data-page-index="${idx}" tabindex="0" role="button" aria-label="View page ${idx + 1}: ${slide.title}">
           <picture>
             <source srcset="${slide.imageWebp}" type="image/webp">
-            <img src="${slide.imagePng}" alt="${slide.alt}" class="seo-audit-viewer__page-img" loading="${idx < 2 ? 'eager' : 'lazy'}" width="1920" height="1080">
+            <img src="${slide.imagePng}" alt="${slide.alt}" class="seo-audit-viewer__page-img" decoding="async" width="1920" height="1080">
           </picture>
         </div>
       `).join('');
@@ -624,10 +631,10 @@ export const sectionControllers = {
       });
 
       // Initialize Auto-Scroll engine
-      initAuditViewerAutoScroll(viewerBody);
+      initAuditAutoScroll(viewerBody);
     }
 
-    function initAuditViewerAutoScroll(element) {
+    function initAuditAutoScroll(element) {
       if (!element) return;
 
       // Respect prefers-reduced-motion: reduce
@@ -636,116 +643,169 @@ export const sectionControllers = {
         return;
       }
 
-      // Cancel any existing loop to prevent duplicates
-      if (element.__autoScrollRafId) {
-        cancelAnimationFrame(element.__autoScrollRafId);
-        element.__autoScrollRafId = null;
-      }
-      if (element.__stateTimer) {
-        clearTimeout(element.__stateTimer);
-        element.__stateTimer = null;
-      }
-      if (element.__inactivityTimer) {
-        clearTimeout(element.__inactivityTimer);
-        element.__inactivityTimer = null;
+      // Cancel any existing instance
+      if (element.__autoScrollCleanup) {
+        element.__autoScrollCleanup();
       }
 
+      let rafId = null;
+      let stateTimer = null;
+      let inactivityTimer = null;
+      let returnInterval = null;
+      let resizeTimeout = null;
+
+      // Subpixel scroll accumulator variable
+      let currentScrollY = element.scrollTop || 0;
+      let lastTimestamp = null;
       let isPausedByUser = false;
       let isTouching = false;
       let isExternalPaused = false;
-      let lastTimestamp = null;
       let state = 'scrolling_down'; // 'scrolling_down' | 'paused_at_bottom' | 'returning_to_top' | 'paused_at_top'
 
-      // Responsive speeds matching target specifications:
-      // Desktop: approximately 20–30 pixels/second (24px/s)
-      // Tablet: approximately 15–25 pixels/second (18px/s)
-      // Mobile: approximately 8–15 pixels/second (10px/s)
+      // Responsive velocities per requirement:
+      // Desktop: 20-25 px/sec (22 px/s)
+      // Tablet: 15-20 px/sec (18 px/s)
+      // Mobile: 8-12 px/sec (10 px/s)
+      // Responsive velocities (increased brisk presentation pace):
+      // Desktop: 70 px/sec
+      // Tablet: 52 px/sec
+      // Mobile: 38 px/sec
       const getVelocity = () => {
         const w = window.innerWidth;
-        if (w >= 1024) return 24;
-        if (w >= 768) return 18;
-        return 10;
+        if (w >= 1024) return 70;
+        if (w >= 768) return 52;
+        return 38;
       };
 
-      const resetInactivityTimer = () => {
-        if (element.__inactivityTimer) {
-          clearTimeout(element.__inactivityTimer);
+      const clearTimers = () => {
+        if (stateTimer) {
+          clearTimeout(stateTimer);
+          stateTimer = null;
         }
-        element.__inactivityTimer = setTimeout(() => {
+        if (inactivityTimer) {
+          clearTimeout(inactivityTimer);
+          inactivityTimer = null;
+        }
+        if (returnInterval) {
+          clearInterval(returnInterval);
+          returnInterval = null;
+        }
+      };
+
+      const startInactivityCountdown = () => {
+        if (inactivityTimer) clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => {
           isPausedByUser = false;
+          currentScrollY = element.scrollTop;
           lastTimestamp = null;
         }, 3000);
       };
 
       const pauseForInteraction = () => {
         isPausedByUser = true;
-        if (state === 'returning_to_top' || state === 'paused_at_bottom' || state === 'paused_at_top') {
-          if (element.__stateTimer) clearTimeout(element.__stateTimer);
-          state = 'scrolling_down';
+        clearTimers();
+        state = 'scrolling_down';
+        currentScrollY = element.scrollTop;
+        if (!isTouching) {
+          startInactivityCountdown();
         }
-        resetInactivityTimer();
       };
 
-      // User interaction handlers
+      // Event handlers for user interaction
       const onWheel = () => {
         pauseForInteraction();
-      };
-
-      const onTouchStart = () => {
-        isTouching = true;
-        isPausedByUser = true;
-        if (state === 'returning_to_top' || state === 'paused_at_bottom' || state === 'paused_at_top') {
-          if (element.__stateTimer) clearTimeout(element.__stateTimer);
-          state = 'scrolling_down';
-        }
-        if (element.__inactivityTimer) clearTimeout(element.__inactivityTimer);
-      };
-
-      const onTouchMove = () => {
-        isTouching = true;
-        isPausedByUser = true;
-        if (element.__inactivityTimer) clearTimeout(element.__inactivityTimer);
-      };
-
-      const onTouchEnd = () => {
-        isTouching = false;
-        resetInactivityTimer();
       };
 
       const onMouseDown = () => {
         pauseForInteraction();
       };
 
+      const onTouchStart = () => {
+        isTouching = true;
+        pauseForInteraction();
+      };
+
+      const onTouchMove = () => {
+        isTouching = true;
+        isPausedByUser = true;
+        currentScrollY = element.scrollTop;
+        if (inactivityTimer) {
+          clearTimeout(inactivityTimer);
+          inactivityTimer = null;
+        }
+      };
+
+      const onTouchEnd = () => {
+        isTouching = false;
+        currentScrollY = element.scrollTop;
+        startInactivityCountdown();
+      };
+
       const onScroll = () => {
-        // If user is actively touching or scrolling manually
-        if (isTouching || isPausedByUser) {
-          resetInactivityTimer();
+        // If scroll position deviates noticeably outside the RAF loop
+        // (e.g. user dragged scrollbar thumb or pressed keys)
+        if (Math.abs(element.scrollTop - currentScrollY) > 2) {
+          currentScrollY = element.scrollTop;
+          pauseForInteraction();
         }
       };
 
       element.addEventListener('wheel', onWheel, { passive: true });
+      element.addEventListener('mousedown', onMouseDown, { passive: true });
       element.addEventListener('touchstart', onTouchStart, { passive: true });
       element.addEventListener('touchmove', onTouchMove, { passive: true });
       element.addEventListener('touchend', onTouchEnd, { passive: true });
       element.addEventListener('touchcancel', onTouchEnd, { passive: true });
-      element.addEventListener('mousedown', onMouseDown, { passive: true });
       element.addEventListener('scroll', onScroll, { passive: true });
 
-      // Listen to prefers-reduced-motion changes
-      if (prefersReduced && typeof prefersReduced.addEventListener === 'function') {
-        prefersReduced.addEventListener('change', (e) => {
-          if (e.matches) {
-            if (element.__autoScrollRafId) {
-              cancelAnimationFrame(element.__autoScrollRafId);
-              element.__autoScrollRafId = null;
-            }
-          } else {
-            lastTimestamp = null;
-            element.__autoScrollRafId = requestAnimationFrame(step);
+      const onResize = () => {
+        if (resizeTimeout) clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          const maxScroll = Math.max(0, element.scrollHeight - element.clientHeight);
+          if (currentScrollY > maxScroll) {
+            currentScrollY = maxScroll;
+            element.scrollTop = maxScroll;
           }
-        });
-      }
+        }, 100);
+      };
 
+      window.addEventListener('resize', onResize, { passive: true });
+      window.addEventListener('orientationchange', onResize, { passive: true });
+
+      // Smooth return to top implementation
+      const smoothReturnToTop = () => {
+        element.scrollTo({ top: 0, behavior: 'smooth' });
+
+        let attempts = 0;
+        if (returnInterval) clearInterval(returnInterval);
+        returnInterval = setInterval(() => {
+          attempts++;
+          if (isPausedByUser || isTouching || isExternalPaused) {
+            clearInterval(returnInterval);
+            returnInterval = null;
+            return;
+          }
+
+          if (element.scrollTop <= 4 || attempts >= 30) {
+            clearInterval(returnInterval);
+            returnInterval = null;
+            element.scrollTop = 0;
+            currentScrollY = 0;
+            state = 'paused_at_top';
+
+            if (stateTimer) clearTimeout(stateTimer);
+            // Pause approximately 1 second at top before scrolling down again
+            stateTimer = setTimeout(() => {
+              if (!isPausedByUser && !isTouching && !isExternalPaused && state === 'paused_at_top') {
+                state = 'scrolling_down';
+                lastTimestamp = null;
+              }
+            }, 1000);
+          }
+        }, 50);
+      };
+
+      // Main animation frame loop
       function step(timestamp) {
         if (!lastTimestamp) lastTimestamp = timestamp;
         const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.1);
@@ -753,74 +813,166 @@ export const sectionControllers = {
 
         if (!isPausedByUser && !isTouching && !isExternalPaused) {
           const maxScroll = element.scrollHeight - element.clientHeight;
-          if (maxScroll > 15) {
+          if (maxScroll > 20) {
             if (state === 'scrolling_down') {
-              const move = getVelocity() * dt;
-              element.scrollTop += move;
+              const speed = getVelocity();
+              currentScrollY += speed * dt;
 
-              if (element.scrollTop >= maxScroll - 2) {
+              if (currentScrollY >= maxScroll - 4) {
+                currentScrollY = maxScroll;
                 element.scrollTop = maxScroll;
                 state = 'paused_at_bottom';
-                if (element.__stateTimer) clearTimeout(element.__stateTimer);
 
-                // Pause approximately 1.5–2 seconds at bottom (1.8s)
-                element.__stateTimer = setTimeout(() => {
-                  if (!isPausedByUser && !isTouching && !isExternalPaused) {
+                if (stateTimer) clearTimeout(stateTimer);
+                // Pause approximately 2 seconds at bottom
+                stateTimer = setTimeout(() => {
+                  if (!isPausedByUser && !isTouching && !isExternalPaused && state === 'paused_at_bottom') {
                     state = 'returning_to_top';
-                    element.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    // Wait for smooth return to top to reach top
-                    waitForTop();
-                  } else {
-                    state = 'scrolling_down';
-                    lastTimestamp = null;
+                    smoothReturnToTop();
                   }
-                }, 1800);
+                }, 2000);
+              } else {
+                element.scrollTop = currentScrollY;
               }
             }
           }
         }
 
-        element.__autoScrollRafId = requestAnimationFrame(step);
+        rafId = requestAnimationFrame(step);
       }
 
-      function waitForTop() {
-        let attempts = 0;
-        const checkInterval = setInterval(() => {
-          attempts++;
-          if (element.scrollTop <= 3 || isPausedByUser || isTouching || attempts > 25) {
-            clearInterval(checkInterval);
-            if (!isPausedByUser && !isTouching && !isExternalPaused && state === 'returning_to_top') {
-              element.scrollTop = 0;
-              state = 'paused_at_top';
-              if (element.__stateTimer) clearTimeout(element.__stateTimer);
+      // Defensive initialization routine that waits until the audit document has measurable height
+      function startWhenReady() {
+        const threshold = 50;
 
-              // Pause approximately 1 second at top
-              element.__stateTimer = setTimeout(() => {
-                state = 'scrolling_down';
-                lastTimestamp = null;
-              }, 1000);
-            } else {
-              state = 'scrolling_down';
+        const beginLoop = () => {
+          currentScrollY = element.scrollTop || 0;
+          lastTimestamp = null;
+          if (!rafId) {
+            rafId = requestAnimationFrame(step);
+          }
+        };
+
+        if (element.scrollHeight > element.clientHeight + threshold) {
+          beginLoop();
+          return;
+        }
+
+        let attempts = 0;
+        const maxAttempts = 120; // ~2 seconds of RAF dimension checks
+        let started = false;
+
+        const tryStart = () => {
+          if (started) return;
+          if (element.scrollHeight > element.clientHeight + threshold) {
+            started = true;
+            beginLoop();
+          }
+        };
+
+        const images = element.querySelectorAll('img');
+        let loadedCount = 0;
+        images.forEach((img) => {
+          if (img.complete) {
+            loadedCount++;
+          } else {
+            img.addEventListener('load', () => {
+              loadedCount++;
+              tryStart();
+            }, { once: true });
+            img.addEventListener('error', () => {
+              loadedCount++;
+              tryStart();
+            }, { once: true });
+          }
+        });
+
+        if (loadedCount >= Math.min(2, images.length)) {
+          tryStart();
+        }
+
+        const checkHeight = () => {
+          if (started) return;
+          attempts++;
+          if (element.scrollHeight > element.clientHeight + threshold) {
+            started = true;
+            beginLoop();
+            return;
+          }
+          if (attempts < maxAttempts) {
+            requestAnimationFrame(checkHeight);
+          } else {
+            started = true;
+            beginLoop();
+          }
+        };
+        requestAnimationFrame(checkHeight);
+
+        if (document.readyState !== 'complete') {
+          window.addEventListener('load', () => {
+            tryStart();
+          }, { once: true });
+        }
+      }
+
+      startWhenReady();
+
+      // Reduced motion media query listener
+      let reducedMotionHandler = null;
+      if (prefersReduced && typeof prefersReduced.addEventListener === 'function') {
+        reducedMotionHandler = (e) => {
+          if (e.matches) {
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
+          } else {
+            if (!rafId) {
               lastTimestamp = null;
+              rafId = requestAnimationFrame(step);
             }
           }
-        }, 100);
+        };
+        prefersReduced.addEventListener('change', reducedMotionHandler);
       }
 
-      // Start animation loop
-      element.__autoScrollRafId = requestAnimationFrame(step);
-
+      // Provide external control interface
       window.__seoAuditAutoScrollCtrl = {
         pause: () => {
           isExternalPaused = true;
+          clearTimers();
         },
         resume: () => {
           isExternalPaused = false;
+          currentScrollY = element.scrollTop;
           lastTimestamp = null;
+          state = 'scrolling_down';
+        }
+      };
+
+      // Cleanup hook
+      element.__autoScrollCleanup = () => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        clearTimers();
+        if (resizeTimeout) clearTimeout(resizeTimeout);
+        element.removeEventListener('wheel', onWheel);
+        element.removeEventListener('mousedown', onMouseDown);
+        element.removeEventListener('touchstart', onTouchStart);
+        element.removeEventListener('touchmove', onTouchMove);
+        element.removeEventListener('touchend', onTouchEnd);
+        element.removeEventListener('touchcancel', onTouchEnd);
+        element.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onResize);
+        window.removeEventListener('orientationchange', onResize);
+        if (reducedMotionHandler && prefersReduced) {
+          prefersReduced.removeEventListener('change', reducedMotionHandler);
         }
       };
     }
+
 
     function updateModalContent(index) {
       if (index < 0 || index >= slides.length) return;
