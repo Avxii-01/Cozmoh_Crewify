@@ -23,23 +23,24 @@
   <link rel="icon" type="image/png" href="assets/logos/c-logo-optimized.png">
   <link rel="apple-touch-icon" href="assets/logos/c-logo-optimized.png">
 
-  <!-- Typography Preconnect & Font Loading -->
+  <!-- Typography Preconnect & Non-Blocking Font Loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  </noscript>
 
-  <!-- Critical Header Logo Preload (Hero Path Priority) -->
-  <link rel="preload" as="image" href="assets/logos/c-logo-optimized.png" type="image/png" fetchpriority="high">
-
-  <!-- Modular CSS Files (Strict Isolation) -->
-  <link rel="stylesheet" href="css/variables.css">
-  <link rel="stylesheet" href="css/global.css">
+  <!-- Self-Contained SEO Stylesheet (Preloaded for Fastest LCP) -->
+  <link rel="preload" as="style" href="css/seo.css">
   <link rel="stylesheet" href="css/seo.css">
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code (Deferred Loader to Free Main Thread for Hero Render) -->
   <script>
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
@@ -47,9 +48,19 @@
           n.callMethod.apply(n, arguments) : n.queue.push(arguments)
       };
       if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-      n.queue = []; t = b.createElement(e); t.async = !0;
-      t.src = v; s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
+      n.queue = [];
+      var loadPixel = function () {
+        if (f._fbqLoaded) return;
+        f._fbqLoaded = true;
+        t = b.createElement(e); t.async = !0;
+        t.src = v; s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadPixel, { timeout: 2500 });
+      } else {
+        window.addEventListener('load', loadPixel, { once: true });
+      }
     }(window, document, 'script',
       'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1720593865716750');
@@ -79,8 +90,8 @@
       <div class="seo-header__inner">
         <!-- Brand Logo Left -->
         <a href="#seo-hero" class="seo-header__brand" aria-label="CREWiiFY Home">
-          <img src="assets/logos/c-logo-optimized.png" alt="CREWiiFY Logo" class="seo-header__logo-img" width="46"
-            height="46" fetchpriority="high">
+          <img src="assets/logos/seo/c-logo.webp" alt="CREWiiFY Logo" class="seo-header__logo-img" width="46"
+            height="46" decoding="async">
           <span class="seo-header__brand-text">CREW<span class="seo-header__brand-small-i">ii</span>FY</span>
         </a>
 
@@ -1801,7 +1812,7 @@
       <div class="seo-footer__inner">
         <!-- Logo Left -->
         <a href="#seo-hero" class="seo-footer__brand" aria-label="CREWiiFY Home">
-          <img src="assets/logos/c-logo-optimized.png" alt="CREWiiFY Logo" class="seo-footer__brand-img" width="32"
+          <img src="assets/logos/seo/c-logo.webp" alt="CREWiiFY Logo" class="seo-footer__brand-img" width="32"
             height="32" loading="lazy" decoding="async">
           <span>CREW<span class="seo-header__brand-small-i">ii</span>FY</span>
         </a>
