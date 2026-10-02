@@ -37,11 +37,15 @@
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /paid-traffic\.html[?\s] [NC]
     RewriteRule ^paid-traffic\.html$ /paid-traffic [R=301,L,NE,QSA]
 
+    # /seo.html -> /seo
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /seo\.html[?\s] [NC]
+    RewriteRule ^seo\.html$ /seo [R=301,L,NE,QSA]
+    
     # ----------------------------------------------------------------------
     # 2. TRAILING SLASH HANDLING FOR THE ROUTES
     # Redirects /route/ -> /route (without trailing slash)
     # ----------------------------------------------------------------------
-    RewriteRule ^(services|case-studies|contact|free-resources|partner-rates|paid-traffic)/$ /$1 [R=301,L,NE,QSA]
+    RewriteRule ^(services|case-studies|contact|free-resources|partner-rates|paid-traffic|seo)/$ /$1 [R=301,L,NE,QSA]
 
     # ----------------------------------------------------------------------
     # 3. INTERNAL REWRITES (Clean URLs -> Physical .html files)
@@ -53,6 +57,7 @@
     RewriteRule ^free-resources$ free-resources.html [L,QSA]
     RewriteRule ^partner-rates$ partner-rates.html [L,QSA]
     RewriteRule ^paid-traffic$ paid-traffic.html [L,QSA]
+    RewriteRule ^seo$ seo.html [L,QSA]
 </IfModule>
 
 DirectoryIndex index.html
