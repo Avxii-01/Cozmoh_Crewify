@@ -1,4 +1,4 @@
-﻿/**
+/**
  * seo.js - Isolated Logic Controller for CREWiiFY Dedicated SEO Landing Page
  * 
  * Strict Isolation:
@@ -482,8 +482,9 @@ export const sectionControllers = {
 
     if (!track) return;
 
-    // Attach genuine detectable error listeners to iframes for clean fallback
     const iframes = track.querySelectorAll('.seo-work-preview iframe');
+
+    // Attach genuine detectable error listeners to iframes for clean fallback
     iframes.forEach((iframe) => {
       iframe.addEventListener('error', () => {
         iframe.classList.add('seo-work-iframe--hidden');
@@ -491,6 +492,39 @@ export const sectionControllers = {
         if (fallback) fallback.classList.remove('seo-work-fallback--hidden');
       });
     });
+
+    const loadIframe = (iframe) => {
+      if (iframe && iframe.dataset.src && !iframe.src) {
+        iframe.src = iframe.dataset.src;
+      }
+    };
+
+    const loadAllRemainingIframes = () => {
+      iframes.forEach(loadIframe);
+    };
+
+    // Lazy load visible iframes when #seo-work approaches the viewport
+    const workSection = document.getElementById('seo-work');
+    if ('IntersectionObserver' in window && workSection) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Load initial visible iframes (up to 3 for desktop, 1-2 for mobile)
+            const cards = track.querySelectorAll('.seo-work-card');
+            cards.forEach((card, idx) => {
+              if (idx < 3) {
+                const iframe = card.querySelector('iframe');
+                if (iframe) loadIframe(iframe);
+              }
+            });
+            observer.disconnect();
+          }
+        });
+      }, { rootMargin: '300px 0px' });
+      observer.observe(workSection);
+    } else {
+      loadAllRemainingIframes();
+    }
 
     function updateNavButtons() {
       if (!prevBtn || !nextBtn) return;
@@ -500,6 +534,7 @@ export const sectionControllers = {
     }
 
     function scrollWork(direction) {
+      loadAllRemainingIframes();
       const card = track.querySelector('.seo-work-card');
       if (!card) return;
       const cardRect = card.getBoundingClientRect();
@@ -521,7 +556,10 @@ export const sectionControllers = {
       nextBtn.addEventListener('click', () => scrollWork(1));
     }
 
-    track.addEventListener('scroll', updateNavButtons, { passive: true });
+    track.addEventListener('scroll', () => {
+      loadAllRemainingIframes();
+      updateNavButtons();
+    }, { passive: true });
     window.addEventListener('resize', updateNavButtons, { passive: true });
 
     updateNavButtons();
@@ -579,6 +617,7 @@ export const sectionControllers = {
     const slides = seoAuditShowcaseData.slides || [];
     if (!slides.length) return;
 
+    const viewerSection = document.getElementById('seo-audit-showcase');
     const viewerBody = document.getElementById('seoAuditViewerBody');
     const pageCountEl = document.getElementById('seoAuditPageCount');
 
@@ -602,14 +641,18 @@ export const sectionControllers = {
 
     let modalSlideIndex = 0;
     let lastActiveTrigger = null;
+    let viewerMounted = false;
 
-    // Populate the vertical document viewer with all pages
-    if (viewerBody) {
+    // Populate the vertical document viewer with slides when approaching viewport
+    const mountViewer = () => {
+      if (viewerMounted || !viewerBody) return;
+      viewerMounted = true;
+
       viewerBody.innerHTML = slides.map((slide, idx) => `
         <div class="seo-audit-viewer__page" data-page-index="${idx}" tabindex="0" role="button" aria-label="View page ${idx + 1}: ${slide.title}">
           <picture>
             <source srcset="${slide.imageWebp}" type="image/webp">
-            <img src="${slide.imagePng}" alt="${slide.alt}" class="seo-audit-viewer__page-img" decoding="async" width="1920" height="1080">
+            <img src="${slide.imagePng}" alt="${slide.alt}" class="seo-audit-viewer__page-img" ${idx < 2 ? 'loading="eager"' : 'loading="lazy"'} decoding="async" width="1920" height="1080">
           </picture>
         </div>
       `).join('');
@@ -632,6 +675,27 @@ export const sectionControllers = {
 
       // Initialize Auto-Scroll engine
       initAuditAutoScroll(viewerBody);
+    };
+
+    if ('IntersectionObserver' in window && viewerSection) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            mountViewer();
+            if (window.__seoAuditAutoScrollCtrl) {
+              window.__seoAuditAutoScrollCtrl.resume();
+            }
+          } else {
+            // Pause auto-scroll when outside visible viewport to save CPU
+            if (window.__seoAuditAutoScrollCtrl) {
+              window.__seoAuditAutoScrollCtrl.pause();
+            }
+          }
+        });
+      }, { rootMargin: '300px 0px' });
+      observer.observe(viewerSection);
+    } else {
+      mountViewer();
     }
 
     function initAuditAutoScroll(element) {
@@ -838,7 +902,11 @@ export const sectionControllers = {
           }
         }
 
-        rafId = requestAnimationFrame(step);
+        if (!isExternalPaused) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          rafId = null;
+        }
       }
 
       // Defensive initialization routine that waits until the audit document has measurable height
@@ -940,13 +1008,21 @@ export const sectionControllers = {
       window.__seoAuditAutoScrollCtrl = {
         pause: () => {
           isExternalPaused = true;
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
           clearTimers();
         },
         resume: () => {
+          if (!isExternalPaused && rafId) return;
           isExternalPaused = false;
           currentScrollY = element.scrollTop;
           lastTimestamp = null;
           state = 'scrolling_down';
+          if (!rafId) {
+            rafId = requestAnimationFrame(step);
+          }
         }
       };
 
@@ -1118,27 +1194,36 @@ export const sectionControllers = {
 // INITIALIZATION ENTRY POINT
 // ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Critical rendering path: initialize top-of-page interactive controls immediately
   initViewportStability();
   initHeaderScroll();
   initAnchorNavigation();
   initSeoCalendly();
-
-  // Initialize active sections
   sectionControllers.hero();
   sectionControllers.trust();
-  sectionControllers.results();
-  sectionControllers.work();
-  sectionControllers.auditCta();
-  sectionControllers.pricing();
-  sectionControllers.economics();
-  sectionControllers.process();
-  sectionControllers.onboarding();
-  sectionControllers.auditShowcase();
-  sectionControllers.faq();
-  sectionControllers.finalCta();
 
-  dispatchSeoTrackingEvent('page_view', {
-    page: 'seo_landing_page',
-    timestamp: new Date().toISOString()
-  });
+  // Defer below-fold section controllers to idle callback so main thread is 100% free for hero LCP
+  const initDeferredSections = () => {
+    sectionControllers.results();
+    sectionControllers.work();
+    sectionControllers.auditCta();
+    sectionControllers.pricing();
+    sectionControllers.economics();
+    sectionControllers.process();
+    sectionControllers.onboarding();
+    sectionControllers.auditShowcase();
+    sectionControllers.faq();
+    sectionControllers.finalCta();
+
+    dispatchSeoTrackingEvent('page_view', {
+      page: 'seo_landing_page',
+      timestamp: new Date().toISOString()
+    });
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(initDeferredSections, { timeout: 1000 });
+  } else {
+    setTimeout(initDeferredSections, 60);
+  }
 });

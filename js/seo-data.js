@@ -75,7 +75,8 @@ export const seoResultsData = {
       primaryResult: '700 Calls',
       primaryLabel: 'CALLS FROM BUSINESS PROFILE',
       description: 'Google Business Profile calls generated from June to September 2026.',
-      image: 'assets/images/seo-results/seo-result-palladium-700-calls.png'
+      image: 'assets/images/seo-results/seo-result-palladium-700-calls.png',
+      imageWebp: 'assets/images/seo-results/seo-result-palladium-700-calls.webp'
     },
     {
       id: 'seo-card-hospital',
@@ -85,6 +86,7 @@ export const seoResultsData = {
       primaryLabel: 'LAST 30 DAYS PERFORMANCE',
       description: 'Consistent organic search visibility driving continuous patient acquisition.',
       image: 'assets/images/seo-results/seo-result-hospital-53k-users.png',
+      imageWebp: 'assets/images/seo-results/seo-result-hospital-53k-users.webp',
       secondaryMetrics: [
         { value: '331K', label: 'Events' },
         { value: '108K', label: 'Key Events' },
@@ -99,6 +101,7 @@ export const seoResultsData = {
       primaryLabel: 'ACTIVE USERS',
       description: 'Organic discovery and passenger engagement across international travel queries.',
       image: 'assets/images/seo-results/seo-result-cruise-87k-users.png',
+      imageWebp: 'assets/images/seo-results/seo-result-cruise-87k-users.webp',
       secondaryMetrics: [
         { value: '84K', label: 'New Users' }
       ]
@@ -110,7 +113,8 @@ export const seoResultsData = {
       primaryResult: '5,896',
       primaryLabel: 'BUSINESS PROFILE INTERACTIONS',
       description: 'Scaled local map pack visibility and customer engagement across high-intent searches.',
-      image: 'assets/images/seo-results/seo-result-local-interactions-5896.png'
+      image: 'assets/images/seo-results/seo-result-local-interactions-5896.png',
+      imageWebp: 'assets/images/seo-results/seo-result-local-interactions-5896.webp'
     },
     {
       id: 'seo-card-local-calls',
@@ -119,7 +123,8 @@ export const seoResultsData = {
       primaryResult: '224 Calls',
       primaryLabel: 'CALLS FROM BUSINESS PROFILE',
       description: 'Calls made from the Business Profile.',
-      image: 'assets/images/seo-results/seo-result-local-calls-224.png'
+      image: 'assets/images/seo-results/seo-result-local-calls-224.png',
+      imageWebp: 'assets/images/seo-results/seo-result-local-calls-224.webp'
     },
     {
       id: 'seo-card-directions',
@@ -128,7 +133,8 @@ export const seoResultsData = {
       primaryResult: '1,443 Requests',
       primaryLabel: 'DIRECTION REQUESTS',
       description: 'Direction requests made from the Business Profile.',
-      image: 'assets/images/seo-results/seo-result-local-directions-1443.png'
+      image: 'assets/images/seo-results/seo-result-local-directions-1443.png',
+      imageWebp: 'assets/images/seo-results/seo-result-local-directions-1443.webp'
     }
   ]
 };
