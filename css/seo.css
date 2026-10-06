@@ -224,16 +224,45 @@ body.seo-modal-open .seo-header {
   content-visibility: auto;
 }
 
-.seo-results { contain-intrinsic-size: 1px 650px; }
-.seo-work { contain-intrinsic-size: 1px 750px; }
-.seo-audit-cta { contain-intrinsic-size: 1px 450px; }
-.seo-pricing { contain-intrinsic-size: 1px 800px; }
-.seo-economics { contain-intrinsic-size: 1px 550px; }
-.seo-process { contain-intrinsic-size: 1px 450px; }
-.seo-onboarding { contain-intrinsic-size: 1px 500px; }
-.seo-audit-showcase { contain-intrinsic-size: 1px 900px; }
-.seo-faq { contain-intrinsic-size: 1px 600px; }
-.seo-final-cta { contain-intrinsic-size: 1px 450px; }
+.seo-results {
+  contain-intrinsic-size: 1px 650px;
+}
+
+.seo-work {
+  contain-intrinsic-size: 1px 750px;
+}
+
+.seo-audit-cta {
+  contain-intrinsic-size: 1px 450px;
+}
+
+.seo-pricing {
+  contain-intrinsic-size: 1px 800px;
+}
+
+.seo-economics {
+  contain-intrinsic-size: 1px 550px;
+}
+
+.seo-process {
+  contain-intrinsic-size: 1px 450px;
+}
+
+.seo-onboarding {
+  contain-intrinsic-size: 1px 500px;
+}
+
+.seo-audit-showcase {
+  contain-intrinsic-size: 1px 900px;
+}
+
+.seo-faq {
+  contain-intrinsic-size: 1px 600px;
+}
+
+.seo-final-cta {
+  contain-intrinsic-size: 1px 450px;
+}
 
 /* --------------------------------------------------------------------------
    3. HEADER / NAVIGATION (Minimal Paid-Traffic Style)
@@ -3842,9 +3871,17 @@ body.seo-modal-open {
   display: inline-block;
 }
 
-.seo-audit-viewer__dot--red { background-color: #FF5F56; }
-.seo-audit-viewer__dot--amber { background-color: #FFBD2E; }
-.seo-audit-viewer__dot--green { background-color: #27C93F; }
+.seo-audit-viewer__dot--red {
+  background-color: #FF5F56;
+}
+
+.seo-audit-viewer__dot--amber {
+  background-color: #FFBD2E;
+}
+
+.seo-audit-viewer__dot--green {
+  background-color: #27C93F;
+}
 
 .seo-audit-viewer__label {
   font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, monospace;
@@ -3936,6 +3973,7 @@ body.seo-modal-open {
   .seo-audit-viewer {
     max-width: 780px;
   }
+
   .seo-audit-viewer__body {
     max-height: 62vh;
   }
@@ -3946,9 +3984,11 @@ body.seo-modal-open {
     max-width: 100%;
     border-radius: 14px;
   }
+
   .seo-audit-viewer__body {
     max-height: 58vh;
   }
+
   .seo-audit-viewer__header {
     padding: 10px 14px;
   }
